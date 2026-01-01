@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام كاشير - لحوم اليسر</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام كاشير - للملحمات والأسماك</title>
+    <link rel="stylesheet" href="style.css">
+    <!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>نظام كاشير - للملحمات والأسماك</title>
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+
+<body>
+    <div class="app-container">
+        <!-- Main Products Area (Right) -->
+        <div class="products-section">
+            <div class="top-bar">
+                <div class="brand">
+                    <i class="fas fa-layer-group"></i>
+                    <h1>لحوم اليسر</h1>
+                </div>
+                <div class="category-filters">
+                    <button class="filter-btn active" onclick="filterCategory('all')">الكل</button>
+                    <button class="filter-btn" onclick="filterCategory('meat')">لحوم</button>
+                    <button class="filter-btn" onclick="filterCategory('chicken')">دواجن</button>
+                    <button class="filter-btn" onclick="filterCategory('fish')">أسماك</button>
+                </div>
+            </div>
+
+            <div class="products-grid" id="products-grid">
+                <!-- JS Injected -->
+            </div>
+        </div>
+
+        <!-- Sidebar Cart (Left) -->
+        <div class="cart-section">
+            <div class="cart-header">
+                <div class="cart-title"><i class="fas fa-shopping-bag"></i> الفاتورة الحالية</div>
+                <div class="customer-card">
+                    <div class="input-row">
+                        <input type="text" id="customer-name" placeholder="اسم العميل" class="fancy-input">
+                    </div>
+                    <div class="input-row">
+                        <input type="tel" id="customer-phone" placeholder="رقم الجوال" class="fancy-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-items" id="cart-items">
+                <!-- JS Injected -->
+            </div>
+
+            <div class="cart-footer">
+                <div class="total-row">
+                    <span class="total-label">المجموع الكلي</span>
+                    <span class="total-amount" id="total-price">0 د.ع</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-danger" onclick="clearCart()"><i class="fas fa-trash-alt"></i></button>
+                    <button class="btn btn-primary" onclick="printReceipt()">
+                        <span>اصدار الفاتورة</span>
+                        <i class="fas fa-print"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Price Modal -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <h3>تعديل السعر</h3>
+            <p id="modal-product-name" style="color:#6b7280; margin-bottom:15px"></p>
+            <div class="input-group">
+                <label>السعر الجديد (د.ع / كجم)</label>
+                <input type="number" id="new-price-input">
+            </div>
+            <div class="modal-actions">
+                <button class="btn" style="background:#f3f4f6" onclick="closeModal()">إلغاء</button>
+                <button class="btn btn-primary" style="padding:10px 20px" onclick="saveNewPrice()">حفظ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Printable Receipt -->
+    <div id="printable-area" class="print-only">
+        <div class="receipt-header">
+            <h2>محلات لحوم اليسر</h2>
+            <p>بغداد - الكرادة</p>
+            <p>هاتف: 07700000000</p>
+        </div>
+        <div style="margin:10px 0; font-size:0.9rem">
+            <div style="display:flex; justify-content:space-between">
+                <span>العميل: <b id="print-customer-name"></b></span>
+                <span id="print-date"></span>
+            </div>
+            <div>هاتف: <span id="print-customer-phone"></span></div>
+            <div>رقم الطلب: <span id="print-order-id"></span></div>
+        </div>
+        <table class="receipt-table">
+            <thead>
+                <tr>
+                    <th>المادة</th>
+                    <th>الكمية</th>
+                    <th>السعر</th>
+                </tr>
+            </thead>
+            <tbody id="print-items"></tbody>
+        </table>
+        <div class="receipt-total">
+            <span>المجموع النهائي:</span>
+            <span id="print-total"></span>
+        </div>
+        <div class="receipt-footer" style="text-align:center; margin-top:15px">
+            <p>ألف عافية!</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

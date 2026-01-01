@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>StyleCaster | منسق ملابس</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="mobile-container">
+        <!-- Header / Weather Widget -->
+        <header class="weather-header" id="weather-header">
+            <div class="location-badge">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>العراق السماوة
+                </span>
+            </div>
+
+            <div class="weather-display">
+                <div class="temp-container">
+                    <span class="degree" id="current-temp">28°</span>
+                    <div class="condition">
+                        <i class="fas fa-sun" id="weather-icon"></i>
+                        <span id="weather-text">مشمس</span>
+                    </div>
+                </div>
+                <p class="weather-advice">الجو دافئ، مثالي للألوان الفاتحة! ☀️</p>
+            </div>
+        </header>
+
+        <!-- Main Content: Outfit Recommendation -->
+        <main class="outfit-showcase">
+            <div class="section-title">
+                <h2>إطلالة اليوم</h2>
+                <span class="refresh-btn" onclick="refreshOutfit()"><i class="fas fa-sync-alt"></i></span>
+            </div>
+
+            <div class="outfit-card glass-morphism">
+                <div class="outfit-image-container">
+                    <!-- Image will be injected via JS or defaulted -->
+                    <div class="placeholder-outfit" id="outfit-display">
+                        <i class="fas fa-tshirt"></i>
+                        <p>جاري تحميل الإطلالة...</p>
+                    </div>
+                </div>
+
+                <div class="outfit-details">
+                    <div class="detail-item">
+                        <span class="icon-box"><i class="fas fa-vest"></i></span>
+                        <div class="info">
+                            <span class="label">القطعة العلوية</span>
+                            <span class="value" id="top-desc">تيشيرت قطني أبيض</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <span class="icon-box"><i class="fas fa-socks"></i></span>
+                        <div class="info">
+                            <span class="label">القطعة السفلية</span>
+                            <span class="value" id="bottom-desc">بنطال جينز واسع (Wide Leg)</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <span class="icon-box"><i class="fas fa-shoe-prints"></i></span>
+                        <div class="info">
+                            <span class="label">الحذاء</span>
+                            <span class="value" id="shoes-desc">سنيكرز مريح</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-heart"></i>
+                <span>المفضلة</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-layer-group"></i>
+                <span>خزانتي</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>حسابي</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
