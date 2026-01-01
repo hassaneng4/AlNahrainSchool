@@ -632,9 +632,6 @@
             outline: none;
         }
 
-
-        }
-
         .cyber-table td:first-child {
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 0 10px 10px 0;
@@ -1181,7 +1178,7 @@
     <!-- Hero Section -->
     <section class="hero" id="hero" style="position: relative;">
         <div class="container"
-            style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; height: 100%;">
+            style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; height: 100%; gap: 100px;">
 
             <!-- Content (Right) -->
             <div class="hero-content" style="text-align: right; max-width: 600px; padding-top: 50px;">
@@ -1821,773 +1818,742 @@
                         style="margin-top:10px;">
                 </div>
 
-                <!-- TAB: STAFF -->
-                <div id="tab-staff" class="admin-tab">
-                    <div class="glass-panel">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                            <h3>قائمة الأساتذة والإداريين</h3>
-                            <button class="btn-glow" onclick="adminAddUserUI()">+ إضافة مستخدم</button>
-                        </div>
-                        <table class="cyber-table">
-                            <thead>
-                                <tr>
-                                    <th>الرمز (كود الدخول)</th>
-                                    <th>الاسم</th>
-                                    <th>الصلاحية</th>
-                                    <th>تحكم</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-staff-table"></tbody>
-                        </table>
+            </div>
+
+            <!-- TAB: STAFF -->
+            <div id="tab-staff" class="admin-tab">
+                <div class="glass-panel">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                        <h3>قائمة الأساتذة والإداريين</h3>
+                        <button class="btn-glow" onclick="adminAddUserUI()">+ إضافة مستخدم</button>
                     </div>
+                    <table class="cyber-table">
+                        <thead>
+                            <tr>
+                                <th>الرمز (كود الدخول)</th>
+                                <th>الاسم</th>
+                                <th>الصلاحية</th>
+                                <th>تحكم</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-staff-table"></tbody>
+                    </table>
                 </div>
+            </div>
 
-                <!-- TAB: STUDENTS -->
-                <div id="tab-students" class="admin-tab" style="display:none;">
-                    <div class="glass-panel">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                            <h3>قائمة الطلاب المسجلين</h3>
-                            <button class="btn-glow" onclick="showRegistration()">+ تسجيل طالب جديد</button>
+            <!-- TAB: STUDENTS -->
+            <div id="tab-students" class="admin-tab" style="display:none;">
+                <div class="glass-panel">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                        <h3>قائمة الطلاب المسجلين</h3>
+                        <button class="btn-glow" onclick="showRegistration()">+ تسجيل طالب جديد</button>
+                    </div>
+
+                    <!-- BULK IMPORT TOOL -->
+                    <div
+                        style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px dashed #555;">
+                        <h4 style="color: var(--primary); margin-bottom:5px;">📥 رفع الأسماء دفعة واحدة (Bulk
+                            Import)
+                        </h4>
+                        <p style="color:#aaa; font-size:0.9rem;">انسخ أسماء الطلاب من ملف الإكسل والصقها هنا (كل اسم
+                            في
+                            سطر جديد). سيتم إضافتهم فوراً للشعبة المختارة.</p>
+
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <select id="import-class-select" class="cyber-input" style="flex:1;">
+                                <option value="">اختر الشعبة المراد الإضافة إليها...</option>
+                                <option value="cyber-science">الأمن السيبراني - علوم</option>
+                                <option value="cyber-lab">الأمن السيبراني - قاعة الحاسوب</option>
+                                <option value="cyber-2c">الأمن السيبراني - 2C</option>
+                                <option value="cyber-2a">الأمن السيبراني - 2A</option>
+                                <option value="cyber-g6">الأمن السيبراني - G6</option>
+                                <option value="oil-gas">تكرير النفط</option>
+                                <option value="med-inst">الأجهزة الطبية</option>
+                            </select>
+                            <button class="btn-glow" onclick="processBulkImport()">بدء الاستيراد 🚀</button>
                         </div>
-
-                        <!-- BULK IMPORT TOOL -->
-                        <div
-                            style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px dashed #555;">
-                            <h4 style="color: var(--primary); margin-bottom:5px;">📥 رفع الأسماء دفعة واحدة (Bulk
-                                Import)
-                            </h4>
-                            <p style="color:#aaa; font-size:0.9rem;">انسخ أسماء الطلاب من ملف الإكسل والصقها هنا (كل اسم
-                                في
-                                سطر جديد). سيتم إضافتهم فوراً للشعبة المختارة.</p>
-
-                            <div style="display:flex; gap:10px; margin-top:10px;">
-                                <select id="import-class-select" class="cyber-input" style="flex:1;">
-                                    <option value="">اختر الشعبة المراد الإضافة إليها...</option>
-                                    <option value="cyber-science">الأمن السيبراني - علوم</option>
-                                    <option value="cyber-lab">الأمن السيبراني - قاعة الحاسوب</option>
-                                    <option value="cyber-2c">الأمن السيبراني - 2C</option>
-                                    <option value="cyber-2a">الأمن السيبراني - 2A</option>
-                                    <option value="cyber-g6">الأمن السيبراني - G6</option>
-                                    <option value="oil-gas">تكرير النفط</option>
-                                    <option value="med-inst">الأجهزة الطبية</option>
-                                </select>
-                                <button class="btn-glow" onclick="processBulkImport()">بدء الاستيراد 🚀</button>
-                            </div>
-                            <textarea id="import-names-area" class="cyber-input"
-                                style="height:120px; margin-top:10px; font-family:inherit;" placeholder="مثال:
+                        <textarea id="import-names-area" class="cyber-input"
+                            style="height:120px; margin-top:10px; font-family:inherit;" placeholder="مثال:
 علي محمد ياسين
 حسين كريم رحيم
 سارة أحمد"></textarea>
-                        </div>
-                        <table class="cyber-table">
-                            <thead>
-                                <tr>
-                                    <th>الرمز</th>
-                                    <th>الاسم</th>
-                                    <th>التخصص</th>
-                                    <th>الحالة</th>
-                                    <th>اتصال</th>
-                                    <th>تحكم</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-students-table"></tbody>
-                        </table>
                     </div>
+                    <table class="cyber-table">
+                        <thead>
+                            <tr>
+                                <th>الرمز</th>
+                                <th>الاسم</th>
+                                <th>التخصص</th>
+                                <th>الحالة</th>
+                                <th>اتصال</th>
+                                <th>تحكم</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-students-table"></tbody>
+                    </table>
                 </div>
+            </div>
 
-                <!-- TAB: APPS -->
-                <div id="tab-apps" class="admin-tab" style="display:none;">
-                    <div class="glass-panel">
-                        <h3><i class="fa-solid fa-inbox"></i> طلبات القبول والانتساب</h3>
-                        <p style="color:#aaa; margin-bottom:15px;">رسائل الطلاب الراغبين بالتسجيل في المدرسة</p>
-                        <table class="cyber-table">
-                            <thead>
-                                <tr>
-                                    <th>التاريخ</th>
-                                    <th>الاسم</th>
-                                    <th>القسم المطلوب</th>
-                                    <th>المعدل</th>
-                                    <th>رقم الهاتف</th>
-                                    <th>ملاحظات</th>
-                                    <th>تحكم</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-apps-table"></tbody>
-                        </table>
-                    </div>
+            <!-- TAB: APPS -->
+            <div id="tab-apps" class="admin-tab" style="display:none;">
+                <div class="glass-panel">
+                    <h3><i class="fa-solid fa-inbox"></i> طلبات القبول والانتساب</h3>
+                    <p style="color:#aaa; margin-bottom:15px;">رسائل الطلاب الراغبين بالتسجيل في المدرسة</p>
+                    <table class="cyber-table">
+                        <thead>
+                            <tr>
+                                <th>التاريخ</th>
+                                <th>الاسم</th>
+                                <th>القسم المطلوب</th>
+                                <th>المعدل</th>
+                                <th>رقم الهاتف</th>
+                                <th>ملاحظات</th>
+                                <th>تحكم</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-apps-table"></tbody>
+                    </table>
                 </div>
+            </div>
 
-                <!-- TAB: NFC -->
-                <div id="tab-nfc" class="admin-tab" style="display:none;">
-                    <div class="glass-panel" style="padding: 30px;">
-                        <h3><i class="fa-solid fa-tower-broadcast"></i> مراقبة البوابة الذكية</h3>
-                        <div id="terminal-log"
-                            style="background:#000; height:150px; overflow-y:auto; font-family:monospace; color:#0f0; padding:10px;">
-                            Waiting for connection...</div>
-                        <br>
-                        <button onclick="connectSerial()" class="btn-glow">اتصال بالجهاز</button>
-                        <button onclick="simulateScan()" class="btn-glow">محاكاة دخول</button>
-                    </div>
+            <!-- TAB: NFC -->
+            <div id="tab-nfc" class="admin-tab" style="display:none;">
+                <div class="glass-panel" style="padding: 30px;">
+                    <h3><i class="fa-solid fa-tower-broadcast"></i> مراقبة البوابة الذكية</h3>
+                    <div id="terminal-log"
+                        style="background:#000; height:150px; overflow-y:auto; font-family:monospace; color:#0f0; padding:10px;">
+                        Waiting for connection...</div>
+                    <br>
+                    <button onclick="connectSerial()" class="btn-glow">اتصال بالجهاز</button>
+                    <button onclick="simulateScan()" class="btn-glow">محاكاة دخول</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- AI Interface & Logic -->
-        <div id="ai-orb" onclick="toggleAI()">
-            <div class="orb-core"></div>
-            <div class="orb-ring ring-1"></div>
-            <div class="orb-ring ring-2"></div>
-            <div class="orb-ring ring-3"></div>
-        </div>
-        <div id="ai-interface" class="glass-panel">
-            <div class="ai-header">
-                <span><i class="fa-solid fa-robot"></i> المساعد (Nahr-AI)</span>
-                <i class="fa-solid fa-xmark close-ai" onclick="toggleAI()"></i>
-            </div>
-            <div id="ai-messages">
-                <div class="ai-msg bot">مرحباً بك! 👋<br>أنا مساعدك الذكي.<br>اسألني عن: التقديم، الأقسام، المدير، أو
-                    الموقع.</div>
-            </div>
-
-            <!-- Suggestions -->
-            <div class="ai-suggestions"
-                style="padding: 10px; display:flex; gap:5px; flex-wrap:wrap; justify-content:center;">
-                <button class="btn-glow" style="font-size:0.7rem; padding:5px 10px;"
-                    onclick="document.getElementById('ai-input').value='من المدير؟'; sendAIMessage()">من
-                    المدير؟</button>
-                <button class="btn-glow" style="font-size:0.7rem; padding:5px 10px;"
-                    onclick="document.getElementById('ai-input').value='التخصصات'; sendAIMessage()">التخصصات</button>
-                <button class="btn-glow" style="font-size:0.7rem; padding:5px 10px;"
-                    onclick="document.getElementById('ai-input').value='اين الموقع؟'; sendAIMessage()">الموقع</button>
-            </div>
-
-            <div class="ai-input-area">
-                <input type="text" id="ai-input" placeholder="اكتب سؤالك هنا..." onkeypress="handleAIKey(event)">
-                <i class="fa-solid fa-paper-plane" onclick="sendAIMessage()"
-                    style="cursor: pointer; color: var(--secondary); font-size: 1.2rem;"></i>
-            </div>
-        </div>
+    <!-- AI Interface & Logic -->
 
 
 
-        <script>
-            // ================== CLOUD DATABASE CONFIG (OPTIONAL) ==================
-            // لربط الموقع بقاعدة بيانات سحابية (Firebase) وتمكين الدخول من أي مكان:
-            // 1. اذهب إلى console.firebase.google.com وأنشئ مشروعاً جديداً.
-            // 2. انسخ إعدادات المشروع (Config) والصقها في الأسفل.
-            const firebaseConfig = {
-                apiKey: "AIzaSyBWtURZAw5Kja8S6bHuQyimuhMMX4fZOco",
-                authDomain: "al-nahrain-school-1d9f6.firebaseapp.com",
-                projectId: "al-nahrain-school-1d9f6",
-                storageBucket: "al-nahrain-school-1d9f6.firebasestorage.app",
-                messagingSenderId: "119716570818",
-                appId: "1:119716570818:web:aa200d98166a5a964f3d5b",
-                measurementId: "G-7S4P4T68K5",
-                databaseURL: "https://al-nahrain-school-1d9f6-default-rtdb.firebaseio.com"
+
+    <script>
+        // ================== CLOUD DATABASE CONFIG (OPTIONAL) ==================
+        // لربط الموقع بقاعدة بيانات سحابية (Firebase) وتمكين الدخول من أي مكان:
+        // 1. اذهب إلى console.firebase.google.com وأنشئ مشروعاً جديداً.
+        // 2. انسخ إعدادات المشروع (Config) والصقها في الأسفل.
+        const firebaseConfig = {
+            apiKey: "AIzaSyBWtURZAw5Kja8S6bHuQyimuhMMX4fZOco",
+            authDomain: "al-nahrain-school-1d9f6.firebaseapp.com",
+            projectId: "al-nahrain-school-1d9f6",
+            storageBucket: "al-nahrain-school-1d9f6.firebasestorage.app",
+            messagingSenderId: "119716570818",
+            appId: "1:119716570818:web:aa200d98166a5a964f3d5b",
+            measurementId: "G-7S4P4T68K5",
+            databaseURL: "https://al-nahrain-school-1d9f6-default-rtdb.firebaseio.com"
+        };
+
+        // عند توفر المفاتيح، يمكن تفعيل الاتصال:
+        firebase.initializeApp(firebaseConfig);
+        const dbRef = firebase.database().ref();
+        console.log("🔥 FIREBASE CONNECTED");
+
+        // === REALTIME SYNC ===
+        // 1. Pull from Cloud on Load
+        dbRef.child('schoolDB').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data && data.students) {
+                // Merge or Overwrite? For now, Overwrite Local with Cloud (Master)
+                localStorage.setItem('nahr_students_db', JSON.stringify(data.students));
+                if (data.staff) localStorage.setItem('nahr_staff_db', JSON.stringify(data.staff));
+                if (data.apps) localStorage.setItem('nahr_apps_db', JSON.stringify(data.apps));
+                console.log("☁️ Data Received from Cloud");
+            }
+        });
+
+        // Sync Auth Users Data
+        dbRef.child('users').on('value', (snapshot) => {
+            localStorage.setItem('nahr_users_db', JSON.stringify(snapshot.val() || {}));
+            // Refresh if Admin Dash is open
+            if (document.getElementById('admin-dash').classList.contains('active')) renderAdminLists();
+        });
+
+        // 2. Push to Cloud periodically (Backup)
+        setInterval(() => {
+            const data = {
+                students: JSON.parse(localStorage.getItem('nahr_students_db') || '{}'),
+                staff: JSON.parse(localStorage.getItem('nahr_staff_db') || '{}'),
+                apps: JSON.parse(localStorage.getItem('nahr_apps_db') || '[]')
             };
+            dbRef.child('schoolDB').update(data);
+            // console.log("☁️ Data Pushed (Auto-Backup)");
+        }, 5000);
+        // ======================================================================
 
-            // عند توفر المفاتيح، يمكن تفعيل الاتصال:
-            firebase.initializeApp(firebaseConfig);
-            const dbRef = firebase.database().ref();
-            console.log("🔥 FIREBASE CONNECTED");
-
-            // === REALTIME SYNC ===
-            // 1. Pull from Cloud on Load
-            dbRef.child('schoolDB').on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data && data.students) {
-                    // Merge or Overwrite? For now, Overwrite Local with Cloud (Master)
-                    localStorage.setItem('nahr_students_db', JSON.stringify(data.students));
-                    if (data.staff) localStorage.setItem('nahr_staff_db', JSON.stringify(data.staff));
-                    if (data.apps) localStorage.setItem('nahr_apps_db', JSON.stringify(data.apps));
-                    console.log("☁️ Data Received from Cloud");
-                }
-            });
-
-            // Sync Auth Users Data
-            dbRef.child('users').on('value', (snapshot) => {
-                localStorage.setItem('nahr_users_db', JSON.stringify(snapshot.val() || {}));
-                // Refresh if Admin Dash is open
-                if (document.getElementById('admin-dash').classList.contains('active')) renderAdminLists();
-            });
-
-            // 2. Push to Cloud periodically (Backup)
-            setInterval(() => {
-                const data = {
-                    students: JSON.parse(localStorage.getItem('nahr_students_db') || '{}'),
-                    staff: JSON.parse(localStorage.getItem('nahr_staff_db') || '{}'),
-                    apps: JSON.parse(localStorage.getItem('nahr_apps_db') || '[]')
-                };
-                dbRef.child('schoolDB').update(data);
-                // console.log("☁️ Data Pushed (Auto-Backup)");
-            }, 5000);
-            // ======================================================================
-
-            // 0. Boot Sequence Logic
-            window.addEventListener('load', () => {
-                // Only show boot screen once per session (optional, kept for effect)
-                const logs = ["INITIALIZING NAHRAIN OS...", "LOADING CORE MODULES...", "CONNECTING DATABASE...", "ACCESS GRANTED."];
-                const logContainer = document.getElementById('boot-log-container');
-                const pgBar = document.getElementById('boot-bar');
-                let delay = 0;
-                logs.forEach((log, index) => {
-                    setTimeout(() => {
-                        const el = document.createElement('div'); el.className = 'boot-log'; el.innerText = `> ${log}`;
-                        logContainer.appendChild(el); setTimeout(() => el.style.opacity = 1, 50);
-                        pgBar.style.width = `${((index + 1) / logs.length) * 100}%`;
-                    }, delay);
-                    delay += 300;
-                });
+        // 0. Boot Sequence Logic
+        window.addEventListener('load', () => {
+            // Only show boot screen once per session (optional, kept for effect)
+            const logs = ["INITIALIZING NAHRAIN OS...", "LOADING CORE MODULES...", "CONNECTING DATABASE...", "ACCESS GRANTED."];
+            const logContainer = document.getElementById('boot-log-container');
+            const pgBar = document.getElementById('boot-bar');
+            let delay = 0;
+            logs.forEach((log, index) => {
                 setTimeout(() => {
-                    const screen = document.getElementById('boot-screen');
-                    screen.style.transition = 'opacity 0.5s'; screen.style.opacity = 0;
-                    setTimeout(() => screen.style.display = 'none', 500);
-                }, delay + 500);
-
-                // Load Data
-                loadAttendanceData();
+                    const el = document.createElement('div'); el.className = 'boot-log'; el.innerText = `> ${log}`;
+                    logContainer.appendChild(el); setTimeout(() => el.style.opacity = 1, 50);
+                    pgBar.style.width = `${((index + 1) / logs.length) * 100}%`;
+                }, delay);
+                delay += 300;
             });
+            setTimeout(() => {
+                const screen = document.getElementById('boot-screen');
+                screen.style.transition = 'opacity 0.5s'; screen.style.opacity = 0;
+                setTimeout(() => screen.style.display = 'none', 500);
+            }, delay + 500);
 
-            // ================== SECURITY (Login System) ==================
-            // ================== SECURITY (Login System) ==================
-            let pendingDashboard = null;
-            let currentUser = null; // Global User Object
+            // Load Data
+            loadAttendanceData();
+        });
 
-            // Auth State Listener (Persistence)
-            firebase.auth().onAuthStateChanged((user) => {
-                if (user) {
-                    console.log("Auth State: Logged In", user.uid);
-                    // Fetch Data
-                    firebase.database().ref('users/' + user.uid).once('value').then(snapshot => {
-                        currentUser = snapshot.val();
-                        if (currentUser) {
-                            currentUser.uid = user.uid; // Ensure UID is attached
-                            console.log("User Data Loaded", currentUser);
+        // ================== SECURITY (Login System) ==================
+        // ================== SECURITY (Login System) ==================
+        let pendingDashboard = null;
+        let currentUser = null; // Global User Object
 
-                            // Update UI if on Teacher Dashboard
-                            const teacherWelcome = document.getElementById('teacher-welcome');
-                            if (teacherWelcome && currentUser.role === 'teacher') teacherWelcome.innerText = `أهلاً بك، ${currentUser.name}`;
+        // Auth State Listener (Persistence)
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log("Auth State: Logged In", user.uid);
+                // Fetch Data
+                firebase.database().ref('users/' + user.uid).once('value').then(snapshot => {
+                    currentUser = snapshot.val();
+                    if (currentUser) {
+                        currentUser.uid = user.uid; // Ensure UID is attached
+                        console.log("User Data Loaded", currentUser);
+
+                        // Update UI if on Teacher Dashboard
+                        const teacherWelcome = document.getElementById('teacher-welcome');
+                        if (teacherWelcome && currentUser.role === 'teacher') teacherWelcome.innerText = `أهلاً بك، ${currentUser.name}`;
+                    }
+                });
+            } else {
+                console.log("Auth State: Logged Out");
+                currentUser = null;
+            }
+        });
+
+        function requestLogin(type) {
+            pendingDashboard = type;
+
+            // If already logged in, check permission and Auto-Enter
+            if (currentUser) {
+                const role = currentUser.role;
+                if (type === 'admin' && role === 'admin') { openDashboard('admin'); renderAdminLists(); return; }
+                if (type === 'teacher' && (role === 'teacher' || role === 'admin')) { openDashboard('teacher'); return; }
+                if (type === 'student' && role === 'student') { openDashboard('student'); renderStudentDashboard(currentUser); return; }
+
+                // If Role mismatch, show alert or login again?
+                // Let's allow switching account if role doesn't match
+            }
+
+            // Otherwise, show Login Overlay
+
+
+            // All other portals require auth
+            document.getElementById('auth-overlay').style.display = 'flex';
+            document.getElementById('modal-email').value = '';
+            document.getElementById('modal-pass').value = '';
+            document.getElementById('modal-error').style.display = 'none';
+            // Default to Login Mode
+            // toggleAuthMode('login'); // Removed as we have separate Reg Overlay
+        }
+
+        function validateLogin() {
+            alert('بدء عملية الدخول...'); // DEBUG
+            const email = document.getElementById('modal-email').value;
+            const pass = document.getElementById('modal-pass').value;
+            const err = document.getElementById('modal-error');
+
+            if (!email || !pass) { err.style.display = 'block'; err.innerText = 'يرجى ملء البيانات'; return; }
+
+            err.style.display = 'block'; // Show status
+            err.innerText = 'جاري الاتصال...';
+
+            firebase.auth().signInWithEmailAndPassword(email, pass)
+                .then((userCred) => {
+                    const user = userCred.user;
+                    console.log("Auth Success", user.uid);
+
+
+
+                    // Check Role in Database
+                    err.innerText = 'جاري التحقق من الصلاحيات...';
+                    return firebase.database().ref('users/' + user.uid).once('value').then(snapshot => {
+                        console.log("DB Read Success", snapshot.val());
+                        let userData = snapshot.val();
+                        if (userData) currentUser = userData;
+
+                        // === EMERGENCY FIX: If user missing in DB, OR it's the Admin Email ===
+                        if (!userData || user.email === '4.eng44@gmail.com') {
+                            const newRole = (user.email === '4.eng44@gmail.com') ? 'admin' : 'student';
+                            userData = {
+                                name: (user.displayName || 'User'),
+                                email: user.email,
+                                role: newRole,
+                                joined: new Date().toISOString()
+                            };
+                            // Auto-Repair DB
+                            firebase.database().ref('users/' + user.uid).update(userData);
+                            alert('تم تصحيح بيانات حسابك تلقائياً! \nصلاحيتك الآن: ' + newRole);
                         }
-                    });
-                } else {
-                    console.log("Auth State: Logged Out");
-                    currentUser = null;
-                }
-            });
 
-            function requestLogin(type) {
-                pendingDashboard = type;
+                        const userRole = userData.role || 'student';
 
-                // If already logged in, check permission and Auto-Enter
-                if (currentUser) {
-                    const role = currentUser.role;
-                    if (type === 'admin' && role === 'admin') { openDashboard('admin'); renderAdminLists(); return; }
-                    if (type === 'teacher' && (role === 'teacher' || role === 'admin')) { openDashboard('teacher'); return; }
-                    if (type === 'student' && role === 'student') { openDashboard('student'); renderStudentDashboard(currentUser); return; }
-
-                    // If Role mismatch, show alert or login again?
-                    // Let's allow switching account if role doesn't match
-                }
-
-                // Otherwise, show Login Overlay
-
-
-                // All other portals require auth
-                document.getElementById('auth-overlay').style.display = 'flex';
-                document.getElementById('modal-email').value = '';
-                document.getElementById('modal-pass').value = '';
-                document.getElementById('modal-error').style.display = 'none';
-                // Default to Login Mode
-                // toggleAuthMode('login'); // Removed as we have separate Reg Overlay
-            }
-
-            function validateLogin() {
-                alert('بدء عملية الدخول...'); // DEBUG
-                const email = document.getElementById('modal-email').value;
-                const pass = document.getElementById('modal-pass').value;
-                const err = document.getElementById('modal-error');
-
-                if (!email || !pass) { err.style.display = 'block'; err.innerText = 'يرجى ملء البيانات'; return; }
-
-                err.style.display = 'block'; // Show status
-                err.innerText = 'جاري الاتصال...';
-
-                firebase.auth().signInWithEmailAndPassword(email, pass)
-                    .then((userCred) => {
-                        const user = userCred.user;
-                        console.log("Auth Success", user.uid);
-
-
-
-                        // Check Role in Database
-                        err.innerText = 'جاري التحقق من الصلاحيات...';
-                        return firebase.database().ref('users/' + user.uid).once('value').then(snapshot => {
-                            console.log("DB Read Success", snapshot.val());
-                            let userData = snapshot.val();
-                            if (userData) currentUser = userData;
-
-                            // === EMERGENCY FIX: If user missing in DB, OR it's the Admin Email ===
-                            if (!userData || user.email === '4.eng44@gmail.com') {
-                                const newRole = (user.email === '4.eng44@gmail.com') ? 'admin' : 'student';
-                                userData = {
-                                    name: (user.displayName || 'User'),
-                                    email: user.email,
-                                    role: newRole,
-                                    joined: new Date().toISOString()
-                                };
-                                // Auto-Repair DB
-                                firebase.database().ref('users/' + user.uid).update(userData);
-                                alert('تم تصحيح بيانات حسابك تلقائياً! \nصلاحيتك الآن: ' + newRole);
-                            }
-
-                            const userRole = userData.role || 'student';
-
-                            // Strict Access Rules
-                            if (pendingDashboard === 'admin' && userRole !== 'admin') {
-                                alert('⛔ تنبيه أمني:\nهذه المنطقة مخصصة للإدارة فقط.\nليس لديك الصلاحيات الكافية.');
-                                err.innerText = 'ليس لديك صلاحية Admin';
-                                return;
-                            }
-                            if (pendingDashboard === 'teacher' && userRole !== 'teacher' && userRole !== 'admin') {
-                                alert('⛔ تنبيه:\nبوابة التدريسيين حصرية للكادر التعليمي.');
-                                err.innerText = 'ليس لديك صلاحية Teacher';
-                                return;
-                            }
-
-                            // Access Granted
-                            document.getElementById('auth-overlay').style.display = 'none';
-                            openDashboard(pendingDashboard);
-
-                            if (pendingDashboard === 'admin') renderAdminLists();
-                            if (pendingDashboard === 'teacher') document.getElementById('teacher-welcome').innerText = `أهلاً بك، ${userData.name}`;
-                            if (pendingDashboard === 'student') renderStudentDashboard(userData);
-                        });
-                    })
-                    .catch((error) => {
-                        console.error("Login Error", error);
-                        alert("خطأ في الدخول: " + error.message);
-                        err.style.display = 'block';
-                        if (error.code === 'auth/user-not-found') err.innerText = 'المستخدم غير موجود';
-                        else if (error.code === 'auth/wrong-password') err.innerText = 'كلمة المرور غير صحيحة';
-                        else if (error.code === 'auth/network-request-failed') err.innerText = 'خطأ في الاتصال بالإنترنت';
-                        else err.innerText = 'خطأ: ' + error.message;
-                    });
-            }
-            function closeAuth() { document.getElementById('auth-overlay').style.display = 'none'; }
-
-            function toggleAuthMode(mode) {
-                document.getElementById('modal-error').style.display = 'none';
-                if (mode === 'register') {
-                    document.getElementById('login-fields').style.display = 'none';
-                    document.getElementById('register-fields').style.display = 'block';
-                } else {
-                    document.getElementById('login-fields').style.display = 'block';
-                    document.getElementById('register-fields').style.display = 'none';
-                }
-            }
-
-            function registerUser() {
-                const email = document.getElementById('modal-email').value;
-                const pass = document.getElementById('modal-pass').value;
-                const name = document.getElementById('modal-name').value;
-                const phone = document.getElementById('modal-phone').value;
-                const err = document.getElementById('modal-error');
-
-                if (!email || !pass || !name || !phone) { err.style.display = 'block'; err.innerText = 'يرجى ملء جميع الحقول'; return; }
-                if (pass.length < 6) { err.style.display = 'block'; err.innerText = 'كلمة المرور قصيرة (6 أحرف على الأقل)'; return; }
-
-                alert('جاري إنشاء الحساب...'); // DEBUG
-
-                firebase.auth().createUserWithEmailAndPassword(email, pass)
-                    .then((res) => {
-                        alert('تم الاتصال بسيرفر التسجيل!'); // DEBUG
-                        // Save Profile (Optional check if DB is connected)
-                        const uid = res.user.uid;
-                        firebase.database().ref('users/' + uid).set({
-                            name: name,
-                            email: email,
-                            phone: phone,
-                            role: 'student',
-                            joined: new Date().toISOString()
-                        });
-
-                        // Send Verification Email
-                        res.user.sendEmailVerification();
-
-                        alert('تم إنشاء الحساب بنجاح! \nأهلاً بك يا ' + name + '\n\n⚠️ تم إرسال رابط تفعيل إلى بريدك الإلكتروني.\nيرجى الضغط عليه لتفعيل الحساب ثم تسجيل الدخول.');
-
-                        // Return to login screen
-                        toggleAuthMode('login');
-                    })
-                    .catch((error) => {
-                        alert('فشل التسجيل: ' + error.code); // DEBUG
-                        err.style.display = 'block';
-                        if (error.code === 'auth/email-already-in-use') err.innerText = 'البريد الإلكتروني مستخدم بالفعل';
-                        else if (error.code === 'auth/invalid-email') err.innerText = 'يرجى استخدام بريد إلكتروني حقيقي والصحيح';
-                        else if (error.code === 'auth/weak-password') err.innerText = 'كلمة المرور ضعيفة (يجب أن تكون 6 أحرف أو أكثر)';
-                        else err.innerText = 'خطأ: ' + error.message;
-                    });
-            }
-
-            // ================== PERSISTENCE (LocalStorage) ==================
-            function saveAttendanceLog(logItem) {
-                let logs = JSON.parse(localStorage.getItem('attendanceLogs') || '[]');
-                logs.push(logItem);
-                // Keep last 50 logs
-                if (logs.length > 50) logs.shift();
-                localStorage.setItem('attendanceLogs', JSON.stringify(logs));
-            }
-
-            function loadAttendanceData() {
-                let logs = JSON.parse(localStorage.getItem('attendanceLogs') || '[]');
-                const logEl = document.getElementById('terminal-log');
-                logs.forEach(log => {
-                    logEl.innerHTML += `> ${log}<br>`;
-                });
-                logEl.innerHTML += `> ----------------------<br>> Log loaded successfully.<br>`;
-            }
-
-            // ================== PARTICLES & UI ==================
-            const canvas = document.getElementById('bgCanvas'); const ctx = canvas.getContext('2d');
-            let width, height, particles = [];
-            function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-            window.addEventListener('resize', resize);
-            class Particle {
-                constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5; this.size = Math.random() * 2; this.color = Math.random() > 0.5 ? '#00f2ff' : '#7000ff'; }
-                update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; }
-                draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); }
-            }
-            function initParts() { particles = []; for (let i = 0; i < 50; i++) particles.push(new Particle()); }
-            function animate() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
-            resize(); initParts(); animate();
-
-            document.addEventListener('mousemove', (e) => { const cur = document.getElementById('cursorGlow'); cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; });
-
-            function openDashboard(type) {
-                document.querySelectorAll('.dashboard-overlay').forEach(d => d.classList.remove('active'));
-                document.getElementById(type + '-dash').classList.add('active');
-                document.body.style.overflow = 'hidden';
-                if (type === 'admin') {
-                    const log = document.getElementById('terminal-log');
-                    log.scrollTop = log.scrollHeight;
-                    setTimeout(initCharts, 500);
-                }
-            }
-            function closeDashboards() { document.querySelectorAll('.dashboard-overlay').forEach(d => d.classList.remove('active')); document.body.style.overflow = 'auto'; }
-
-            // Chart Rendering
-            // Chart Rendering
-            let myEnrollChart = null;
-            let myAttendChart = null;
-
-            function initCharts() {
-                // Collect Data
-                const stdDB = getStudentDB();
-                const usersDB = JSON.parse(localStorage.getItem('nahr_users_db') || '{}');
-
-                // Counters
-                let counts = { 'Cyber': 0, 'Medical': 0, 'Oil': 0, 'New': 0 };
-
-                // Count Legacy
-                Object.values(stdDB).forEach(s => {
-                    if (s.major && s.major.includes('Cyber')) counts['Cyber']++;
-                    else if (s.major && s.major.includes('Medical')) counts['Medical']++;
-                    else if (s.major && s.major.includes('Oil')) counts['Oil']++;
-                    else counts['New']++;
-                });
-
-                // Count Auth Users (Map to 'New' or match regex if Major added later)
-                Object.keys(usersDB).forEach(uid => {
-                    if (usersDB[uid].role === 'student') counts['New']++;
-                });
-
-                const ctx1 = document.getElementById('enrollmentChart');
-                if (ctx1) {
-                    if (myEnrollChart) myEnrollChart.destroy(); // Refresh
-                    myEnrollChart = new Chart(ctx1, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['الأمن السيبراني', 'الأجهزة الطبية', 'تكرير النفط', 'طلاب جدد'],
-                            datasets: [{
-                                data: [counts['Cyber'], counts['Medical'], counts['Oil'], counts['New']],
-                                backgroundColor: ['#00f2ff', '#7000ff', '#ff0055', '#cccccc'],
-                                borderWidth: 0
-                            }]
-                        },
-                        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: 'white', font: { family: 'Cairo' } } } } }
-                    });
-                }
-
-                // Attendance Data (Mock for now until Logic implemented)
-                const ctx2 = document.getElementById('attendanceChart');
-                if (ctx2) {
-                    if (myAttendChart) myAttendChart.destroy();
-                    myAttendChart = new Chart(ctx2, {
-                        type: 'bar',
-                        data: { labels: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'], datasets: [{ label: 'نسبة الحضور %', data: [95, 92, 88, 97, 85], backgroundColor: '#00f2ff', borderRadius: 5 }] },
-                        options: { responsive: true, scales: { y: { beginAtZero: true, grid: { color: '#333' }, ticks: { color: 'white' } }, x: { grid: { display: false }, ticks: { color: 'white', font: { family: 'Cairo' } } } }, plugins: { legend: { labels: { color: 'white', font: { family: 'Cairo' } } } } }
-                    });
-                }
-            }
-
-            // Stats Animation
-            document.addEventListener("DOMContentLoaded", () => {
-                const stats = document.querySelectorAll('.stat-number');
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const counter = entry.target; const target = +counter.getAttribute('data-target'); const prefix = counter.getAttribute('data-prefix') || '';
-                            let current = 0; const increment = target / 50;
-                            const updateCount = () => { current += increment; if (current < target) { counter.innerText = prefix + Math.ceil(current); requestAnimationFrame(updateCount); } else { counter.innerText = prefix + target; } };
-                            updateCount(); observer.unobserve(counter);
+                        // Strict Access Rules
+                        if (pendingDashboard === 'admin' && userRole !== 'admin') {
+                            alert('⛔ تنبيه أمني:\nهذه المنطقة مخصصة للإدارة فقط.\nليس لديك الصلاحيات الكافية.');
+                            err.innerText = 'ليس لديك صلاحية Admin';
+                            return;
                         }
+                        if (pendingDashboard === 'teacher' && userRole !== 'teacher' && userRole !== 'admin') {
+                            alert('⛔ تنبيه:\nبوابة التدريسيين حصرية للكادر التعليمي.');
+                            err.innerText = 'ليس لديك صلاحية Teacher';
+                            return;
+                        }
+
+                        // Access Granted
+                        document.getElementById('auth-overlay').style.display = 'none';
+                        openDashboard(pendingDashboard);
+
+                        if (pendingDashboard === 'admin') renderAdminLists();
+                        if (pendingDashboard === 'teacher') document.getElementById('teacher-welcome').innerText = `أهلاً بك، ${userData.name}`;
+                        if (pendingDashboard === 'student') renderStudentDashboard(userData);
                     });
-                }, { threshold: 0.5 });
-                stats.forEach(stat => observer.observe(stat));
-            });
-
-            // 3D Tilt
-            document.querySelectorAll('.spec-card').forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2;
-                    card.style.transform = `perspective(1000px) rotateX(${y * -0.1}deg) rotateY(${x * 0.1}deg) scale(1.05)`;
+                })
+                .catch((error) => {
+                    console.error("Login Error", error);
+                    alert("خطأ في الدخول: " + error.message);
+                    err.style.display = 'block';
+                    if (error.code === 'auth/user-not-found') err.innerText = 'المستخدم غير موجود';
+                    else if (error.code === 'auth/wrong-password') err.innerText = 'كلمة المرور غير صحيحة';
+                    else if (error.code === 'auth/network-request-failed') err.innerText = 'خطأ في الاتصال بالإنترنت';
+                    else err.innerText = 'خطأ: ' + error.message;
                 });
-                card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)'; });
+        }
+        function closeAuth() { document.getElementById('auth-overlay').style.display = 'none'; }
+
+        function toggleAuthMode(mode) {
+            document.getElementById('modal-error').style.display = 'none';
+            if (mode === 'register') {
+                document.getElementById('login-fields').style.display = 'none';
+                document.getElementById('register-fields').style.display = 'block';
+            } else {
+                document.getElementById('login-fields').style.display = 'block';
+                document.getElementById('register-fields').style.display = 'none';
+            }
+        }
+
+        function registerUser() {
+            const email = document.getElementById('modal-email').value;
+            const pass = document.getElementById('modal-pass').value;
+            const name = document.getElementById('modal-name').value;
+            const phone = document.getElementById('modal-phone').value;
+            const err = document.getElementById('modal-error');
+
+            if (!email || !pass || !name || !phone) { err.style.display = 'block'; err.innerText = 'يرجى ملء جميع الحقول'; return; }
+            if (pass.length < 6) { err.style.display = 'block'; err.innerText = 'كلمة المرور قصيرة (6 أحرف على الأقل)'; return; }
+
+            alert('جاري إنشاء الحساب...'); // DEBUG
+
+            firebase.auth().createUserWithEmailAndPassword(email, pass)
+                .then((res) => {
+                    alert('تم الاتصال بسيرفر التسجيل!'); // DEBUG
+                    // Save Profile (Optional check if DB is connected)
+                    const uid = res.user.uid;
+                    firebase.database().ref('users/' + uid).set({
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        role: 'student',
+                        joined: new Date().toISOString()
+                    });
+
+                    // Send Verification Email
+                    res.user.sendEmailVerification();
+
+                    alert('تم إنشاء الحساب بنجاح! \nأهلاً بك يا ' + name + '\n\n⚠️ تم إرسال رابط تفعيل إلى بريدك الإلكتروني.\nيرجى الضغط عليه لتفعيل الحساب ثم تسجيل الدخول.');
+
+                    // Return to login screen
+                    toggleAuthMode('login');
+                })
+                .catch((error) => {
+                    alert('فشل التسجيل: ' + error.code); // DEBUG
+                    err.style.display = 'block';
+                    if (error.code === 'auth/email-already-in-use') err.innerText = 'البريد الإلكتروني مستخدم بالفعل';
+                    else if (error.code === 'auth/invalid-email') err.innerText = 'يرجى استخدام بريد إلكتروني حقيقي والصحيح';
+                    else if (error.code === 'auth/weak-password') err.innerText = 'كلمة المرور ضعيفة (يجب أن تكون 6 أحرف أو أكثر)';
+                    else err.innerText = 'خطأ: ' + error.message;
+                });
+        }
+
+        // ================== PERSISTENCE (LocalStorage) ==================
+        function saveAttendanceLog(logItem) {
+            let logs = JSON.parse(localStorage.getItem('attendanceLogs') || '[]');
+            logs.push(logItem);
+            // Keep last 50 logs
+            if (logs.length > 50) logs.shift();
+            localStorage.setItem('attendanceLogs', JSON.stringify(logs));
+        }
+
+        function loadAttendanceData() {
+            let logs = JSON.parse(localStorage.getItem('attendanceLogs') || '[]');
+            const logEl = document.getElementById('terminal-log');
+            logs.forEach(log => {
+                logEl.innerHTML += `> ${log}<br>`;
             });
+            logEl.innerHTML += `> ----------------------<br>> Log loaded successfully.<br>`;
+        }
 
-            // ================== NFC / SERIAL ==================
-            let port;
-            async function connectSerial() {
-                if (!navigator.serial) { alert('Web Serial API not supported'); return; }
-                try {
-                    port = await navigator.serial.requestPort(); await port.open({ baudRate: 9600 });
-                    const dot = document.getElementById('status-dot'); const txt = document.getElementById('status-text');
-                    dot.style.background = '#0f0'; dot.style.boxShadow = '0 0 10px #0f0'; txt.innerText = 'ONLINE'; txt.style.color = '#0f0';
-                    readLoop();
-                } catch (e) { console.error(e); }
-            }
-            async function readLoop() {
-                const decoder = new TextDecoderStream(); port.readable.pipeTo(decoder.writable); const reader = decoder.readable.getReader();
-                try { while (true) { const { value, done } = await reader.read(); if (done) break; if (value.trim()) handleScan(value.trim()); } } catch (e) { console.error(e); }
-            }
+        // ================== PARTICLES & UI ==================
+        const canvas = document.getElementById('bgCanvas'); const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        class Particle {
+            constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5; this.size = Math.random() * 2; this.color = Math.random() > 0.5 ? '#00f2ff' : '#7000ff'; }
+            update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); }
+        }
+        function initParts() { particles = []; for (let i = 0; i < 50; i++) particles.push(new Particle()); }
+        function animate() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+        resize(); initParts(); animate();
 
-            function simulateScan() {
-                const mockIDs = ["UID: A4-32-BC-91", "UID: BB-11-23-44", "UID: CC-99-88-77"];
-                const randomID = mockIDs[Math.floor(Math.random() * mockIDs.length)];
-                handleScan(randomID, true);
-            }
+        document.addEventListener('mousemove', (e) => { const cur = document.getElementById('cursorGlow'); cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; });
 
-            function handleScan(data, isSim = false) {
+        function openDashboard(type) {
+            document.querySelectorAll('.dashboard-overlay').forEach(d => d.classList.remove('active'));
+            document.getElementById(type + '-dash').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            if (type === 'admin') {
                 const log = document.getElementById('terminal-log');
-                const time = new Date().toLocaleTimeString('ar-IQ');
-                const dateStr = new Date().toLocaleDateString('ar-IQ');
-
-                const logEntry = `[${dateStr} ${time}] CARD: ${data}`;
-
-                // UI Log
-                if (isSim) log.innerHTML += `> [SIM] ${logEntry}<br>`;
-                else log.innerHTML += `> RECV: ${logEntry}<br>`;
                 log.scrollTop = log.scrollHeight;
+                setTimeout(initCharts, 500);
+            }
+        }
+        function closeDashboards() { document.querySelectorAll('.dashboard-overlay').forEach(d => d.classList.remove('active')); document.body.style.overflow = 'auto'; }
 
-                // SAVE TO MEMORY
-                saveAttendanceLog(logEntry);
+        // Chart Rendering
+        // Chart Rendering
+        let myEnrollChart = null;
+        let myAttendChart = null;
 
-                // Visuals
-                const frame = document.getElementById('scan-frame'); const icon = document.getElementById('scan-img'); const nameEl = document.getElementById('scan-name');
-                frame.style.borderColor = '#0f0'; frame.style.boxShadow = '0 0 30px #0f0'; icon.style.color = '#0f0'; icon.style.transform = 'scale(1.2)';
+        function initCharts() {
+            // Collect Data
+            const stdDB = getStudentDB();
+            const usersDB = JSON.parse(localStorage.getItem('nahr_users_db') || '{}');
 
-                const names = ["علي محمد ياسين", "حسين كريم", "سارة احمد", "محمد رضا"];
-                const scannedName = names[Math.floor(Math.random() * names.length)];
-                nameEl.innerText = scannedName;
+            // Counters
+            let counts = { 'Cyber': 0, 'Medical': 0, 'Oil': 0, 'New': 0 };
 
-                document.getElementById('scan-id').innerText = data; document.getElementById('scan-time').innerText = time;
+            // Count Legacy
+            Object.values(stdDB).forEach(s => {
+                if (s.major && s.major.includes('Cyber')) counts['Cyber']++;
+                else if (s.major && s.major.includes('Medical')) counts['Medical']++;
+                else if (s.major && s.major.includes('Oil')) counts['Oil']++;
+                else counts['New']++;
+            });
 
-                setTimeout(() => {
-                    frame.style.borderColor = 'var(--primary)'; frame.style.boxShadow = 'none'; icon.style.color = '#333'; icon.style.transform = 'scale(1)';
-                }, 2000);
+            // Count Auth Users (Map to 'New' or match regex if Major added later)
+            Object.keys(usersDB).forEach(uid => {
+                if (usersDB[uid].role === 'student') counts['New']++;
+            });
 
-                if (!isSim) speak("تم تسجيل الحضور للطالب " + scannedName);
+            const ctx1 = document.getElementById('enrollmentChart');
+            if (ctx1) {
+                if (myEnrollChart) myEnrollChart.destroy(); // Refresh
+                myEnrollChart = new Chart(ctx1, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['الأمن السيبراني', 'الأجهزة الطبية', 'تكرير النفط', 'طلاب جدد'],
+                        datasets: [{
+                            data: [counts['Cyber'], counts['Medical'], counts['Oil'], counts['New']],
+                            backgroundColor: ['#00f2ff', '#7000ff', '#ff0055', '#cccccc'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: 'white', font: { family: 'Cairo' } } } } }
+                });
             }
 
+            // Attendance Data (Mock for now until Logic implemented)
+            const ctx2 = document.getElementById('attendanceChart');
+            if (ctx2) {
+                if (myAttendChart) myAttendChart.destroy();
+                myAttendChart = new Chart(ctx2, {
+                    type: 'bar',
+                    data: { labels: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'], datasets: [{ label: 'نسبة الحضور %', data: [95, 92, 88, 97, 85], backgroundColor: '#00f2ff', borderRadius: 5 }] },
+                    options: { responsive: true, scales: { y: { beginAtZero: true, grid: { color: '#333' }, ticks: { color: 'white' } }, x: { grid: { display: false }, ticks: { color: 'white', font: { family: 'Cairo' } } } }, plugins: { legend: { labels: { color: 'white', font: { family: 'Cairo' } } } } }
+                });
+            }
+        }
+
+        // Stats Animation
+        document.addEventListener("DOMContentLoaded", () => {
+            const stats = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target; const target = +counter.getAttribute('data-target'); const prefix = counter.getAttribute('data-prefix') || '';
+                        let current = 0; const increment = target / 50;
+                        const updateCount = () => { current += increment; if (current < target) { counter.innerText = prefix + Math.ceil(current); requestAnimationFrame(updateCount); } else { counter.innerText = prefix + target; } };
+                        updateCount(); observer.unobserve(counter);
+                    }
+                });
+            }, { threshold: 0.5 });
+            stats.forEach(stat => observer.observe(stat));
+        });
+
+        // 3D Tilt
+        document.querySelectorAll('.spec-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2;
+                card.style.transform = `perspective(1000px) rotateX(${y * -0.1}deg) rotateY(${x * 0.1}deg) scale(1.05)`;
+            });
+            card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)'; });
+        });
+
+        // ================== NFC / SERIAL ==================
+        let port;
+        async function connectSerial() {
+            if (!navigator.serial) { alert('Web Serial API not supported'); return; }
+            try {
+                port = await navigator.serial.requestPort(); await port.open({ baudRate: 9600 });
+                const dot = document.getElementById('status-dot'); const txt = document.getElementById('status-text');
+                dot.style.background = '#0f0'; dot.style.boxShadow = '0 0 10px #0f0'; txt.innerText = 'ONLINE'; txt.style.color = '#0f0';
+                readLoop();
+            } catch (e) { console.error(e); }
+        }
+        async function readLoop() {
+            const decoder = new TextDecoderStream(); port.readable.pipeTo(decoder.writable); const reader = decoder.readable.getReader();
+            try { while (true) { const { value, done } = await reader.read(); if (done) break; if (value.trim()) handleScan(value.trim()); } } catch (e) { console.error(e); }
+        }
+
+        function simulateScan() {
+            const mockIDs = ["UID: A4-32-BC-91", "UID: BB-11-23-44", "UID: CC-99-88-77"];
+            const randomID = mockIDs[Math.floor(Math.random() * mockIDs.length)];
+            handleScan(randomID, true);
+        }
+
+        function handleScan(data, isSim = false) {
+            const log = document.getElementById('terminal-log');
+            const time = new Date().toLocaleTimeString('ar-IQ');
+            const dateStr = new Date().toLocaleDateString('ar-IQ');
+
+            const logEntry = `[${dateStr} ${time}] CARD: ${data}`;
+
+            // UI Log
+            if (isSim) log.innerHTML += `> [SIM] ${logEntry}<br>`;
+            else log.innerHTML += `> RECV: ${logEntry}<br>`;
+            log.scrollTop = log.scrollHeight;
+
+            // SAVE TO MEMORY
+            saveAttendanceLog(logEntry);
+
+            // Visuals
+            const frame = document.getElementById('scan-frame'); const icon = document.getElementById('scan-img'); const nameEl = document.getElementById('scan-name');
+            frame.style.borderColor = '#0f0'; frame.style.boxShadow = '0 0 30px #0f0'; icon.style.color = '#0f0'; icon.style.transform = 'scale(1.2)';
+
+            const names = ["علي محمد ياسين", "حسين كريم", "سارة احمد", "محمد رضا"];
+            const scannedName = names[Math.floor(Math.random() * names.length)];
+            nameEl.innerText = scannedName;
+
+            document.getElementById('scan-id').innerText = data; document.getElementById('scan-time').innerText = time;
+
+            setTimeout(() => {
+                frame.style.borderColor = 'var(--primary)'; frame.style.boxShadow = 'none'; icon.style.color = '#333'; icon.style.transform = 'scale(1)';
+            }, 2000);
+
+            if (!isSim) speak("تم تسجيل الحضور للطالب " + scannedName);
+        }
 
 
 
-            // ================== ADVANCED SYSTEM LOGIC ==================
-            function getStudentDB() { return JSON.parse(localStorage.getItem('nahr_students_db')) || {}; }
-            function saveStudentDB(db) { localStorage.setItem('nahr_students_db', JSON.stringify(db)); }
 
-            function showRegistration() { document.getElementById('reg-overlay').style.display = 'flex'; }
-            function closeReg() { document.getElementById('reg-overlay').style.display = 'none'; }
+        // ================== ADVANCED SYSTEM LOGIC ==================
+        function getStudentDB() { return JSON.parse(localStorage.getItem('nahr_students_db')) || {}; }
+        function saveStudentDB(db) { localStorage.setItem('nahr_students_db', JSON.stringify(db)); }
 
-            let regMode = 'student';
-            function setRegMode(mode) {
-                regMode = mode;
-                const btnSt = document.getElementById('btn-mode-student');
-                const btnSf = document.getElementById('btn-mode-staff');
-                const optSt = document.getElementById('reg-student-opts');
-                const optSf = document.getElementById('reg-staff-opts');
-                const title = document.getElementById('reg-title');
+        function showRegistration() { document.getElementById('reg-overlay').style.display = 'flex'; }
+        function closeReg() { document.getElementById('reg-overlay').style.display = 'none'; }
 
-                if (mode === 'student') {
-                    btnSt.style.background = 'var(--primary)'; btnSt.style.color = '#000';
-                    btnSf.style.background = 'transparent'; btnSf.style.color = '#fff';
-                    optSt.style.display = 'block';
-                    optSf.style.display = 'none';
-                    title.innerText = '📝 إنشاء حساب طالب جديد';
-                } else {
-                    btnSf.style.background = 'var(--primary)'; btnSf.style.color = '#000';
-                    btnSt.style.background = 'transparent'; btnSt.style.color = '#fff';
-                    optSt.style.display = 'none';
-                    optSf.style.display = 'block';
-                    title.innerText = '🛡️ تسجيل كادر تدريسي/إداري';
-                }
+        let regMode = 'student';
+        function setRegMode(mode) {
+            regMode = mode;
+            const btnSt = document.getElementById('btn-mode-student');
+            const btnSf = document.getElementById('btn-mode-staff');
+            const optSt = document.getElementById('reg-student-opts');
+            const optSf = document.getElementById('reg-staff-opts');
+            const title = document.getElementById('reg-title');
+
+            if (mode === 'student') {
+                btnSt.style.background = 'var(--primary)'; btnSt.style.color = '#000';
+                btnSf.style.background = 'transparent'; btnSf.style.color = '#fff';
+                optSt.style.display = 'block';
+                optSf.style.display = 'none';
+                title.innerText = '📝 إنشاء حساب طالب جديد';
+            } else {
+                btnSf.style.background = 'var(--primary)'; btnSf.style.color = '#000';
+                btnSt.style.background = 'transparent'; btnSt.style.color = '#fff';
+                optSt.style.display = 'none';
+                optSf.style.display = 'block';
+                title.innerText = '🛡️ تسجيل كادر تدريسي/إداري';
+            }
+        }
+
+        function processRegistration() {
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-pass').value;
+            const status = document.getElementById('reg-status');
+
+            // Logic based on Mode
+            let role = 'student';
+            let major = '';
+
+            if (regMode === 'student') {
+                major = document.getElementById('reg-class').value;
+                if (!major) return alert('يرجى اختيار الشعبة');
+            } else {
+                // Staff Validation
+                role = document.getElementById('reg-role').value;
+                const secret = document.getElementById('reg-secret').value;
+
+                if (role === 'admin' && secret !== 'NAHR-ADMIN') return alert('⛔ رمز الأمان الخاص بالإدارة غير صحيح!');
+                if (role === 'teacher' && secret !== 'NAHR-TEACH') return alert('⛔ رمز الأمان للكادر التدريسي غير صحيح!');
+                major = 'staff';
             }
 
-            function processRegistration() {
-                const name = document.getElementById('reg-name').value;
-                const email = document.getElementById('reg-email').value;
-                const pass = document.getElementById('reg-pass').value;
-                const status = document.getElementById('reg-status');
+            if (!name || !email || !pass) return alert('يرجى ملء جميع الحقول المطلوبة');
+            if (pass.length < 6) return alert('كلمة المرور يجب أن تكون 6 رموز على الأقل');
 
-                // Logic based on Mode
-                let role = 'student';
-                let major = '';
+            status.innerText = 'جاري إنشاء الحساب في السحابة...';
 
-                if (regMode === 'student') {
-                    major = document.getElementById('reg-class').value;
-                    if (!major) return alert('يرجى اختيار الشعبة');
-                } else {
-                    // Staff Validation
-                    role = document.getElementById('reg-role').value;
-                    const secret = document.getElementById('reg-secret').value;
+            // 1. Create Auth User
+            firebase.auth().createUserWithEmailAndPassword(email, pass)
+                .then((userCred) => {
+                    const user = userCred.user;
+                    status.innerText = 'تم إنشاء الحساب! جاري حفظ البيانات...';
 
-                    if (role === 'admin' && secret !== 'NAHR-ADMIN') return alert('⛔ رمز الأمان الخاص بالإدارة غير صحيح!');
-                    if (role === 'teacher' && secret !== 'NAHR-TEACH') return alert('⛔ رمز الأمان للكادر التدريسي غير صحيح!');
-                    major = 'staff';
-                }
-
-                if (!name || !email || !pass) return alert('يرجى ملء جميع الحقول المطلوبة');
-                if (pass.length < 6) return alert('كلمة المرور يجب أن تكون 6 رموز على الأقل');
-
-                status.innerText = 'جاري إنشاء الحساب في السحابة...';
-
-                // 1. Create Auth User
-                firebase.auth().createUserWithEmailAndPassword(email, pass)
-                    .then((userCred) => {
-                        const user = userCred.user;
-                        status.innerText = 'تم إنشاء الحساب! جاري حفظ البيانات...';
-
-                        // 2. Save User Data to Realtime Database
-                        const userData = {
-                            name: name,
-                            email: email,
-                            role: role,
-                            major: major,
-                            joined: new Date().toISOString()
-                        };
-
-                        // Add default grades structure only for students
-                        if (role === 'student') {
-                            userData.grades = {};
-                            userData.gradesDetail = {};
-                        }
-
-                        return firebase.database().ref('users/' + user.uid).set(userData);
-                    })
-                    .then(() => {
-                        status.innerText = '✅ تم التسجيل بنجاح! (' + (role === 'student' ? 'طالب' : 'كادر') + ')';
-                        status.style.color = '#0f0';
-
-                        setTimeout(() => {
-                            closeReg();
-                            alert('تم إنشاء الحساب بنجاح.\nيرجى استخدام البريد وكلمة المرور للدخول.');
-                        }, 1500);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                        status.innerText = 'خطأ: ' + error.message;
-                        status.style.color = 'red';
-                    });
-            }
-
-            function openStudentDashboard(st) {
-                const d = document.getElementById('student-dash');
-                d.querySelector('h1').innerHTML = `<i class="fa-solid fa-user-graduate"></i> مرحباً، ${st.name}`;
-                d.querySelector('.floating-badge').innerText = st.major;
-                document.getElementById('student-installments-body').innerHTML = st.installments.map(i => `<tr><td>${i.m}</td><td>${i.v}</td><td>${getStatusBadge(i.s)}</td></tr>`).join('');
-
-                const tbody = document.getElementById('student-grades-body');
-                const g = st.grades || {};
-                if (Object.keys(g).length === 0) tbody.innerHTML = `<tr><td colspan="3" style="text-align:center">لا توجد درجات</td></tr>`;
-                else tbody.innerHTML = Object.entries(g).map(([s, v]) => `<tr><td>${s}</td><td>${v}</td><td>${v >= 90 ? 'ممتاز' : v >= 50 ? 'ناجح' : 'راسب'}</td></tr>`).join('');
-
-                openDashboard('student');
-            }
-            function getStatusBadge(s) { return s === 'paid' ? '<span class="grade-badge grade-good">تم</span>' : '<span class="grade-badge" style="color:red">غير مدفوع</span>'; }
-
-            // ================== ADMIN & STAFF LOGIC ==================
-            function getStaffDB() {
-                let db = JSON.parse(localStorage.getItem('nahr_staff_db'));
-                if (!db) {
-                    // SEED INITIAL DATA
-                    db = {
-                        "2001": { name: "الأستاذ حسن", subjects: ["CS"], role: 'teacher', code: '2001' },
-                        "admin": { name: "المسؤول (Admin)", subjects: ["ALL"], role: 'admin', code: 'admin' },
-                        "1234": { name: "المسؤول (Master)", subjects: ["ALL"], role: 'admin', code: '1234' }
+                    // 2. Save User Data to Realtime Database
+                    const userData = {
+                        name: name,
+                        email: email,
+                        role: role,
+                        major: major,
+                        joined: new Date().toISOString()
                     };
-                    localStorage.setItem('nahr_staff_db', JSON.stringify(db));
-                }
-                return db;
+
+                    // Add default grades structure only for students
+                    if (role === 'student') {
+                        userData.grades = {};
+                        userData.gradesDetail = {};
+                    }
+
+                    return firebase.database().ref('users/' + user.uid).set(userData);
+                })
+                .then(() => {
+                    status.innerText = '✅ تم التسجيل بنجاح! (' + (role === 'student' ? 'طالب' : 'كادر') + ')';
+                    status.style.color = '#0f0';
+
+                    setTimeout(() => {
+                        closeReg();
+                        alert('تم إنشاء الحساب بنجاح.\nيرجى استخدام البريد وكلمة المرور للدخول.');
+                    }, 1500);
+                })
+                .catch((error) => {
+                    console.error(error);
+                    status.innerText = 'خطأ: ' + error.message;
+                    status.style.color = 'red';
+                });
+        }
+
+        function openStudentDashboard(st) {
+            const d = document.getElementById('student-dash');
+            d.querySelector('h1').innerHTML = `<i class="fa-solid fa-user-graduate"></i> مرحباً، ${st.name}`;
+            d.querySelector('.floating-badge').innerText = st.major;
+            document.getElementById('student-installments-body').innerHTML = st.installments.map(i => `<tr><td>${i.m}</td><td>${i.v}</td><td>${getStatusBadge(i.s)}</td></tr>`).join('');
+
+            const tbody = document.getElementById('student-grades-body');
+            const g = st.grades || {};
+            if (Object.keys(g).length === 0) tbody.innerHTML = `<tr><td colspan="3" style="text-align:center">لا توجد درجات</td></tr>`;
+            else tbody.innerHTML = Object.entries(g).map(([s, v]) => `<tr><td>${s}</td><td>${v}</td><td>${v >= 90 ? 'ممتاز' : v >= 50 ? 'ناجح' : 'راسب'}</td></tr>`).join('');
+
+            openDashboard('student');
+        }
+        function getStatusBadge(s) { return s === 'paid' ? '<span class="grade-badge grade-good">تم</span>' : '<span class="grade-badge" style="color:red">غير مدفوع</span>'; }
+
+        // ================== ADMIN & STAFF LOGIC ==================
+        function getStaffDB() {
+            let db = JSON.parse(localStorage.getItem('nahr_staff_db'));
+            if (!db) {
+                // SEED INITIAL DATA
+                db = {
+                    "2001": { name: "الأستاذ حسن", subjects: ["CS"], role: 'teacher', code: '2001' },
+                    "admin": { name: "المسؤول (Admin)", subjects: ["ALL"], role: 'admin', code: 'admin' },
+                    "1234": { name: "المسؤول (Master)", subjects: ["ALL"], role: 'admin', code: '1234' }
+                };
+                localStorage.setItem('nahr_staff_db', JSON.stringify(db));
             }
-            function saveStaffDB(db) { localStorage.setItem('nahr_staff_db', JSON.stringify(db)); }
+            return db;
+        }
+        function saveStaffDB(db) { localStorage.setItem('nahr_staff_db', JSON.stringify(db)); }
 
-            // -------------- APPLICATIONS LOGIC --------------
-            function getAppsDB() { return JSON.parse(localStorage.getItem('nahr_apps_db')) || []; }
-            function saveAppsDB(db) { localStorage.setItem('nahr_apps_db', JSON.stringify(db)); }
+        // -------------- APPLICATIONS LOGIC --------------
+        function getAppsDB() { return JSON.parse(localStorage.getItem('nahr_apps_db')) || []; }
+        function saveAppsDB(db) { localStorage.setItem('nahr_apps_db', JSON.stringify(db)); }
 
-            function showApplication() { document.getElementById('apply-overlay').style.display = 'flex'; }
+        function showApplication() { document.getElementById('apply-overlay').style.display = 'flex'; }
 
-            function submitApplication() {
-                const name = document.getElementById('app-name').value;
-                const school = document.getElementById('app-school').value;
-                const major = document.getElementById('app-major').value;
-                const avg = document.getElementById('app-avg').value;
-                const phone = document.getElementById('app-phone').value;
+        function submitApplication() {
+            const name = document.getElementById('app-name').value;
+            const school = document.getElementById('app-school').value;
+            const major = document.getElementById('app-major').value;
+            const avg = document.getElementById('app-avg').value;
+            const phone = document.getElementById('app-phone').value;
 
-                if (!name || !phone || !major) return alert("يرجى ملء الاسم، الرقم والقسم المطلوب");
+            if (!name || !phone || !major) return alert("يرجى ملء الاسم، الرقم والقسم المطلوب");
 
-                const db = getAppsDB();
-                db.push({ id: Date.now(), date: new Date().toLocaleDateString('ar-IQ'), name, school, major, avg, phone });
+            const db = getAppsDB();
+            db.push({ id: Date.now(), date: new Date().toLocaleDateString('ar-IQ'), name, school, major, avg, phone });
+            saveAppsDB(db);
+
+            alert("تم إرسال طلبك بنجاح! ستتصل بك الإدارة قريباً.");
+            document.getElementById('apply-overlay').style.display = 'none';
+            if (document.getElementById('admin-dash').classList.contains('active')) renderAdminLists();
+        }
+
+        function deleteApp(id) {
+            if (confirm("حذف الطلب؟")) {
+                let db = getAppsDB();
+                db = db.filter(a => a.id != id);
                 saveAppsDB(db);
-
-                alert("تم إرسال طلبك بنجاح! ستتصل بك الإدارة قريباً.");
-                document.getElementById('apply-overlay').style.display = 'none';
-                if (document.getElementById('admin-dash').classList.contains('active')) renderAdminLists();
+                renderAdminLists();
             }
+        }
 
-            function deleteApp(id) {
-                if (confirm("حذف الطلب؟")) {
-                    let db = getAppsDB();
-                    db = db.filter(a => a.id != id);
-                    saveAppsDB(db);
-                    renderAdminLists();
-                }
-            }
+        // -------------- ADMIN UI --------------
+        function showAdminTab(tab) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.style.display = 'none');
+            const el = document.getElementById('tab-' + tab);
+            if (el) el.style.display = 'block';
+            if (['students', 'staff', 'apps'].includes(tab)) renderAdminLists();
+        }
 
-            // -------------- ADMIN UI --------------
-            function showAdminTab(tab) {
-                document.querySelectorAll('.admin-tab').forEach(t => t.style.display = 'none');
-                const el = document.getElementById('tab-' + tab);
-                if (el) el.style.display = 'block';
-                if (['students', 'staff', 'apps'].includes(tab)) renderAdminLists();
-            }
-
-            function renderAdminLists() {
-                // Render Staff
-                const staffDB = getStaffDB();
-                const staffTbody = document.getElementById('admin-staff-table');
-                if (staffTbody) {
-                    staffTbody.innerHTML = Object.values(staffDB).map(u => `
+        function renderAdminLists() {
+            // Render Staff
+            const staffDB = getStaffDB();
+            const staffTbody = document.getElementById('admin-staff-table');
+            if (staffTbody) {
+                staffTbody.innerHTML = Object.values(staffDB).map(u => `
                     <tr>
                         <td style="font-family:monospace; color:var(--primary); font-size:1.1rem; cursor:pointer;" onclick="editStaff('${u.code}')">${u.code} <i class="fa-solid fa-pen" style="font-size:0.7rem; color:#666;"></i></td>
                         <td>${u.name}</td>
@@ -2595,33 +2561,33 @@
                         <td><button class="btn-glow" style="padding:2px 10px; font-size:0.7rem; background:red;" onclick="deleteStaff('${u.code}')">حذف</button></td>
                     </tr>
                 `).join('');
+            }
+            // Render Students
+            const stdDB = getStudentDB();
+            const usersDB = JSON.parse(localStorage.getItem('nahr_users_db') || '{}');
+            const stdTbody = document.getElementById('admin-students-table');
+
+            // Merge Legacy + Auth Users
+            const allStudents = [...Object.values(stdDB)];
+            Object.keys(usersDB).forEach(uid => {
+                const u = usersDB[uid];
+                if (u.role === 'student') {
+                    // Map Auth User to Student Structure
+                    allStudents.push({
+                        code: 'APP',
+                        name: u.name,
+                        major: u.major || 'جديد',
+                        isBlocked: false,
+                        phone: u.phone || '',
+                        email: u.email
+                    });
                 }
-                // Render Students
-                const stdDB = getStudentDB();
-                const usersDB = JSON.parse(localStorage.getItem('nahr_users_db') || '{}');
-                const stdTbody = document.getElementById('admin-students-table');
+            });
 
-                // Merge Legacy + Auth Users
-                const allStudents = [...Object.values(stdDB)];
-                Object.keys(usersDB).forEach(uid => {
-                    const u = usersDB[uid];
-                    if (u.role === 'student') {
-                        // Map Auth User to Student Structure
-                        allStudents.push({
-                            code: 'APP',
-                            name: u.name,
-                            major: u.major || 'جديد',
-                            isBlocked: false,
-                            phone: u.phone || '',
-                            email: u.email
-                        });
-                    }
-                });
-
-                if (stdTbody) {
-                    stdTbody.innerHTML = allStudents.map(s => {
-                        const whatsApp = s.phone ? `<a href="https://wa.me/${s.phone.replace(/[^0-9]/g, '').replace(/^0/, '+964')}" target="_blank" style="color:#25D366; font-size:1.2rem; text-decoration:none;"><i class="fa-brands fa-whatsapp"></i></a>` : '<span style="color:#555">-</span>';
-                        return `
+            if (stdTbody) {
+                stdTbody.innerHTML = allStudents.map(s => {
+                    const whatsApp = s.phone ? `<a href="https://wa.me/${s.phone.replace(/[^0-9]/g, '').replace(/^0/, '+964')}" target="_blank" style="color:#25D366; font-size:1.2rem; text-decoration:none;"><i class="fa-brands fa-whatsapp"></i></a>` : '<span style="color:#555">-</span>';
+                    return `
                     <tr>
                         <td style="font-family:monospace;">${s.code}</td>
                         <td>${s.name}<br><span style="font-size:0.7rem; color:#aaa;">${s.email || ''}</span></td>
@@ -2633,12 +2599,12 @@
                         </td>
                     </tr>
                 `}).join('');
-                }
-                // Render Apps
-                const appsDB = getAppsDB();
-                const appTbody = document.getElementById('admin-apps-table');
-                if (appTbody) {
-                    appTbody.innerHTML = appsDB.map(a => `
+            }
+            // Render Apps
+            const appsDB = getAppsDB();
+            const appTbody = document.getElementById('admin-apps-table');
+            if (appTbody) {
+                appTbody.innerHTML = appsDB.map(a => `
                     <tr>
                         <td>${a.date}</td>
                         <td>${a.name}</td>
@@ -2649,458 +2615,458 @@
                         <td><button class="btn-glow" style="padding:2px 10px; font-size:0.7rem; background:red;" onclick="deleteApp(${a.id})">حذف</button></td>
                     </tr>
                 `).join('');
-                }
             }
+        }
 
-            // ADMIN ACTIONS
-            function processBulkImport() {
-                const classSelect = document.getElementById('import-class-select');
-                const textArea = document.getElementById('import-names-area');
-                const major = classSelect.value;
-                const text = textArea.value.trim();
+        // ADMIN ACTIONS
+        function processBulkImport() {
+            const classSelect = document.getElementById('import-class-select');
+            const textArea = document.getElementById('import-names-area');
+            const major = classSelect.value;
+            const text = textArea.value.trim();
 
-                if (!major) return alert("يرجى اختيار الشعبة أولاً!");
-                if (!text) return alert("يرجى لصق الأسماء أولاً!");
+            if (!major) return alert("يرجى اختيار الشعبة أولاً!");
+            if (!text) return alert("يرجى لصق الأسماء أولاً!");
 
-                const lines = text.split('\n');
-                let updates = {};
-                let count = 0;
+            const lines = text.split('\n');
+            let updates = {};
+            let count = 0;
 
-                lines.forEach((line) => {
-                    const name = line.trim();
-                    if (name) {
-                        // Generate Unique ID (Fake UID for Non-Auth Student)
-                        // We prefix with 'std_' so we can identify them later
-                        const uid = 'std_' + major + '_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+            lines.forEach((line) => {
+                const name = line.trim();
+                if (name) {
+                    // Generate Unique ID (Fake UID for Non-Auth Student)
+                    // We prefix with 'std_' so we can identify them later
+                    const uid = 'std_' + major + '_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
 
-                        updates['users/' + uid] = {
-                            name: name,
-                            role: 'student',
-                            major: major,
-                            joined: new Date().toISOString(),
-                            grades: {},
-                            gradesDetail: {}
-                        };
-                        count++;
-                    }
-                });
-
-                if (Object.keys(updates).length > 0) {
-                    if (confirm(`سيتم إضافة ${count} طالب للشعبة المختارة في السحابة (Online). هل أنت متأكد؟`)) {
-                        firebase.database().ref().update(updates).then(() => {
-                            alert(`✅ تم حفظ ${count} طالب بنجاح في قاعدة البيانات السحابية!`);
-                            textArea.value = ''; // Clear
-                            renderAdminLists(); // Refresh List
-                        }).catch(e => alert("خطأ في الاتصال: " + e.message));
-                    }
-                } else {
-                    alert("لم يتم العثور على أسماء صالحة.");
-                }
-            }
-
-            // News Ticker Logic
-            function saveNewsTicker() {
-                const txt = document.getElementById('news-input').value;
-                if (!txt) return alert("يرجى كتابة الخبر");
-                firebase.database().ref('schoolDB/news').set(txt)
-                    .then(() => alert("✅ تم نشر الخبر بنجاح!"))
-                    .catch(err => alert("خطأ: " + err.message));
-            }
-
-            // Listen for News Updates
-            firebase.database().ref('schoolDB/news').on('value', (snap) => {
-                const txt = snap.val();
-                const container = document.getElementById('dynamic-ticker-content');
-                if (txt && container) {
-                    // Clear old items and show new one
-                    container.innerHTML = `<div class="ticker-item" style="color:#0f0; font-weight:bold; font-size:1.1rem;"><i class="fa-solid fa-bullhorn"></i> ${txt}</div>`;
+                    updates['users/' + uid] = {
+                        name: name,
+                        role: 'student',
+                        major: major,
+                        joined: new Date().toISOString(),
+                        grades: {},
+                        gradesDetail: {}
+                    };
+                    count++;
                 }
             });
 
-            function adminAddUserUI() {
-                const code = prompt("أدخل كود الدخول الجديد (كلمة المرور):");
-                if (!code) return;
-                // Check collision
-                const db = getStaffDB(); if (db[code]) return alert('الكود مستخدم!');
+            if (Object.keys(updates).length > 0) {
+                if (confirm(`سيتم إضافة ${count} طالب للشعبة المختارة في السحابة (Online). هل أنت متأكد؟`)) {
+                    firebase.database().ref().update(updates).then(() => {
+                        alert(`✅ تم حفظ ${count} طالب بنجاح في قاعدة البيانات السحابية!`);
+                        textArea.value = ''; // Clear
+                        renderAdminLists(); // Refresh List
+                    }).catch(e => alert("خطأ في الاتصال: " + e.message));
+                }
+            } else {
+                alert("لم يتم العثور على أسماء صالحة.");
+            }
+        }
 
-                const name = prompt("أدخل اسم الأستاذ:");
-                if (!name) return;
+        // News Ticker Logic
+        function saveNewsTicker() {
+            const txt = document.getElementById('news-input').value;
+            if (!txt) return alert("يرجى كتابة الخبر");
+            firebase.database().ref('schoolDB/news').set(txt)
+                .then(() => alert("✅ تم نشر الخبر بنجاح!"))
+                .catch(err => alert("خطأ: " + err.message));
+        }
 
-                db[code] = { name: name, subjects: ["ALL"], role: 'teacher', code: code };
+        // Listen for News Updates
+        firebase.database().ref('schoolDB/news').on('value', (snap) => {
+            const txt = snap.val();
+            const container = document.getElementById('dynamic-ticker-content');
+            if (txt && container) {
+                // Clear old items and show new one
+                container.innerHTML = `<div class="ticker-item" style="color:#0f0; font-weight:bold; font-size:1.1rem;"><i class="fa-solid fa-bullhorn"></i> ${txt}</div>`;
+            }
+        });
+
+        function adminAddUserUI() {
+            const code = prompt("أدخل كود الدخول الجديد (كلمة المرور):");
+            if (!code) return;
+            // Check collision
+            const db = getStaffDB(); if (db[code]) return alert('الكود مستخدم!');
+
+            const name = prompt("أدخل اسم الأستاذ:");
+            if (!name) return;
+
+            db[code] = { name: name, subjects: ["ALL"], role: 'teacher', code: code };
+            saveStaffDB(db);
+            renderAdminLists();
+        }
+        function deleteStaff(code) {
+            if (code === 'admin' || code === '1234') return alert('لا يمكن حذف المسؤول');
+            if (confirm('حذف المستخدم؟')) {
+                const db = getStaffDB(); delete db[code]; saveStaffDB(db); renderAdminLists();
+            }
+        }
+        function editStaff(oldCode) {
+            const db = getStaffDB();
+            const u = db[oldCode];
+            const newCode = prompt("تعديل الكود (حالياً " + oldCode + "):", oldCode);
+            if (newCode && newCode !== oldCode) {
+                if (db[newCode]) return alert("الكود مستخدم!");
+                u.code = newCode;
+                db[newCode] = u;
+                delete db[oldCode];
                 saveStaffDB(db);
                 renderAdminLists();
             }
-            function deleteStaff(code) {
-                if (code === 'admin' || code === '1234') return alert('لا يمكن حذف المسؤول');
-                if (confirm('حذف المستخدم؟')) {
-                    const db = getStaffDB(); delete db[code]; saveStaffDB(db); renderAdminLists();
+        }
+        function toggleBlock(code) {
+            const db = getStudentDB(); if (db[code]) { db[code].isBlocked = !db[code].isBlocked; saveStudentDB(db); renderAdminLists(); }
+        }
+        function deleteStudent(code) {
+            if (confirm("حذف الطالب نهائياً؟")) { const db = getStudentDB(); delete db[code]; saveStudentDB(db); renderAdminLists(); }
+        }
+
+
+
+        function embeddedLogin() {
+            const type = document.getElementById('embedded-type').value;
+            const code = document.getElementById('embedded-code').value;
+            if (type === 'student') {
+                const db = getStudentDB();
+                if (db[code]) {
+                    if (db[code].isBlocked) return alert('حسابك موقوف مؤقتاً. راجع الإدارة.');
+                    openStudentDashboard(db[code]);
+                } else {
+                    document.getElementById('embedded-error').style.display = 'block';
+                    setTimeout(() => document.getElementById('embedded-error').style.display = 'none', 3000);
                 }
-            }
-            function editStaff(oldCode) {
-                const db = getStaffDB();
-                const u = db[oldCode];
-                const newCode = prompt("تعديل الكود (حالياً " + oldCode + "):", oldCode);
-                if (newCode && newCode !== oldCode) {
-                    if (db[newCode]) return alert("الكود مستخدم!");
-                    u.code = newCode;
-                    db[newCode] = u;
-                    delete db[oldCode];
-                    saveStaffDB(db);
-                    renderAdminLists();
-                }
-            }
-            function toggleBlock(code) {
-                const db = getStudentDB(); if (db[code]) { db[code].isBlocked = !db[code].isBlocked; saveStudentDB(db); renderAdminLists(); }
-            }
-            function deleteStudent(code) {
-                if (confirm("حذف الطالب نهائياً؟")) { const db = getStudentDB(); delete db[code]; saveStudentDB(db); renderAdminLists(); }
-            }
+            } else {
+                // Teacher/Admin Check from STAFF DB
+                const staffDB = getStaffDB();
 
-
-
-            function embeddedLogin() {
-                const type = document.getElementById('embedded-type').value;
-                const code = document.getElementById('embedded-code').value;
-                if (type === 'student') {
-                    const db = getStudentDB();
-                    if (db[code]) {
-                        if (db[code].isBlocked) return alert('حسابك موقوف مؤقتاً. راجع الإدارة.');
-                        openStudentDashboard(db[code]);
-                    } else {
-                        document.getElementById('embedded-error').style.display = 'block';
-                        setTimeout(() => document.getElementById('embedded-error').style.display = 'none', 3000);
+                if (staffDB[code]) {
+                    currentUser = staffDB[code];
+                    if (currentUser.role === 'admin') {
+                        openDashboard('admin');
+                        renderAdminLists(); // Init view
+                    }
+                    else {
+                        document.getElementById('teacher-welcome').innerText = `أهلاً بك، ${currentUser.name}`;
+                        openDashboard('teacher');
                     }
                 } else {
-                    // Teacher/Admin Check from STAFF DB
-                    const staffDB = getStaffDB();
-
-                    if (staffDB[code]) {
-                        currentUser = staffDB[code];
-                        if (currentUser.role === 'admin') {
-                            openDashboard('admin');
-                            renderAdminLists(); // Init view
-                        }
-                        else {
-                            document.getElementById('teacher-welcome').innerText = `أهلاً بك، ${currentUser.name}`;
-                            openDashboard('teacher');
-                        }
-                    } else {
-                        document.getElementById('embedded-error').style.display = 'block';
-                        setTimeout(() => document.getElementById('embedded-error').style.display = 'none', 3000);
-                    }
+                    document.getElementById('embedded-error').style.display = 'block';
+                    setTimeout(() => document.getElementById('embedded-error').style.display = 'none', 3000);
                 }
             }
+        }
 
 
-            // Check Permissions when Subject Changes
-            function checkSubjectPermission() {
-                const subjectSelect = document.getElementById('teacher-subject-select');
-                const gradeInput = document.getElementById('grade-input');
-                const submitBtn = document.getElementById('grade-submit-btn');
-                const permissionBadge = document.getElementById('permission-badge');
+        // Check Permissions when Subject Changes
+        function checkSubjectPermission() {
+            const subjectSelect = document.getElementById('teacher-subject-select');
+            const gradeInput = document.getElementById('grade-input');
+            const submitBtn = document.getElementById('grade-submit-btn');
+            const permissionBadge = document.getElementById('permission-badge');
 
-                const selectedSubject = subjectSelect.value;
+            const selectedSubject = subjectSelect.value;
 
-                if (!currentUser) return;
+            if (!currentUser) return;
 
-                // Admin check
-                if (currentUser.role === 'admin') {
-                    enableEditing(true);
-                    return;
-                }
+            // Admin check
+            if (currentUser.role === 'admin') {
+                enableEditing(true);
+                return;
+            }
 
-                // Teacher check (If subjects array exists)
-                if (currentUser.role === 'teacher' && currentUser.subjects && currentUser.subjects.includes(selectedSubject)) {
-                    enableEditing(true);
-                } else if (currentUser.role === 'teacher' && !currentUser.subjects) {
-                    // Temporary: Allow new teachers to edit ALL until we assign subjects
-                    enableEditing(true);
+            // Teacher check (If subjects array exists)
+            if (currentUser.role === 'teacher' && currentUser.subjects && currentUser.subjects.includes(selectedSubject)) {
+                enableEditing(true);
+            } else if (currentUser.role === 'teacher' && !currentUser.subjects) {
+                // Temporary: Allow new teachers to edit ALL until we assign subjects
+                enableEditing(true);
+            } else {
+                enableEditing(false);
+            }
+
+            function enableEditing(canEdit) {
+                if (canEdit) {
+                    gradeInput.disabled = false;
+                    gradeInput.style.opacity = "1";
+                    gradeInput.placeholder = "0 - 100";
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = "1";
+                    submitBtn.innerHTML = 'رصد الدرجة';
+                    document.getElementById('grade-actions').style.display = 'block'; // Show Gradebook Button
+                    permissionBadge.innerHTML = '<i class="fa-solid fa-pen"></i> وضع التعديل';
+                    permissionBadge.className = "grade-badge grade-good";
+                    permissionBadge.style.background = "rgba(0, 255, 0, 0.1)";
+                    permissionBadge.style.color = "#0f0";
                 } else {
-                    enableEditing(false);
-                }
-
-                function enableEditing(canEdit) {
-                    if (canEdit) {
-                        gradeInput.disabled = false;
-                        gradeInput.style.opacity = "1";
-                        gradeInput.placeholder = "0 - 100";
-                        submitBtn.disabled = false;
-                        submitBtn.style.opacity = "1";
-                        submitBtn.innerHTML = 'رصد الدرجة';
-                        document.getElementById('grade-actions').style.display = 'block'; // Show Gradebook Button
-                        permissionBadge.innerHTML = '<i class="fa-solid fa-pen"></i> وضع التعديل';
-                        permissionBadge.className = "grade-badge grade-good";
-                        permissionBadge.style.background = "rgba(0, 255, 0, 0.1)";
-                        permissionBadge.style.color = "#0f0";
-                    } else {
-                        gradeInput.disabled = true;
-                        gradeInput.style.opacity = "0.5";
-                        gradeInput.placeholder = "للإطلاع فقط";
-                        submitBtn.disabled = true;
-                        submitBtn.style.opacity = "0.5";
-                        submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i> مقفل';
-                        permissionBadge.innerHTML = '<i class="fa-solid fa-eye"></i> مشاهدة فقط';
-                        permissionBadge.className = "grade-badge";
-                        permissionBadge.style.background = "rgba(255, 255, 0, 0.1)";
-                        permissionBadge.style.color = "yellow";
-                        permissionBadge.style.borderColor = "yellow";
-                    }
+                    gradeInput.disabled = true;
+                    gradeInput.style.opacity = "0.5";
+                    gradeInput.placeholder = "للإطلاع فقط";
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = "0.5";
+                    submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i> مقفل';
+                    permissionBadge.innerHTML = '<i class="fa-solid fa-eye"></i> مشاهدة فقط';
+                    permissionBadge.className = "grade-badge";
+                    permissionBadge.style.background = "rgba(255, 255, 0, 0.1)";
+                    permissionBadge.style.color = "yellow";
+                    permissionBadge.style.borderColor = "yellow";
                 }
             }
+        }
 
-            // ================== DATA STORE (MOCK DB) ==================
-            const schoolData = {
-                "cyber-science": {
-                    name: "الأمن السيبراني - شعبة العلوم",
-                    subjects: ["المبادئ الأساسية للحاسوب", "تجميع الحاسوب", "أساسيات الكهرباء", "الاتصالات", "الرياضيات", "اللغة العربية", "اللغة الإنجليزية", "الطبيعيات", "تطبيقات الحاسوب"],
-                    students: [
-                        "احمد بدر لايذ", "احمد حسن فاضل جيجان", "اسماعيل علي قاسم", "امير كريم حسن", "أمير عبد الرسول فليح",
-                        "حسن جاسم عبدالامير", "حسين علي عبد الحر", "حسين علي عبد الواحد", "حسين عماد ثامر", "حسين محمد جابر",
-                        "سجاد أحمد علي", "سجاد حسام فالح عبد السادة", "عباس سعد عبد العزيز", "عبدالله علي حسين علي", "علي حسين كشيش",
-                        "علي خالد كريم شاكر", "علي سلمان عبدالله", "مجتبى رعد كاظم فزاع", "محمد الجوادين حسين", "محمد خالد رهيف عواد",
-                        "محمد زهير فيصل", "محمد علي حسين زاير", "محمد علي صبري", "محمد علي عدنان حيدر", "محمد كريم طه",
-                        "محمد مجيد جمعة", "محمد مهدي احمد سعود", "محمد مهند لطيف صاحب", "مرتضى عبد العزيز عبد الحسن", "مصطفى عبدالله شلاكه",
-                        "مصطفى كاظم باني", "مهدي احمد كريم", "مهدي رعد سعد فاضل", "محمد احسان علي", "علي حيدر رحيم سلمان", "حسين علي قاسم"
-                    ]
-                },
-                "cyber-lab": {
-                    name: "الأمن السيبراني - قاعة الحاسوب",
-                    subjects: ["المبادئ الأساسية للحاسوب", "تجميع الحاسوب", "أساسيات الكهرباء", "الاتصالات", "الرياضيات", "اللغة العربية", "اللغة الإنجليزية", "الطبيعيات", "تطبيقات الحاسوب"],
-                    students: [
-                        "ابو الحسن علي عبد الحسين", "امير بندر زاعل", "امير حيدر محمد خضير", "امير رياض سعد عبد الكريم", "امير علي هادي",
-                        "باقر باسل كاظم", "حسين ثبات كريم", "حسين سمير جودة", "حسين علي رزاق", "حسين محمد مهدي محمد صالح",
-                        "حسين مزعل منديل", "حسين ناظم حمد سلمان", "حسين وسام مهدي", "رضا مطر سند", "سجاد رعد علي سالم",
-                        "سجاد محمد عبد الامير", "سجاد مرعي فيصل", "عباس خالد جابر", "علي احمد ميران سلمان", "علي أحمد عبد الكريم",
-                        "علي جميل زعل", "علي حسين حنين", "علي حسين محمد فرج", "علي حيدر فليح", "علي حيدر هويدي",
-                        "علي قصي شاكر محسن", "علي كرم علي محمد", "علي هادي عواد", "محمد جاسم محمد", "مرتضى مظفر قاسم",
-                        "مصطفى اركان مجدي", "منتظر وسام داخل", "مؤمل ابراهيم رحيم"
-                    ]
-                },
-                "cyber-2c": {
-                    name: "الأمن السيبراني - شعبة 2C",
-                    subjects: ["المبادئ الأساسية للحاسوب", "تجميع الحاسوب", "أساسيات الكهرباء", "الاتصالات", "الرياضيات", "اللغة العربية", "اللغة الإنجليزية", "الطبيعيات", "تطبيقات الحاسوب"],
-                    students: [
-                        "امنة عبد الحمزة", "حوراء حيدر حمودي", "حوراء ستار جبار", "رسل ريسان", "رقية باسم اكريم",
-                        "رقية رائد كاظم", "رقية سعد مدلول", "رقية صلاح هادي", "رقية على غازي محمد", "روان حسن هادي عباس",
-                        "زهراء عباس اسماعيل", "زهراء فاضل حمزه", "زهراء فهد غافل", "زهراء مثنى كاظم", "زينب قاسم كريم",
-                        "فاطمة الزهراء رائد فاضل", "فاطمة عبد العزيز فرحان", "فاطمة قاسم شهد", "فاطمة كريم عبدالله", "مروة محمد حدران هاشم",
-                        "مريم مصلح محمد محسن", "ملاك حيدر حميد", "نور البتول ثبات حمزة", "نور خضير عباس", "هدى سعد عزيز",
-                        "هدى عبد الامير غافل", "ورورد عمار احمد", "يارا حيدر حسن مصطفى علي", "يقين ثامر محمود"
-                    ]
-                },
-                "cyber-2a": {
-                    name: "الأمن السيبراني - شعبة 2A",
-                    subjects: ["المبادئ الأساسية للحاسوب", "تجميع الحاسوب", "أساسيات الكهرباء", "الاتصالات", "الرياضيات", "اللغة العربية", "اللغة الإنجليزية", "الطبيعيات", "تطبيقات الحاسوب"],
-                    students: [
-                        "احمد اكرم عبد الكريم", "احمد قاسم محمد", "اسحاق وليد خالد", "رضا ريسان كريم محمد", "سجاد رياض جبار",
-                        "صادق ميثم هاشم", "عباس احمد ابراهيم", "عباس حسين علوان عويجل", "عباس عبدالله عطشان", "عباس مبارك جلال حصيد",
-                        "علي حسين موحي", "علي فراس موحان", "علي ماهر غازي", "محمد عباس هاشم", "مصطفى سمير عبد الجبار",
-                        "مهند محمد علي", "هادي بريس صبري", "محمد قاسم جهادي", "علي ضياء عامر", "مرتضى فرج كاظم",
-                        "همام محمد صبر", "ضرغام كاظم عليوي", "منتظر اياد عبد عيدان", "علي مرتضى ابراهيم", "محمد الجواد حسن",
-                        "زين العابدين حسين جفات", "حسين اياد كامل", "مصطفى جاسم محمد", "ليث فارس شناوه"
-                    ]
-                },
-                "cyber-g6": {
-                    name: "الأمن السيبراني - شعبة G6",
-                    subjects: ["المبادئ الأساسية للحاسوب", "تجميع الحاسوب", "أساسيات الكهرباء", "الاتصالات", "الرياضيات", "اللغة العربية", "اللغة الإنجليزية", "الطبيعيات", "تطبيقات الحاسوب"],
-                    students: [
-                        "جعفر سامي ناهي", "جعفر عدي غالي", "حسن احمد نوري", "حسنين حمكت جواد", "حسين حيدر كريم",
-                        "حسين علي قاسم كاطع", "ذوالفقار ستار نشمي", "رضا فواز خليف", "زين العابدين حيدر منور", "سيف حيدر زميل",
-                        "سيف حيدر مجيد", "صادق حسين صالح", "علي بسام دوشي", "علي حبيب ناجي", "علي حيدر حمزة",
-                        "علي حيدر علي عبد فرهود", "علي سعد عبدالرزاق", "علي سلام ناهي", "عمار عماد كريم", "محمد احسان عباس",
-                        "محمد احمد محمد عبد الكريم", "مسلم عقيل غالي", "مصطفى خالد فاضل", "مصظفى علاء الدين عزيز", "منتظر نايف سعود",
-                        "مؤمل صاحب شباط", "ايهم مهند هادي", "سجاد حسنين خضر", "مؤمل ليث حسين"
-                    ]
-                },
-                "oil-gas": {
-                    name: "تكرير النفط والغاز",
-                    subjects: ["كيمياء النفط", "ديناميكا حرارية", "الرسم الهندسي", "السلامة الصناعية"],
-                    students: [] // Waiting for data
-                }
-            };
+        // ================== DATA STORE (MOCK DB) ==================
+        const schoolData = {
+            "cyber-science": {
+                name: "الأمن السيبراني - شعبة العلوم",
+                subjects: ["المبادئ الأساسية للحاسوب", "تجميع الحاسوب", "أساسيات الكهرباء", "الاتصالات", "الرياضيات", "اللغة العربية", "اللغة الإنجليزية", "الطبيعيات", "تطبيقات الحاسوب"],
+                students: [
+                    "احمد بدر لايذ", "احمد حسن فاضل جيجان", "اسماعيل علي قاسم", "امير كريم حسن", "أمير عبد الرسول فليح",
+                    "حسن جاسم عبدالامير", "حسين علي عبد الحر", "حسين علي عبد الواحد", "حسين عماد ثامر", "حسين محمد جابر",
+                    "سجاد أحمد علي", "سجاد حسام فالح عبد السادة", "عباس سعد عبد العزيز", "عبدالله علي حسين علي", "علي حسين كشيش",
+                    "علي خالد كريم شاكر", "علي سلمان عبدالله", "مجتبى رعد كاظم فزاع", "محمد الجوادين حسين", "محمد خالد رهيف عواد",
+                    "محمد زهير فيصل", "محمد علي حسين زاير", "محمد علي صبري", "محمد علي عدنان حيدر", "محمد كريم طه",
+                    "محمد مجيد جمعة", "محمد مهدي احمد سعود", "محمد مهند لطيف صاحب", "مرتضى عبد العزيز عبد الحسن", "مصطفى عبدالله شلاكه",
+                    "مصطفى كاظم باني", "مهدي احمد كريم", "مهدي رعد سعد فاضل", "محمد احسان علي", "علي حيدر رحيم سلمان", "حسين علي قاسم"
+                ]
+            },
+            "cyber-lab": {
+                name: "الأمن السيبراني - قاعة الحاسوب",
+                subjects: ["المبادئ الأساسية للحاسوب", "تجميع الحاسوب", "أساسيات الكهرباء", "الاتصالات", "الرياضيات", "اللغة العربية", "اللغة الإنجليزية", "الطبيعيات", "تطبيقات الحاسوب"],
+                students: [
+                    "ابو الحسن علي عبد الحسين", "امير بندر زاعل", "امير حيدر محمد خضير", "امير رياض سعد عبد الكريم", "امير علي هادي",
+                    "باقر باسل كاظم", "حسين ثبات كريم", "حسين سمير جودة", "حسين علي رزاق", "حسين محمد مهدي محمد صالح",
+                    "حسين مزعل منديل", "حسين ناظم حمد سلمان", "حسين وسام مهدي", "رضا مطر سند", "سجاد رعد علي سالم",
+                    "سجاد محمد عبد الامير", "سجاد مرعي فيصل", "عباس خالد جابر", "علي احمد ميران سلمان", "علي أحمد عبد الكريم",
+                    "علي جميل زعل", "علي حسين حنين", "علي حسين محمد فرج", "علي حيدر فليح", "علي حيدر هويدي",
+                    "علي قصي شاكر محسن", "علي كرم علي محمد", "علي هادي عواد", "محمد جاسم محمد", "مرتضى مظفر قاسم",
+                    "مصطفى اركان مجدي", "منتظر وسام داخل", "مؤمل ابراهيم رحيم"
+                ]
+            },
+            "cyber-2c": {
+                name: "الأمن السيبراني - شعبة 2C",
+                subjects: ["المبادئ الأساسية للحاسوب", "تجميع الحاسوب", "أساسيات الكهرباء", "الاتصالات", "الرياضيات", "اللغة العربية", "اللغة الإنجليزية", "الطبيعيات", "تطبيقات الحاسوب"],
+                students: [
+                    "امنة عبد الحمزة", "حوراء حيدر حمودي", "حوراء ستار جبار", "رسل ريسان", "رقية باسم اكريم",
+                    "رقية رائد كاظم", "رقية سعد مدلول", "رقية صلاح هادي", "رقية على غازي محمد", "روان حسن هادي عباس",
+                    "زهراء عباس اسماعيل", "زهراء فاضل حمزه", "زهراء فهد غافل", "زهراء مثنى كاظم", "زينب قاسم كريم",
+                    "فاطمة الزهراء رائد فاضل", "فاطمة عبد العزيز فرحان", "فاطمة قاسم شهد", "فاطمة كريم عبدالله", "مروة محمد حدران هاشم",
+                    "مريم مصلح محمد محسن", "ملاك حيدر حميد", "نور البتول ثبات حمزة", "نور خضير عباس", "هدى سعد عزيز",
+                    "هدى عبد الامير غافل", "ورورد عمار احمد", "يارا حيدر حسن مصطفى علي", "يقين ثامر محمود"
+                ]
+            },
+            "cyber-2a": {
+                name: "الأمن السيبراني - شعبة 2A",
+                subjects: ["المبادئ الأساسية للحاسوب", "تجميع الحاسوب", "أساسيات الكهرباء", "الاتصالات", "الرياضيات", "اللغة العربية", "اللغة الإنجليزية", "الطبيعيات", "تطبيقات الحاسوب"],
+                students: [
+                    "احمد اكرم عبد الكريم", "احمد قاسم محمد", "اسحاق وليد خالد", "رضا ريسان كريم محمد", "سجاد رياض جبار",
+                    "صادق ميثم هاشم", "عباس احمد ابراهيم", "عباس حسين علوان عويجل", "عباس عبدالله عطشان", "عباس مبارك جلال حصيد",
+                    "علي حسين موحي", "علي فراس موحان", "علي ماهر غازي", "محمد عباس هاشم", "مصطفى سمير عبد الجبار",
+                    "مهند محمد علي", "هادي بريس صبري", "محمد قاسم جهادي", "علي ضياء عامر", "مرتضى فرج كاظم",
+                    "همام محمد صبر", "ضرغام كاظم عليوي", "منتظر اياد عبد عيدان", "علي مرتضى ابراهيم", "محمد الجواد حسن",
+                    "زين العابدين حسين جفات", "حسين اياد كامل", "مصطفى جاسم محمد", "ليث فارس شناوه"
+                ]
+            },
+            "cyber-g6": {
+                name: "الأمن السيبراني - شعبة G6",
+                subjects: ["المبادئ الأساسية للحاسوب", "تجميع الحاسوب", "أساسيات الكهرباء", "الاتصالات", "الرياضيات", "اللغة العربية", "اللغة الإنجليزية", "الطبيعيات", "تطبيقات الحاسوب"],
+                students: [
+                    "جعفر سامي ناهي", "جعفر عدي غالي", "حسن احمد نوري", "حسنين حمكت جواد", "حسين حيدر كريم",
+                    "حسين علي قاسم كاطع", "ذوالفقار ستار نشمي", "رضا فواز خليف", "زين العابدين حيدر منور", "سيف حيدر زميل",
+                    "سيف حيدر مجيد", "صادق حسين صالح", "علي بسام دوشي", "علي حبيب ناجي", "علي حيدر حمزة",
+                    "علي حيدر علي عبد فرهود", "علي سعد عبدالرزاق", "علي سلام ناهي", "عمار عماد كريم", "محمد احسان عباس",
+                    "محمد احمد محمد عبد الكريم", "مسلم عقيل غالي", "مصطفى خالد فاضل", "مصظفى علاء الدين عزيز", "منتظر نايف سعود",
+                    "مؤمل صاحب شباط", "ايهم مهند هادي", "سجاد حسنين خضر", "مؤمل ليث حسين"
+                ]
+            },
+            "oil-gas": {
+                name: "تكرير النفط والغاز",
+                subjects: ["كيمياء النفط", "ديناميكا حرارية", "الرسم الهندسي", "السلامة الصناعية"],
+                students: [] // Waiting for data
+            }
+        };
 
-            // Load Students (FROM FIREBASE)
-            function loadClassStudents() {
-                const classSelect = document.getElementById('teacher-class-select');
-                const studentSelect = document.getElementById('teacher-student-select');
-                const subjectSelect = document.getElementById('teacher-subject-select');
-                const tableReview = document.getElementById('class-list-preview');
-                const tableBody = document.getElementById('students-table-body');
-                const selectedClassKey = classSelect.value;
+        // Load Students (FROM FIREBASE)
+        function loadClassStudents() {
+            const classSelect = document.getElementById('teacher-class-select');
+            const studentSelect = document.getElementById('teacher-student-select');
+            const subjectSelect = document.getElementById('teacher-subject-select');
+            const tableReview = document.getElementById('class-list-preview');
+            const tableBody = document.getElementById('students-table-body');
+            const selectedClassKey = classSelect.value;
 
-                // Reset
-                studentSelect.innerHTML = '<option value="">جاري التحميل...</option>';
-                subjectSelect.innerHTML = '<option value="">اختر المادة...</option>';
-                tableBody.innerHTML = '<tr><td colspan="3">جاري جلب البيانات من السحابة...</td></tr>';
-                tableReview.style.display = 'block';
+            // Reset
+            studentSelect.innerHTML = '<option value="">جاري التحميل...</option>';
+            subjectSelect.innerHTML = '<option value="">اختر المادة...</option>';
+            tableBody.innerHTML = '<tr><td colspan="3">جاري جلب البيانات من السحابة...</td></tr>';
+            tableReview.style.display = 'block';
 
-                if (!selectedClassKey) { tableReview.style.display = 'none'; return; }
+            if (!selectedClassKey) { tableReview.style.display = 'none'; return; }
 
-                // 1. Get Subjects (Static Config)
-                const staticData = schoolData[selectedClassKey] || { subjects: ['مادة عامة'] };
-                // Populate Subjects
-                const subs = staticData.subjects && staticData.subjects.length ? staticData.subjects : ['مادة عامة'];
-                subjectSelect.innerHTML = '<option value="">اختر المادة...</option>';
-                subs.forEach(sub => {
-                    const opt = document.createElement('option'); opt.value = sub; opt.innerText = sub; subjectSelect.appendChild(opt);
-                });
+            // 1. Get Subjects (Static Config)
+            const staticData = schoolData[selectedClassKey] || { subjects: ['مادة عامة'] };
+            // Populate Subjects
+            const subs = staticData.subjects && staticData.subjects.length ? staticData.subjects : ['مادة عامة'];
+            subjectSelect.innerHTML = '<option value="">اختر المادة...</option>';
+            subs.forEach(sub => {
+                const opt = document.createElement('option'); opt.value = sub; opt.innerText = sub; subjectSelect.appendChild(opt);
+            });
 
-                // 2. Fetch Users from Firebase
-                firebase.database().ref('users').once('value').then(snapshot => {
-                    studentSelect.innerHTML = '<option value="">اختر الطالب...</option>';
-                    tableBody.innerHTML = '';
+            // 2. Fetch Users from Firebase
+            firebase.database().ref('users').once('value').then(snapshot => {
+                studentSelect.innerHTML = '<option value="">اختر الطالب...</option>';
+                tableBody.innerHTML = '';
 
-                    const users = snapshot.val() || {};
-                    let found = false;
+                const users = snapshot.val() || {};
+                let found = false;
 
-                    Object.keys(users).forEach((uid, index) => {
-                        const u = users[uid];
-                        // Filter by Role (Student) AND Major logic
-                        if (u.role === 'student' && u.major === selectedClassKey) {
-                            found = true;
+                Object.keys(users).forEach((uid, index) => {
+                    const u = users[uid];
+                    // Filter by Role (Student) AND Major logic
+                    if (u.role === 'student' && u.major === selectedClassKey) {
+                        found = true;
 
-                            // Add to Dropdown (Legacy)
-                            const opt = document.createElement('option');
-                            opt.value = uid;
-                            opt.innerText = `${u.name}`;
-                            studentSelect.appendChild(opt);
+                        // Add to Dropdown (Legacy)
+                        const opt = document.createElement('option');
+                        opt.value = uid;
+                        opt.innerText = `${u.name}`;
+                        studentSelect.appendChild(opt);
 
-                            // Add to Table
-                            tableBody.innerHTML += `<tr>
+                        // Add to Table
+                        tableBody.innerHTML += `<tr>
                             <td>${index + 1}</td>
                             <td>${u.name}</td>
                             <td id="status-${uid}" style="color:${u.grades ? '#0f0' : '#aaa'}">${u.grades ? 'تم التقييم' : 'جديد'}</td>
                         </tr>`;
-                        }
-                    });
-
-                    if (subjectSelect.value) document.getElementById('grade-actions').style.display = 'block';
-
-                    if (!found) {
-                        tableBody.innerHTML = '<tr><td colspan="3">لا يوجد طلاب مسجلين في هذه الشعبة</td></tr>';
                     }
-                }).catch(err => {
-                    alert('خطأ في تحميل الطلاب: ' + err.message);
-                    tableBody.innerHTML = '<tr><td colspan="3" style="color:red">فشل الاتصال</td></tr>';
                 });
+
+                if (subjectSelect.value) document.getElementById('grade-actions').style.display = 'block';
+
+                if (!found) {
+                    tableBody.innerHTML = '<tr><td colspan="3">لا يوجد طلاب مسجلين في هذه الشعبة</td></tr>';
+                }
+            }).catch(err => {
+                alert('خطأ في تحميل الطلاب: ' + err.message);
+                tableBody.innerHTML = '<tr><td colspan="3" style="color:red">فشل الاتصال</td></tr>';
+            });
+        }
+
+        // Grading Logic (SAVE TO FIREBASE)
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.id === 'grade-submit-btn') {
+                const uid = document.getElementById('teacher-student-select').value; // This is now Firebase UID
+                const sub = document.getElementById('teacher-subject-select').value;
+                const val = document.getElementById('grade-input').value;
+
+                if (!uid || !sub) return alert('يرجى اختيار الطالب والمادة');
+                if (!val) return alert('يرجى كتابة الدرجة');
+
+                e.target.innerText = 'جاري الحفظ...';
+                e.target.disabled = true;
+
+                // Save to Firebase
+                firebase.database().ref('users/' + uid + '/grades/' + sub).set(val)
+                    .then(() => {
+                        alert(`✅ تم رصد الدرجة (${val}) للطالب بنجاح في السحابة!`);
+                        e.target.innerText = 'رصد الدرجة';
+                        e.target.disabled = false;
+                        // Update UI Status
+                        const statusCell = document.getElementById('status-' + uid);
+                        if (statusCell) { statusCell.innerText = 'تم التقييم'; statusCell.style.color = '#0f0'; }
+                    })
+                    .catch(err => {
+                        alert('❌ خطأ في الحفظ: ' + err.message);
+                        e.target.innerText = 'رصد الدرجة';
+                        e.target.disabled = false;
+                    });
+            }
+        });
+
+        // Render Student Dashboard (Firebase Grades)
+        function renderStudentDashboard(user) {
+            const nameEl = document.getElementById('std-welcome-name');
+            const majorEl = document.getElementById('std-welcome-major');
+            if (nameEl) nameEl.innerText = user.name || 'طالب';
+            if (majorEl) majorEl.innerText = user.major || 'مرحلة أولى';
+
+            const tbody = document.getElementById('std-grades-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            if (!user.grades) {
+                tbody.innerHTML = '<tr><td colspan="3">لا توجد درجات مرصودة حتى الآن</td></tr>';
+                return;
             }
 
-            // Grading Logic (SAVE TO FIREBASE)
-            document.addEventListener('click', function (e) {
-                if (e.target && e.target.id === 'grade-submit-btn') {
-                    const uid = document.getElementById('teacher-student-select').value; // This is now Firebase UID
-                    const sub = document.getElementById('teacher-subject-select').value;
-                    const val = document.getElementById('grade-input').value;
+            Object.keys(user.grades).forEach(sub => {
+                const gr = parseInt(user.grades[sub]);
+                let est = '';
+                let color = '#fff';
 
-                    if (!uid || !sub) return alert('يرجى اختيار الطالب والمادة');
-                    if (!val) return alert('يرجى كتابة الدرجة');
+                if (gr >= 90) { est = 'امتياز 🌟'; color = 'gold'; }
+                else if (gr >= 80) { est = 'جيد جداً'; color = '#0f0'; }
+                else if (gr >= 70) { est = 'جيد'; color = '#0ff'; }
+                else if (gr >= 60) { est = 'متوسط'; color = '#ff0'; }
+                else if (gr >= 50) { est = 'مقبول'; color = 'orange'; }
+                else { est = 'راسب ⚠️'; color = 'red'; }
 
-                    e.target.innerText = 'جاري الحفظ...';
-                    e.target.disabled = true;
-
-                    // Save to Firebase
-                    firebase.database().ref('users/' + uid + '/grades/' + sub).set(val)
-                        .then(() => {
-                            alert(`✅ تم رصد الدرجة (${val}) للطالب بنجاح في السحابة!`);
-                            e.target.innerText = 'رصد الدرجة';
-                            e.target.disabled = false;
-                            // Update UI Status
-                            const statusCell = document.getElementById('status-' + uid);
-                            if (statusCell) { statusCell.innerText = 'تم التقييم'; statusCell.style.color = '#0f0'; }
-                        })
-                        .catch(err => {
-                            alert('❌ خطأ في الحفظ: ' + err.message);
-                            e.target.innerText = 'رصد الدرجة';
-                            e.target.disabled = false;
-                        });
-                }
-            });
-
-            // Render Student Dashboard (Firebase Grades)
-            function renderStudentDashboard(user) {
-                const nameEl = document.getElementById('std-welcome-name');
-                const majorEl = document.getElementById('std-welcome-major');
-                if (nameEl) nameEl.innerText = user.name || 'طالب';
-                if (majorEl) majorEl.innerText = user.major || 'مرحلة أولى';
-
-                const tbody = document.getElementById('std-grades-body');
-                if (!tbody) return;
-                tbody.innerHTML = '';
-
-                if (!user.grades) {
-                    tbody.innerHTML = '<tr><td colspan="3">لا توجد درجات مرصودة حتى الآن</td></tr>';
-                    return;
-                }
-
-                Object.keys(user.grades).forEach(sub => {
-                    const gr = parseInt(user.grades[sub]);
-                    let est = '';
-                    let color = '#fff';
-
-                    if (gr >= 90) { est = 'امتياز 🌟'; color = 'gold'; }
-                    else if (gr >= 80) { est = 'جيد جداً'; color = '#0f0'; }
-                    else if (gr >= 70) { est = 'جيد'; color = '#0ff'; }
-                    else if (gr >= 60) { est = 'متوسط'; color = '#ff0'; }
-                    else if (gr >= 50) { est = 'مقبول'; color = 'orange'; }
-                    else { est = 'راسب ⚠️'; color = 'red'; }
-
-                    tbody.innerHTML += `
+                tbody.innerHTML += `
                     <tr>
                         <td style="color:#ddd">${sub}</td>
                         <td style="font-weight:bold; font-size:1.1rem; color:${color}">${gr}</td>
                         <td style="color:${color}">${est}</td>
                     </tr>
                 `;
-                });
-            }
+            });
+        }
 
 
-            // ================== GRADEBOOK SYSTEM (EXCEL VIEW) ==================
-            let gbClassId = '';
-            let gbSubject = '';
-            let gbStudents = []; // Array of {uid, name, gradesObj}
+        // ================== GRADEBOOK SYSTEM (EXCEL VIEW) ==================
+        let gbClassId = '';
+        let gbSubject = '';
+        let gbStudents = []; // Array of {uid, name, gradesObj}
 
-            function openGradebook() {
-                // 1. Get Values
-                const classSelect = document.getElementById('teacher-class-select');
-                const subjectSelect = document.getElementById('teacher-subject-select');
+        function openGradebook() {
+            // 1. Get Values
+            const classSelect = document.getElementById('teacher-class-select');
+            const subjectSelect = document.getElementById('teacher-subject-select');
 
-                gbClassId = classSelect.value;
-                gbSubject = subjectSelect.value;
+            gbClassId = classSelect.value;
+            gbSubject = subjectSelect.value;
 
-                // 2. Validate
-                if (!gbClassId) return alert("⚠️ يرجى اختيار الشعبة أولاً");
-                if (!gbSubject) return alert("⚠️ يرجى اختيار المادة أولاً");
+            // 2. Validate
+            if (!gbClassId) return alert("⚠️ يرجى اختيار الشعبة أولاً");
+            if (!gbSubject) return alert("⚠️ يرجى اختيار المادة أولاً");
 
-                // 3. Update UI Headers
-                document.getElementById('gb-subject').innerText = gbSubject;
-                document.getElementById('gb-class').innerText = gbClassId;
+            // 3. Update UI Headers
+            document.getElementById('gb-subject').innerText = gbSubject;
+            document.getElementById('gb-class').innerText = gbClassId;
 
-                // 4. Show Overlay (Force Display)
-                const ov = document.getElementById('gradebook-overlay');
-                ov.style.display = 'block';
-                ov.style.opacity = '1';
-                ov.style.visibility = 'visible';
-                ov.style.zIndex = '99999';
-                requestAnimationFrame(() => ov.classList.add('active'));
+            // 4. Show Overlay (Force Display)
+            const ov = document.getElementById('gradebook-overlay');
+            ov.style.display = 'block';
+            ov.style.opacity = '1';
+            ov.style.visibility = 'visible';
+            ov.style.zIndex = '9999999';
+            requestAnimationFrame(() => ov.classList.add('active'));
 
-                // 5. Render
-                renderGradebook();
-            }
+            // 5. Render
+            renderGradebook();
+        }
 
-            function closeGradebook() {
-                const ov = document.getElementById('gradebook-overlay');
-                ov.classList.remove('active');
-                setTimeout(() => ov.style.display = 'none', 300);
-            }
+        function closeGradebook() {
+            const ov = document.getElementById('gradebook-overlay');
+            ov.classList.remove('active');
+            setTimeout(() => ov.style.display = 'none', 300);
+        }
 
-            function renderGradebook() {
-                const thead = document.querySelector('#gradebook-master-table thead');
-                const tbody = document.getElementById('gradebook-body');
-                tbody.innerHTML = '<tr><td colspan="20">جاري تحميل البيانات من السحابة...</td></tr>';
+        function renderGradebook() {
+            const thead = document.querySelector('#gradebook-master-table thead');
+            const tbody = document.getElementById('gradebook-body');
+            tbody.innerHTML = '<tr><td colspan="20">جاري تحميل البيانات من السحابة...</td></tr>';
 
-                // HEADER STRUCTURE
-                thead.innerHTML = `
+            // HEADER STRUCTURE
+            thead.innerHTML = `
                 <tr>
                     <th rowspan="3" style="width:50px;">ت</th>
                     <th rowspan="3" style="width:250px;">اسم الطالب الثلاثي</th>
@@ -3124,36 +3090,36 @@
                 </tr>
             `;
 
-                // FETCH DATA
-                firebase.database().ref('users').once('value').then(snapshot => {
-                    const users = snapshot.val() || {};
-                    gbStudents = [];
+            // FETCH DATA
+            firebase.database().ref('users').once('value').then(snapshot => {
+                const users = snapshot.val() || {};
+                gbStudents = [];
 
-                    Object.keys(users).forEach(uid => {
-                        const u = users[uid];
-                        if (u.role === 'student' && u.major === gbClassId) { // Filter by Class
-                            // Get Existing Grade Data for this Subject
-                            const g = (u.gradesDetail && u.gradesDetail[gbSubject]) ? u.gradesDetail[gbSubject] : {};
-                            gbStudents.push({ uid: uid, name: u.name, data: g });
-                        }
-                    });
-
-                    // RENDER ROWS
-                    tbody.innerHTML = '';
-                    if (gbStudents.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="20">لا يوجد طلاب</td></tr>';
-                        return;
+                Object.keys(users).forEach(uid => {
+                    const u = users[uid];
+                    if (u.role === 'student' && u.major === gbClassId) { // Filter by Class
+                        // Get Existing Grade Data for this Subject
+                        const g = (u.gradesDetail && u.gradesDetail[gbSubject]) ? u.gradesDetail[gbSubject] : {};
+                        gbStudents.push({ uid: uid, name: u.name, data: g });
                     }
+                });
 
-                    gbStudents.forEach((s, index) => {
-                        const d = s.data || {}; // Saved Data Interafce
-                        const bg = index % 2 === 0 ? '#fff' : '#f9f9f9';
+                // RENDER ROWS
+                tbody.innerHTML = '';
+                if (gbStudents.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="20">لا يوجد طلاب</td></tr>';
+                    return;
+                }
 
-                        // Helper to generate Input
-                        const inp = (key, max, val) => `<input type="number" id="${key}_${s.uid}" value="${val || ''}" max="${max}" onchange="calcGB('${s.uid}')" placeholder="-">`;
-                        const read = (key, val) => `<input type="number" id="${key}_${s.uid}" value="${val || ''}" disabled style="background:rgba(0,0,0,0.05); font-weight:bold;">`;
+                gbStudents.forEach((s, index) => {
+                    const d = s.data || {}; // Saved Data Interafce
+                    const bg = index % 2 === 0 ? '#fff' : '#f9f9f9';
 
-                        const row = `
+                    // Helper to generate Input
+                    const inp = (key, max, val) => `<input type="number" id="${key}_${s.uid}" value="${val || ''}" max="${max}" onchange="calcGB('${s.uid}')" placeholder="-">`;
+                    const read = (key, val) => `<input type="number" id="${key}_${s.uid}" value="${val || ''}" disabled style="background:rgba(0,0,0,0.05); font-weight:bold;">`;
+
+                    const row = `
                     <tr style="background:${bg}">
                         <td>${index + 1}</td>
                         <td style="text-align:right; padding-right:10px;">${s.name}</td>
@@ -3181,186 +3147,223 @@
                         <td style="background:#ffcccc">${inp('mid_year', 100, d.mid_year)}</td>
                     </tr>
                     `;
-                        tbody.innerHTML += row;
-                    });
+                    tbody.innerHTML += row;
                 });
+            });
+        }
+
+        function calcGB(uid) {
+            const val = (k) => parseFloat(document.getElementById(`${k}_${uid}`).value) || 0;
+            const set = (k, v) => document.getElementById(`${k}_${uid}`).value = v;
+
+            // Month 1
+            const m1_oral = Math.min(20, val('m1_att') + val('m1_quiz') + val('m1_note') + val('m1_beh'));
+            set('m1_oral', m1_oral);
+            const m1_total = Math.min(100, m1_oral + val('m1_exam'));
+            set('m1_total', m1_total);
+
+            // Month 2
+            const m2_oral = Math.min(20, val('m2_att') + val('m2_quiz') + val('m2_note') + val('m2_beh'));
+            set('m2_oral', m2_oral);
+            const m2_total = Math.min(100, m2_oral + val('m2_exam'));
+            set('m2_total', m2_total);
+
+            // Sem 1 Average
+            // Assume Average of Ends? Or Sum? Usually Average of M1 + M2.
+            const sem1 = Math.round((m1_total + m2_total) / 2);
+            set('sem1_avg', sem1);
+        }
+
+        function saveGradebookAll() {
+            const btn = document.querySelector('#gradebook-overlay button');
+            btn.innerText = 'جاري الحفظ...';
+
+            let updates = {};
+            gbStudents.forEach(s => {
+                const val = (k) => document.getElementById(`${k}_${s.uid}`).value;
+                const data = {
+                    m1_att: val('m1_att'), m1_quiz: val('m1_quiz'), m1_note: val('m1_note'), m1_beh: val('m1_beh'), m1_oral: val('m1_oral'), m1_exam: val('m1_exam'), m1_total: val('m1_total'),
+                    m2_att: val('m2_att'), m2_quiz: val('m2_quiz'), m2_note: val('m2_note'), m2_beh: val('m2_beh'), m2_oral: val('m2_oral'), m2_exam: val('m2_exam'), m2_total: val('m2_total'),
+                    sem1_avg: val('sem1_avg'), mid_year: val('mid_year')
+                };
+                // Save Detail
+                updates[`users/${s.uid}/gradesDetail/${gbSubject}`] = data;
+                // Sync Simple Grade (For Student Dash View) - Use Sem1 Avg or Mid??
+                // Let's use Sem1 Avg for now as the 'Grade'.
+                if (data.sem1_avg) updates[`users/${s.uid}/grades/${gbSubject}`] = data.sem1_avg;
+            });
+
+            firebase.database().ref().update(updates).then(() => {
+                alert('✅ تم حفظ السجل وتحديث درجات الطلاب بنجاح!');
+                btn.innerText = '💾 حفظ السجل';
+            }).catch(e => alert(e.message));
+        }
+
+        // ================== AI ASSISTANT LOGIC ==================
+        function toggleAI() {
+            const ui = document.getElementById('ai-interface');
+            const isOpen = ui.classList.contains('open');
+            if (isOpen) {
+                ui.classList.remove('open');
+                setTimeout(() => ui.style.display = 'none', 300);
+            } else {
+                ui.style.display = 'flex';
+                // Small delay to allow display:flex to apply before adding class for transition
+                setTimeout(() => ui.classList.add('open'), 10);
+                speak("أهلاً بك في إعدادية النهرين المهنية");
             }
+        }
 
-            function calcGB(uid) {
-                const val = (k) => parseFloat(document.getElementById(`${k}_${uid}`).value) || 0;
-                const set = (k, v) => document.getElementById(`${k}_${uid}`).value = v;
+        function handleAIKey(e) { if (e.key === 'Enter') sendAIMessage(); }
 
-                // Month 1
-                const m1_oral = Math.min(20, val('m1_att') + val('m1_quiz') + val('m1_note') + val('m1_beh'));
-                set('m1_oral', m1_oral);
-                const m1_total = Math.min(100, m1_oral + val('m1_exam'));
-                set('m1_total', m1_total);
+        function sendAIMessage() {
+            const input = document.getElementById('ai-input');
+            const txt = input.value.trim();
+            if (!txt) return;
 
-                // Month 2
-                const m2_oral = Math.min(20, val('m2_att') + val('m2_quiz') + val('m2_note') + val('m2_beh'));
-                set('m2_oral', m2_oral);
-                const m2_total = Math.min(100, m2_oral + val('m2_exam'));
-                set('m2_total', m2_total);
+            // Add User Message
+            addMsg(txt, 'user');
+            input.value = '';
 
-                // Sem 1 Average
-                // Assume Average of Ends? Or Sum? Usually Average of M1 + M2.
-                const sem1 = Math.round((m1_total + m2_total) / 2);
-                set('sem1_avg', sem1);
+            // Process
+            setTimeout(() => {
+                const reply = processAI(txt);
+                addMsg(reply.text, 'bot');
+                speak(reply.voice || reply.text);
+            }, 600);
+        }
+
+        function addMsg(txt, type) {
+            const chat = document.getElementById('ai-messages');
+            const div = document.createElement('div');
+            div.className = `ai-msg ${type}`;
+            div.innerText = txt;
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function processAI(q) {
+            q = q.toLowerCase();
+
+            // Logic Matches
+            if (q.includes('تسجيل') || q.includes('تقديم') || q.includes('قبول'))
+                return { text: "يمكنك التقديم عبر الاستمارة الإلكترونية الموجودة في القائمة الرئيسية. التسجيل مفتوح حالياً.", voice: "التسجيل مفتوح عبر الاستمارة الإلكترونية" };
+
+            if (q.includes('مكان') || q.includes('عنوان') || q.includes('موقع'))
+                return { text: "تقع إعدادية النهرين في المثنى - السماوة - حي المعلمين.", voice: "موقعنا في السماوة حي المعلمين" };
+
+            if (q.includes('مدير') || q.includes('إدارة'))
+                return { text: "مدير المدرسة هو الأستاذ الفاضل (أحمد مهند) - دكتوراه في تكنولوجيا التعليم.", voice: "مدير المدرسة هو الأستاذ أحمد مهند" };
+
+            if (q.includes('قسم') || q.includes('تخصص') || q.includes('فروع'))
+                return { text: "التخصصات المتوفرة: 1. الأمن السيبراني 2. تكرير النفط 3. الأجهزة الطبية 4. الطيران.", voice: "لدينا أقسام مميزة كالأمن السيبراني وتكرير النفط" };
+
+            if (q.includes('دوام') || q.includes('وقت'))
+                return { text: "الدوام يبدأ الساعة 8:00 صباحاً وينتهي الساعة 1:30 ظهراً.", voice: "الدوام من الثامنة للواحدة والنصف" };
+
+            if (q.includes('مرحبا') || q.includes('هلا') || q.includes('السلام'))
+                return { text: "أهلاً بك! كيف يمكنني مساعدتك اليوم؟ 😊", voice: "أهلا بك في مدرستنا" };
+
+            return { text: "عذراً، لم أفهم السؤال تماماً. يمكنك سؤالي عن التقديم، الأقسام، أو الموقع.", voice: "لم أفهم السؤال، جرب صياغة أخرى" };
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'ar-SA';
+                u.rate = 1.1;
+                u.pitch = 1;
+                window.speechSynthesis.speak(u);
             }
-
-            function saveGradebookAll() {
-                const btn = document.querySelector('#gradebook-overlay button');
-                btn.innerText = 'جاري الحفظ...';
-
-                let updates = {};
-                gbStudents.forEach(s => {
-                    const val = (k) => document.getElementById(`${k}_${s.uid}`).value;
-                    const data = {
-                        m1_att: val('m1_att'), m1_quiz: val('m1_quiz'), m1_note: val('m1_note'), m1_beh: val('m1_beh'), m1_oral: val('m1_oral'), m1_exam: val('m1_exam'), m1_total: val('m1_total'),
-                        m2_att: val('m2_att'), m2_quiz: val('m2_quiz'), m2_note: val('m2_note'), m2_beh: val('m2_beh'), m2_oral: val('m2_oral'), m2_exam: val('m2_exam'), m2_total: val('m2_total'),
-                        sem1_avg: val('sem1_avg'), mid_year: val('mid_year')
-                    };
-                    // Save Detail
-                    updates[`users/${s.uid}/gradesDetail/${gbSubject}`] = data;
-                    // Sync Simple Grade (For Student Dash View) - Use Sem1 Avg or Mid??
-                    // Let's use Sem1 Avg for now as the 'Grade'.
-                    if (data.sem1_avg) updates[`users/${s.uid}/grades/${gbSubject}`] = data.sem1_avg;
-                });
-
-                firebase.database().ref().update(updates).then(() => {
-                    alert('✅ تم حفظ السجل وتحديث درجات الطلاب بنجاح!');
-                    btn.innerText = '💾 حفظ السجل';
-                }).catch(e => alert(e.message));
-            }
-
-            // ================== AI ASSISTANT LOGIC ==================
-            function toggleAI() {
-                const ui = document.getElementById('ai-interface');
-                const isOpen = ui.classList.contains('open');
-                if (isOpen) {
-                    ui.classList.remove('open');
-                    setTimeout(() => ui.style.display = 'none', 300);
-                } else {
-                    ui.style.display = 'flex';
-                    // Small delay to allow display:flex to apply before adding class for transition
-                    setTimeout(() => ui.classList.add('open'), 10);
-                    speak("أهلاً بك في إعدادية النهرين المهنية");
-                }
-            }
-
-            function handleAIKey(e) { if (e.key === 'Enter') sendAIMessage(); }
-
-            function sendAIMessage() {
-                const input = document.getElementById('ai-input');
-                const txt = input.value.trim();
-                if (!txt) return;
-
-                // Add User Message
-                addMsg(txt, 'user');
-                input.value = '';
-
-                // Process
-                setTimeout(() => {
-                    const reply = processAI(txt);
-                    addMsg(reply.text, 'bot');
-                    speak(reply.voice || reply.text);
-                }, 600);
-            }
-
-            function addMsg(txt, type) {
-                const chat = document.getElementById('ai-messages');
-                const div = document.createElement('div');
-                div.className = `ai-msg ${type}`;
-                div.innerText = txt;
-                chat.appendChild(div);
-                chat.scrollTop = chat.scrollHeight;
-            }
-
-            function processAI(q) {
-                q = q.toLowerCase();
-
-                // Logic Matches
-                if (q.includes('تسجيل') || q.includes('تقديم') || q.includes('قبول'))
-                    return { text: "يمكنك التقديم عبر الاستمارة الإلكترونية الموجودة في القائمة الرئيسية. التسجيل مفتوح حالياً.", voice: "التسجيل مفتوح عبر الاستمارة الإلكترونية" };
-
-                if (q.includes('مكان') || q.includes('عنوان') || q.includes('موقع'))
-                    return { text: "تقع إعدادية النهرين في المثنى - السماوة - حي المعلمين.", voice: "موقعنا في السماوة حي المعلمين" };
-
-                if (q.includes('مدير') || q.includes('إدارة'))
-                    return { text: "مدير المدرسة هو الأستاذ الفاضل (أحمد مهند) - دكتوراه في تكنولوجيا التعليم.", voice: "مدير المدرسة هو الأستاذ أحمد مهند" };
-
-                if (q.includes('قسم') || q.includes('تخصص') || q.includes('فروع'))
-                    return { text: "التخصصات المتوفرة: 1. الأمن السيبراني 2. تكرير النفط 3. الأجهزة الطبية 4. الطيران.", voice: "لدينا أقسام مميزة كالأمن السيبراني وتكرير النفط" };
-
-                if (q.includes('دوام') || q.includes('وقت'))
-                    return { text: "الدوام يبدأ الساعة 8:00 صباحاً وينتهي الساعة 1:30 ظهراً.", voice: "الدوام من الثامنة للواحدة والنصف" };
-
-                if (q.includes('مرحبا') || q.includes('هلا') || q.includes('السلام'))
-                    return { text: "أهلاً بك! كيف يمكنني مساعدتك اليوم؟ 😊", voice: "أهلا بك في مدرستنا" };
-
-                return { text: "عذراً، لم أفهم السؤال تماماً. يمكنك سؤالي عن التقديم، الأقسام، أو الموقع.", voice: "لم أفهم السؤال، جرب صياغة أخرى" };
-            }
-
-            function speak(text) {
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const u = new SpeechSynthesisUtterance(text);
-                    u.lang = 'ar-SA';
-                    u.rate = 1.1;
-                    u.pitch = 1;
-                    window.speechSynthesis.speak(u);
-                }
-            }
+        }
 
 
 
-        </script>
+    </script>
 
-        <!-- NEW GRADEBOOK OVERLAY (Relocated for Z-Index Safety) -->
-        <div id="gradebook-overlay" class="dashboard-overlay"
-            style="z-index: 999999; background: #fff; color: #000; overflow:hidden; position:fixed; top:0; left:0; width:100%; height:100%; display:none;">
+    <!-- NEW GRADEBOOK OVERLAY (Relocated for Z-Index Safety) -->
+    <div id="gradebook-overlay" class="dashboard-overlay"
+        style="z-index: 999999; background: #fff; color: #000; overflow:hidden; position:fixed; top:0; left:0; width:100%; height:100%; display:none;">
 
-            <i class="fa-solid fa-xmark close-dash"
-                style="color:red; z-index:1000000; position:absolute; left:20px; top:20px; font-size:2rem; cursor:pointer;"
-                onclick="closeGradebook()"></i>
+        <i class="fa-solid fa-xmark close-dash"
+            style="color:red; z-index:1000000; position:absolute; left:20px; top:20px; font-size:2rem; cursor:pointer;"
+            onclick="closeGradebook()"></i>
 
-            <div class="container"
-                style="width: 100%; height: 100%; padding: 20px; display: flex; flex-direction: column; box-sizing: border-box;">
+        <div class="container"
+            style="width: 100%; height: 100%; padding: 20px; display: flex; flex-direction: column; box-sizing: border-box;">
 
-                <!-- Header -->
-                <div
-                    style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom: 2px solid #000; padding-bottom: 10px;">
-                    <div style="text-align: right;">
-                        <h2 style="color:black; font-family:'Cairo'; font-size:1.5rem; margin:0;">سجل درجات المدرسين /
-                            اعدادية النهرين المهنية</h2>
-                        <p style="margin:5px 0 0 0; font-size:1rem;">العام الدراسي 2024-2025</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <h3 style="margin:0; color:#000;">المادة: <span id="gb-subject" style="color:blue">--</span>
-                        </h3>
-                        <h4 style="margin:0; color:#000;">الصف: <span id="gb-class" style="color:red">--</span></h4>
-                    </div>
-                    <div>
-                        <button class="btn-glow"
-                            style="background:#00d26a; width:150px; color:#fff; text-shadow:none; font-weight:bold;"
-                            onclick="saveGradebookAll()">💾 حفظ السجل</button>
-                    </div>
+            <!-- Header -->
+            <div
+                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom: 2px solid #000; padding-bottom: 10px;">
+                <div style="text-align: right;">
+                    <h2 style="color:black; font-family:'Cairo'; font-size:1.5rem; margin:0;">سجل درجات المدرسين /
+                        اعدادية النهرين المهنية</h2>
+                    <p style="margin:5px 0 0 0; font-size:1rem;">العام الدراسي 2024-2025</p>
                 </div>
-
-                <!-- Table Container -->
-                <div style="flex: 1; overflow: auto; border: 2px solid #000; position:relative;">
-                    <table class="gradebook-table" id="gradebook-master-table"
-                        style="width: 100%; border-collapse: collapse; min-width: 1500px;">
-                        <thead style="position: sticky; top: 0; z-index: 10; background: #e0e0e0;">
-                            <!-- Generated by JS -->
-                        </thead>
-                        <tbody id="gradebook-body">
-                            <!-- JS Generated Rows -->
-                        </tbody>
-                    </table>
+                <div style="text-align: center;">
+                    <h3 style="margin:0; color:#000;">المادة: <span id="gb-subject" style="color:blue">--</span>
+                    </h3>
+                    <h4 style="margin:0; color:#000;">الصف: <span id="gb-class" style="color:red">--</span></h4>
+                </div>
+                <div>
+                    <button class="btn-glow"
+                        style="background:#00d26a; width:150px; color:#fff; text-shadow:none; font-weight:bold;"
+                        onclick="saveGradebookAll()">💾 حفظ السجل</button>
                 </div>
             </div>
+
+            <!-- Table Container -->
+            <div style="flex: 1; overflow: auto; border: 2px solid #000; position:relative;">
+                <table class="gradebook-table" id="gradebook-master-table"
+                    style="width: 100%; border-collapse: collapse; min-width: 1500px;">
+                    <thead style="position: sticky; top: 0; z-index: 10; background: #e0e0e0;">
+                        <!-- Generated by JS -->
+                    </thead>
+                    <tbody id="gradebook-body">
+                        <!-- JS Generated Rows -->
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+
+    <!-- AI Assistant (Moved to Root) -->
+    <div id="ai-orb" onclick="toggleAI()">
+        <div class="orb-core"></div>
+        <div class="orb-ring ring-1"></div>
+        <div class="orb-ring ring-2"></div>
+        <div class="orb-ring ring-3"></div>
+    </div>
+
+    <div id="ai-interface" class="glass-panel">
+        <div class="ai-header">
+            <span><i class="fa-solid fa-robot"></i> المساعد (Nahr-AI)</span>
+            <i class="fa-solid fa-xmark close-ai" onclick="toggleAI()"></i>
+        </div>
+        <div id="ai-messages">
+            <div class="ai-msg bot">مرحباً بك! 👋<br>أنا مساعدك الذكي.<br>اسألني عن: التقديم، الأقسام، المدير، أو
+                الموقع.</div>
+        </div>
+
+        <!-- Suggestions -->
+        <div class="ai-suggestions"
+            style="padding: 10px; display:flex; gap:5px; flex-wrap:wrap; justify-content:center;">
+            <button class="btn-glow" style="font-size:0.7rem; padding:5px 10px;"
+                onclick="document.getElementById('ai-input').value='من المدير؟'; sendAIMessage()">من
+                المدير؟</button>
+            <button class="btn-glow" style="font-size:0.7rem; padding:5px 10px;"
+                onclick="document.getElementById('ai-input').value='التخصصات'; sendAIMessage()">التخصصات</button>
+            <button class="btn-glow" style="font-size:0.7rem; padding:5px 10px;"
+                onclick="document.getElementById('ai-input').value='اين الموقع؟'; sendAIMessage()">الموقع</button>
+        </div>
+
+        <div class="ai-input-area">
+            <input type="text" id="ai-input" placeholder="اكتب سؤالك هنا..." onkeypress="handleAIKey(event)">
+            <i class="fa-solid fa-paper-plane" onclick="sendAIMessage()"
+                style="cursor: pointer; color: var(--secondary); font-size: 1.2rem;"></i>
+        </div>
+    </div>
 </body>
 
 </html>
