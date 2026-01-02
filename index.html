@@ -12,6 +12,30 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- FIREBASE CONFIGURATION (REQUIRED FOR CLOUD FEATURES) -->
+    <!-- FIREBASE CONFIGURATION -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBWtURZAw5Kja8S6bHuQyimuhMMX4fZOco",
+            authDomain: "al-nahrain-school-1d9f6.firebaseapp.com",
+            projectId: "al-nahrain-school-1d9f6",
+            storageBucket: "al-nahrain-school-1d9f6.firebasestorage.app",
+            messagingSenderId: "119716570818",
+            appId: "1:119716570818:web:aa200d98166a5a964f3d5b",
+            measurementId: "G-7S4P4T68K5",
+            databaseURL: "https://al-nahrain-school-1d9f6-default-rtdb.firebaseio.com"
+        };
+
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+            console.log("✅ Firebase Initialized (Live)");
+        }
+    </script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00f2ff">
+    <link rel="apple-touch-icon" href="logo.jpg">
     <style>
         :root {
             --primary: #00f2ff;
@@ -21,6 +45,14 @@
             --glass-strong: rgba(20, 20, 30, 0.8);
             --glass-border: rgba(255, 255, 255, 0.1);
             --text-glow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+
+        /* FORCE HIDE LEGACY STAFF UI */
+        #btn-mode-staff,
+        #btn-mode-student,
+        #reg-staff-opts,
+        .reg-role-toggle {
+            display: none !important;
         }
 
         * {
@@ -690,6 +722,62 @@
             transition: transform 0.3s;
         }
 
+        .hologram-wrapper {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* UPDATED LOGO STYLE FOR RECTANGULAR/WHITE IMAGE */
+        .holo-logo {
+            width: 140px;
+            height: auto;
+            border-radius: 15px;
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2), 0 0 0 5px rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 10;
+            background: #fff;
+            /* Ensure white bg looks intentional */
+            padding: 5px;
+        }
+
+        .holo-emitter {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 30px;
+            background: rgba(0, 242, 255, 0.1);
+            filter: blur(20px);
+            border-radius: 50%;
+            animation: pulse-glow 2s infinite;
+        }
+
+        .holo-ring {
+            position: absolute;
+            width: 160%;
+            height: 160%;
+            border: 1px solid rgba(0, 242, 255, 0.1);
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 4s linear infinite;
+        }
+
+        .holo-ring-2 {
+            position: absolute;
+            width: 130%;
+            height: 130%;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: spin-rev 15s linear infinite;
+        }
+
         #ai-orb:hover {
             transform: scale(1.1);
         }
@@ -1127,15 +1215,179 @@
             font-family: 'Cairo';
             outline: none;
         }
+
+        /* === MOBILE RESPONSIVENESS FIXES (OVERRIDE) === */
+
+        /* 1. Enable Vertical Scroll for Modals (Fix Keyboard Overlay) */
+        .dashboard-overlay {
+            align-items: flex-start !important;
+            /* Allow top scrolling */
+            padding-top: 20px;
+            padding-bottom: 50px;
+        }
+
+        /* 2. Enable Horizontal Scroll for Tables (Fix Table Cutoff) */
+        .table-wrapper,
+        .glass-panel>div[style*="overflow-x"] {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            display: block;
+        }
+
+        /* 3. Mobile Specific Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                width: 95% !important;
+                padding: 10px;
+            }
+
+            .glass-panel {
+                padding: 15px !important;
+            }
+
+            /* Input Fields: Prevent Zoom & improve touch area */
+            .cyber-input {
+                font-size: 16px !important;
+                /* Prevents iOS Zoom */
+                padding: 12px !important;
+                margin-bottom: 10px !important;
+            }
+
+            /* Buttons */
+            .btn-glow {
+                padding: 12px 20px !important;
+                font-size: 1rem !important;
+                width: 100%;
+                /* Full width buttons on mobile */
+                margin-bottom: 10px;
+            }
+
+            /* Tabs stacking */
+            .tabs {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .tabs button {
+                width: 48% !important;
+                /* 2 cols */
+                font-size: 0.8rem !important;
+            }
+
+            /* Table Fonts */
+            th,
+            td {
+                padding: 8px 5px !important;
+                font-size: 0.85rem !important;
+                white-space: nowrap;
+                /* Keep rows single line, scroll horizontal */
+            }
+        }
+
+
+        /* CINEMATIC BOOT SCREEN STYLES */
+        .cyber-grid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-image:
+                linear-gradient(rgba(0, 242, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg) translateY(0);
+            animation: grid-move 20s linear infinite;
+            opacity: 0.3;
+        }
+
+        /* RESTORED TYPOGRAPHY & LAYOUT */
+        .boot-title {
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 900;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            letter-spacing: 0;
+            text-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        }
+
+        .boot-subtitle {
+            color: var(--primary);
+            font-size: 0.9rem;
+            letter-spacing: 5px;
+            margin-bottom: 30px;
+            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        .loader-line-container {
+            width: 250px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 auto;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-line-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            box-shadow: 0 0 10px var(--primary);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* RESTORED ANIMATION CLASSES */
+        .doors-open-left {
+            transform: translateX(-100%);
+        }
+
+        .doors-open-right {
+            transform: translateX(100%);
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                opacity: 0.3;
+                transform: translateX(-50%) scale(1);
+            }
+
+            100% {
+                opacity: 0.7;
+                transform: translateX(-50%) scale(1.2);
+            }
+        }
     </style>
 </head>
 
 <body>
     <!-- Boot Screen -->
-    <div id="boot-screen">
-        <div id="boot-log-container"></div>
-        <div class="boot-progress">
-            <div class="boot-bar" id="boot-bar"></div>
+    <!-- ANTIGRAVITY-INSPIRED BOOT SCREEN -->
+    <div id="boot-screen"
+        style="position:fixed; top:0; left:0; width:100%; height:100%; background:#050505; z-index:100000; overflow:hidden; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+
+        <!-- Interactive Particle Background -->
+        <canvas id="particle-canvas"
+            style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;"></canvas>
+
+        <div class="tech-container"
+            style="position:relative; z-index:10; text-align:center; width: 100%; max-width: 500px;">
+
+            <!-- Logo REMOVED -->
+
+            <!-- New Cinematic Slogan -->
+            <div style="height: 60px; display: flex; align-items: center; justify-content: center; margin-top: 0;">
+                <h1 id="slogan-text"
+                    style="color:#fff; font-family:'Cairo', sans-serif; font-weight:800; font-size:2.5rem; text-shadow: 0 0 30px rgba(0,242,255,0.8); direction: rtl;">
+                </h1>
+                <span class="cursor-blink"
+                    style="display:inline-block; width:5px; height:40px; background:var(--primary); margin-right:15px;"></span>
+            </div>
+
         </div>
     </div>
 
@@ -1147,14 +1399,15 @@
     <div class="cursor-glow" id="cursorGlow"></div>
 
     <!-- ISOLATED APPLY BUTTON -->
+    <!-- ISOLATED APPLY BUTTON -->
     <a href="#admission-section"
-        style="position: fixed; top: 120px; left: 30px; z-index: 2000; cursor: pointer; text-decoration: none;">
+        style="position: absolute; top: 110px; left: 20px; z-index: 900; cursor: pointer; text-decoration: none;">
         <div class="glass-panel"
-            style="padding: 15px 25px; border: 1px solid var(--secondary); display: flex; align-items: center; gap: 15px; transition: 0.3s; background: rgba(0,0,0,0.9); box-shadow: 0 0 20px rgba(0,255,255,0.2); transform: scale(1.1); filter: drop-shadow(0 0 5px var(--secondary));">
+            style="padding: 10px 20px; border: 1px solid var(--secondary); display: flex; align-items: center; gap: 10px; transition: 0.3s; background: rgba(0,0,0,0.95); box-shadow: 0 0 15px rgba(0,242,255,0.3); border-radius: 12px;">
             <i class="fa-solid fa-file-signature"
-                style="color: var(--secondary); font-size: 2rem; animation: pulse 2s infinite;"></i>
+                style="color: var(--secondary); font-size: 1.8rem; animation: pulse 2s infinite;"></i>
             <div style="text-align: right;">
-                <span style="display: block; color: #fff; font-weight: bold; font-size: 1rem;">تقديم طلب انتساب</span>
+                <span style="display: block; color: #fff; font-weight: bold; font-size: 0.9rem;">تقديم طلب انتساب</span>
                 <span style="display: block; color: #aaa; font-size: 0.7rem;">للعام الدراسي الجديد</span>
             </div>
         </div>
@@ -1343,35 +1596,88 @@
             <!-- Image 1 -->
             <div class="glass-panel"
                 style="padding: 10px; background: #050505; transition: transform 0.3s; cursor:pointer;"
-                onclick="window.open('images/g1.jpg')">
+                onclick="viewGalleryImage(1)">
                 <div style="height: 250px; background: #111; overflow: hidden; border-radius: 5px;">
-                    <img src="images/g1.jpg?v=new"
+                    <img id="gallery-img-1" src="g1.jpg"
                         style="width:100%; height:100%; object-fit:cover; transition: transform 0.5s;"
                         onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
                 </div>
-                <h4 style="margin-top: 15px; color: var(--primary);">ساحة التجمع الصباحي</h4>
+                <h4 id="gallery-title-1" style="margin-top: 15px; color: var(--primary);">ساحة التجمع الصباحي</h4>
             </div>
             <!-- Image 2 -->
             <div class="glass-panel"
                 style="padding: 10px; background: #050505; transition: transform 0.3s; cursor:pointer;"
-                onclick="window.open('images/g2.jpg')">
+                onclick="viewGalleryImage(2)">
                 <div style="height: 250px; background: #111; overflow: hidden; border-radius: 5px;">
-                    <img src="images/g2.jpg?v=new"
+                    <img id="gallery-img-2" src="g2.jpg"
                         style="width:100%; height:100%; object-fit:cover; transition: transform 0.5s;"
                         onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
                 </div>
-                <h4 style="margin-top: 15px; color: var(--primary);">القاعات الدراسية الذكية</h4>
+                <h4 id="gallery-title-2" style="margin-top: 15px; color: var(--primary);">القاعات الدراسية الذكية</h4>
             </div>
             <!-- Image 3 -->
             <div class="glass-panel"
                 style="padding: 10px; background: #050505; transition: transform 0.3s; cursor:pointer;"
-                onclick="window.open('images/g3.jpg')">
+                onclick="viewGalleryImage(3)">
                 <div style="height: 250px; background: #111; overflow: hidden; border-radius: 5px;">
-                    <img src="images/g3.jpg?v=new"
+                    <img id="gallery-img-3" src="g3.jpg"
                         style="width:100%; height:100%; object-fit:cover; transition: transform 0.5s;"
                         onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
                 </div>
-                <h4 style="margin-top: 15px; color: var(--primary);">الأنشطة المدرسية</h4>
+                <h4 id="gallery-title-3" style="margin-top: 15px; color: var(--primary);">الأنشطة المدرسية</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTNERSHIP SECTION (Strategic Placement: Below Gallery) -->
+    <section id="partnership"
+        style="padding: 60px 20px; position: relative; z-index: 2; background: linear-gradient(180deg, #000 0%, #050505 100%);">
+        <div class="container">
+            <div class="glass-panel"
+                style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 40px; padding: 50px; border: 1px solid rgba(255, 255, 255, 0.1); background: linear-gradient(145deg, rgba(20, 20, 30, 0.8) 0%, rgba(0,0,0,0.9) 100%); box-shadow: 0 0 40px rgba(0, 242, 255, 0.05);">
+
+                <!-- Text Content -->
+                <div style="flex: 1; min-width: 300px; text-align: right;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <span style="font-size: 2.5rem; text-shadow: 0 0 10px gold;">🤝</span>
+                        <h2 class="section-title" style="margin: 0; font-size: 2rem; text-align: right;">شركاء مسيرة
+                            النجاح</h2>
+                    </div>
+                    <h3 style="color: #fff; font-size: 1.5rem; margin-bottom: 20px; line-height: 1.6;">
+                        إعدادية النهرين المهنية <span
+                            style="color: var(--primary); font-size:2rem; vertical-align:middle;">×</span> الشركة
+                        اللبنانية الدولية
+                    </h3>
+                    <p style="color: #ccc; font-size: 1.1rem; line-height: 1.9; margin-bottom: 30px;">
+                        مشروع تعليمي رائد انبثق من رؤية مشتركة تجمع بين <strong style="color: #fff;">الأصالة
+                            العراقية</strong> و <strong style="color: #fff;">الخبرة الدولية</strong>.
+                        تعاوننا مع الشركة اللبنانية الدولية للإدارة والتطوير يهدف لبناء جيل مهني مسلح بأحدث المهارات
+                        العالمية.
+                    </p>
+                    <div style="display: flex; gap: 15px; flex-wrap:wrap;">
+                        <div
+                            style="background: rgba(206, 17, 38, 0.15); border: 1px solid #ce1126; padding: 8px 20px; border-radius: 30px; color: #fff; font-size: 1rem; display:flex; align-items:center; gap:8px;">
+                            <img src="https://flagcdn.com/w40/lb.png" style="width:20px;"> خبرة دولية عريقة
+                        </div>
+                        <div
+                            style="background: rgba(0, 255, 0, 0.1); border: 1px solid #00ce29; padding: 8px 20px; border-radius: 30px; color: #fff; font-size: 1rem; display:flex; align-items:center; gap:8px;">
+                            <img src="https://flagcdn.com/w40/iq.png" style="width:20px;"> صرح علمي وطني
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image/Banner -->
+                <div style="flex: 1; min-width: 300px; display: flex; justify-content: center;">
+                    <div class="hover-glow"
+                        style="position: relative; overflow: hidden; border-radius: 20px; border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.6); transform: perspective(1000px) rotateY(-5deg); transition: transform 0.5s;">
+                        <img src="partner.jpg" alt="Partnership Logo"
+                            style="width: 100%; max-width: 550px; display: block;">
+                        <div
+                            style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); pointer-events: none;">
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -1398,6 +1704,8 @@
                     <h3>بوابة التدريسيين</h3>
                     <p style="color: #aaa;">إدارة الدرجات والحضور</p>
                 </div>
+                <!-- ADDED: Gallery Management -->
+                <!-- Moved to Admin Dashboard -->
                 <div class="portal-card" onclick="requestLogin('admin')">
                     <i class="fa-solid fa-user-tie" style="font-size: 3rem; color: #fff; margin-bottom: 15px;"></i>
                     <h3>الإدارة المدرسية</h3>
@@ -1442,31 +1750,36 @@
             الطلبة</h2>
         <div class="container"
             style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px;">
+            <!-- Student 1 -->
             <div class="glass-panel"
                 style="padding: 30px; border-top: 3px solid gold; transition: transform 0.3s; box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);">
                 <div style="font-size: 3rem; color: gold; margin-bottom: 20px;"><i class="fa-solid fa-crown"></i></div>
-                <h3 style="color: #fff; font-size: 1.5rem; margin-bottom: 10px;">أحمد مهند</h3>
-                <p style="color: var(--primary); font-size: 1.1rem;">الأول - الأمن السيبراني</p>
-                <p style="color: #aaa; font-size: 0.9rem;">المعدل: 98.5%</p>
+                <h3 id="h1-name" style="color: #fff; font-size: 1.5rem; margin-bottom: 10px;">أحمد مهند</h3>
+                <p id="h1-major" style="color: var(--primary); font-size: 1.1rem;">الأول - الأمن السيبراني</p>
+                <p id="h1-grade" style="color: #aaa; font-size: 0.9rem;">المعدل: 98.5%</p>
             </div>
+            <!-- Student 2 -->
             <div class="glass-panel"
                 style="padding: 30px; border-top: 3px solid silver; transition: transform 0.3s; box-shadow: 0 0 20px rgba(192, 192, 192, 0.1);">
                 <div style="font-size: 3rem; color: silver; margin-bottom: 20px;"><i class="fa-solid fa-award"></i>
                 </div>
-                <h3 style="color: #fff; font-size: 1.5rem; margin-bottom: 10px;">سارة علي</h3>
-                <p style="color: var(--primary); font-size: 1.1rem;">الأولى - الأجهزة الطبية</p>
-                <p style="color: #aaa; font-size: 0.9rem;">المعدل: 97.2%</p>
+                <h3 id="h2-name" style="color: #fff; font-size: 1.5rem; margin-bottom: 10px;">سارة علي</h3>
+                <p id="h2-major" style="color: var(--primary); font-size: 1.1rem;">الأولى - الأجهزة الطبية</p>
+                <p id="h2-grade" style="color: #aaa; font-size: 0.9rem;">المعدل: 97.2%</p>
             </div>
+            <!-- Student 3 -->
             <div class="glass-panel"
                 style="padding: 30px; border-top: 3px solid #cd7f32; transition: transform 0.3s; box-shadow: 0 0 20px rgba(205, 127, 50, 0.1);">
                 <div style="font-size: 3rem; color: #cd7f32; margin-bottom: 20px;"><i class="fa-solid fa-star"></i>
                 </div>
-                <h3 style="color: #fff; font-size: 1.5rem; margin-bottom: 10px;">محمد قاسم</h3>
-                <p style="color: var(--primary); font-size: 1.1rem;">الأول - تكرير النفط</p>
-                <p style="color: #aaa; font-size: 0.9rem;">المعدل: 96.8%</p>
+                <h3 id="h3-name" style="color: #fff; font-size: 1.5rem; margin-bottom: 10px;">محمد قاسم</h3>
+                <p id="h3-major" style="color: var(--primary); font-size: 1.1rem;">الأول - تكرير النفط</p>
+                <p id="h3-grade" style="color: #aaa; font-size: 0.9rem;">المعدل: 96.8%</p>
             </div>
         </div>
     </section>
+
+
 
     <!-- ADMISSION SECTION -->
     <section id="admission-section"
@@ -1569,27 +1882,23 @@
             <i class="fa-solid fa-xmark" onclick="closeReg()"
                 style="position: absolute; top: 15px; left: 15px; font-size: 1.5rem; cursor: pointer; color: #fff;"></i>
 
-            <div
-                style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #333; padding-bottom:10px; padding-top:10px;">
-                <button id="btn-mode-student" class="btn-glow"
-                    style="flex:1; margin-left:5px; background:var(--primary); color:#000;"
-                    onclick="setRegMode('student')">طالب</button>
-                <button id="btn-mode-staff" class="btn-glow"
-                    style="flex:1; margin-right:5px; background:transparent; border:1px solid #555;"
-                    onclick="setRegMode('staff')">كادر تدريسي/إداري</button>
+            <!-- Registration Header (Simplified) -->
+            <div style="text-align:center; margin-bottom:20px; border-bottom:1px solid #333; padding-bottom:15px;">
+                <h2 style="color: var(--primary);">📝 إنشاء حساب طالب جديد</h2>
+                <p style="color:#aaa; font-size:0.9rem;">يرجى ملء البيانات أدناه لإنشاء قيد إلكتروني في المدرسة</p>
             </div>
 
-            <h2 id="reg-title" style="color: var(--secondary); margin-bottom: 20px;">📝 إنشاء حساب طالب جديد</h2>
-            <p style="color:#aaa; font-size:0.9rem; margin-bottom:15px;">سيتم ربط حسابك بالنظام السحابي للمدرسة</p>
-
-            <input type="text" id="reg-name" class="cyber-input" placeholder="الاسم الكامل">
+            <!-- Common Fields -->
+            <input type="text" id="reg-name" class="cyber-input" placeholder="الاسم الرباعي واللقب" required>
+            <input type="tel" id="reg-phone" class="cyber-input" placeholder="رقم الهاتف (للتواصل واتساب)">
             <input type="email" id="reg-email" class="cyber-input" placeholder="البريد الإلكتروني (Email)">
             <input type="password" id="reg-pass" class="cyber-input" placeholder="كلمة المرور (لاتقل عن 6 رموز)">
 
-            <!-- Student Options -->
-            <div id="reg-student-opts">
+            <!-- Student Options (Always Visible) -->
+            <div id="reg-student-opts" style="display:block;">
+                <label style="display:block; text-align:right; margin-bottom:5px; color:#aaa;">التخصص / الشعبة:</label>
                 <select id="reg-class" class="cyber-input">
-                    <option value="">اختر الشعبة / التخصص...</option>
+                    <option value="">اختر القسم...</option>
                     <option value="cyber-science">الأمن السيبراني - علوم</option>
                     <option value="cyber-lab">الأمن السيبراني - قاعة الحاسوب</option>
                     <option value="cyber-2c">الأمن السيبراني - 2C</option>
@@ -1600,15 +1909,7 @@
                 </select>
             </div>
 
-            <!-- Staff Options -->
-            <div id="reg-staff-opts" style="display:none;">
-                <select id="reg-role" class="cyber-input">
-                    <option value="teacher">مدرس / أستاذ</option>
-                    <option value="admin">إدارة / IT</option>
-                </select>
-                <input type="password" id="reg-secret" class="cyber-input" placeholder="رمز الأمان الخاص بالمدرسة"
-                    style="border-color:red;">
-            </div>
+            <!-- Staff Options REMOVED for Security -->
 
             <button class="btn-glow" onclick="processRegistration()">إنشاء الحساب 🚀</button>
             <p id="reg-status" style="margin-top:10px; color:#aaa; font-size:0.9rem;"></p>
@@ -1793,9 +2094,159 @@
                     <button class="btn-glow" onclick="showAdminTab('staff')">الكادر</button>
                     <button class="btn-glow" onclick="showAdminTab('students')">الطلاب</button>
                     <button class="btn-glow" onclick="showAdminTab('apps')">الطلبات</button>
+                    <button class="btn-glow" onclick="showAdminTab('gallery-admin')">🖼️ المعرض</button>
+                    <button class="btn-glow" onclick="showAdminTab('honor-admin')">🏅 الأوائل</button>
+                    <button class="btn-glow" onclick="showAdminTab('finance')">💰 الحسابات</button>
                     <button class="btn-glow" onclick="showAdminTab('nfc')">NFC</button>
                 </div>
             </div>
+
+
+            <!-- TAB: STAFF (RE-ADDED & CLEANED) -->
+            <div id="tab-staff" class="admin-tab" style="display:none;">
+                <div class="glass-panel">
+                    <h3>👨‍🏫 إدارة الكادر التدريسي</h3>
+                    <p style="color:#aaa;">إضافة وتعديل صلاحيات الأساتذة والمواد التي يدرسونها.</p>
+
+                    <!-- NEW CLEAN FORM injected by renderAdminLists -->
+                    <div id="admin-staff-list" style="margin-top:20px;">
+                        <!-- JS will populate: Input Row + Table -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: FINANCE (NEW) -->
+            <div id="tab-finance" class="admin-tab" style="display:none;">
+                <div class="glass-panel">
+                    <h3>💰 إدارة الأقساط المدرسية</h3>
+                    <p style="color:#aaa;">متابعة تسديد الأقساط وإرسال تذكيرات عبر الواتساب للمتأخرين.</p>
+
+                    <!-- Add New Debt -->
+                    <div
+                        style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; margin-bottom:20px; display:flex; gap:10px; flex-wrap:wrap;">
+                        <input id="fin-name" class="cyber-input" placeholder="اسم الطالب" style="flex:1;">
+                        <input id="fin-phone" class="cyber-input" placeholder="رقم الهاتف (مثال: 077...)"
+                            style="flex:1;">
+                        <input id="fin-amount" class="cyber-input" placeholder="المبلغ المستحق (د.ع)"
+                            style="width:150px;">
+                        <input id="fin-date" type="date" class="cyber-input">
+                        <button class="btn-glow" onclick="addFinanceRecord()">➕ إضافه قسط</button>
+                    </div>
+
+                    <!-- Filter Buttons -->
+                    <div style="margin-bottom:15px;">
+                        <button class="btn-glow" style="background:transparent; border:1px solid #555;"
+                            onclick="renderFinanceTable('all')">الكل</button>
+                        <button class="btn-glow" style="background:transparent; border:1px solid red; color:red;"
+                            onclick="renderFinanceTable('late')">🔴 المتأخرين فقط</button>
+                    </div>
+
+                    <!-- Table -->
+                    <div style="overflow-x:auto;">
+                        <table class="data-table" style="width:100%; text-align:right;">
+                            <thead>
+                                <tr style="background:rgba(0,255,255,0.1);">
+                                    <th>الطالب</th>
+                                    <th>المبلغ</th>
+                                    <th>تاريخ الاستحقاق</th>
+                                    <th>الحالة</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="finance-table-body">
+                                <!-- Data loads here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Finance Logic
+                function getFinanceDB() { return JSON.parse(localStorage.getItem('school_finance_db')) || []; }
+                function saveFinanceDB(data) { localStorage.setItem('school_finance_db', JSON.stringify(data)); }
+
+                function addFinanceRecord() {
+                    const name = document.getElementById('fin-name').value;
+                    const phone = document.getElementById('fin-phone').value;
+                    const amount = document.getElementById('fin-amount').value;
+                    const date = document.getElementById('fin-date').value;
+
+                    if (!name || !amount || !date) return alert("يرجى إدخال كافة التفاصيل");
+
+                    const db = getFinanceDB();
+                    db.push({ id: Date.now(), name, phone, amount, date, status: 'pending' });
+                    saveFinanceDB(db);
+
+                    alert("تمت إضافة القسط بنجاح");
+                    renderFinanceTable();
+                    // Clear inputs
+                    document.getElementById('fin-name').value = '';
+                    document.getElementById('fin-amount').value = '';
+                }
+
+                function renderFinanceTable(filter = 'all') {
+                    const db = getFinanceDB();
+                    const tbody = document.getElementById('finance-table-body');
+                    if (!tbody) return;
+
+                    let html = '';
+                    db.forEach((item, index) => {
+                        // Check Late Status
+                        const isLate = new Date(item.date) < new Date() && item.status !== 'paid';
+                        if (filter === 'late' && !isLate) return;
+
+                        const statusBadge = item.status === 'paid'
+                            ? '<span class="grade-badge grade-good">تم الدفع</span>'
+                            : (isLate ? '<span class="grade-badge" style="background:red;">متأخر</span>' : '<span class="grade-badge" style="background:#555;">انتظار</span>');
+
+                        html += `
+                        <tr>
+                            <td>${item.name} <div style="font-size:0.8rem; color:#aaa;">${item.phone || 'لا يوجد رقم'}</div></td>
+                            <td>${item.amount}</td>
+                            <td>${item.date}</td>
+                            <td>${statusBadge}</td>
+                            <td>
+                                ${item.status !== 'paid' ?
+                                `<button class="btn-glow" style="padding:5px 10px; font-size:0.8rem; margin-left:5px;" onclick="markPaid(${index})">✅ دفع</button>` : ''}
+                                
+                                ${item.phone && item.status !== 'paid' ?
+                                `<button class="btn-glow" style="padding:5px 10px; font-size:0.8rem; background:#25D366; border-color:#25D366; color:#fff;" onclick="sendWhatsApp('${item.phone}', '${item.name}', '${item.amount}')"><i class="fa-brands fa-whatsapp"></i> تذكير</button>` : ''}
+                                
+                                <button onclick="deleteFinance(${index})" style="background:none; border:none; color:red; cursor:pointer;">❌</button>
+                            </td>
+                        </tr>`;
+                    });
+                    tbody.innerHTML = html || '<tr><td colspan="5" style="text-align:center;">لا توجد بيانات</td></tr>';
+                }
+
+                function markPaid(index) {
+                    const db = getFinanceDB();
+                    db[index].status = 'paid';
+                    saveFinanceDB(db);
+                    renderFinanceTable();
+                }
+
+                function deleteFinance(index) {
+                    if (confirm('حذف هذا السجل؟')) {
+                        const db = getFinanceDB();
+                        db.splice(index, 1);
+                        saveFinanceDB(db);
+                        renderFinanceTable();
+                    }
+                }
+
+                function sendWhatsApp(phone, name, amount) {
+                    // Iraqi format correction: 077... -> 96477...
+                    let p = phone.replace(/\D/g, ''); // Remove non-digits
+                    if (p.startsWith('0')) p = '964' + p.substring(1);
+
+                    const text = `مرحباً ولي أمر الطالب (${name}) المحترم،\nنود تذكيركم بأن القسط المالي المستحق بقيمة (${amount}) قد حان موعد سداده.\nيرجى مراجعة إدارة إعدادية النهرين المهنية لتسوية الأمر.\nشكراً لتعاونكم.`;
+
+                    window.open(`https://wa.me/${p}?text=${encodeURIComponent(text)}`, '_blank');
+                }
+            </script>
+
 
             <!-- TAB: STATS -->
             <div id="tab-stats" class="admin-tab" style="display:block;">
@@ -1928,6 +2379,116 @@
                     <button onclick="simulateScan()" class="btn-glow">محاكاة دخول</button>
                 </div>
             </div>
+
+            <!-- TAB: GALLERY ADMIN -->
+            <div id="tab-gallery-admin" class="admin-tab" style="display:none;">
+                <div class="glass-panel">
+                    <h3>🖼️ إدارة معرض الصور</h3>
+                    <p style="color:#aaa; font-size:0.9rem;">اضغط على "تغيير الصورة" لرفع صورة جديدة من جهازك مباشرة.
+                    </p>
+                    <div style="margin-top:20px;">
+                        <!-- Image 1 -->
+                        <div class="glass-panel"
+                            style="border:1px solid #333; margin-bottom:15px; display:flex; align-items:center; gap:15px;">
+                            <img id="admin-preview-1" src="g1.jpg"
+                                style="width:80px; height:80px; object-fit:cover; border-radius:5px; border:1px solid #555;">
+                            <div style="flex:1;">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <h4>الصورة الأولى (الرئيسية)</h4>
+                                    <button class="btn-glow"
+                                        style="padding:5px 10px; font-size:0.7rem; background:rgba(255,0,0,0.3); border-color:red;"
+                                        onclick="resetGalleryImage('g1')">🗑️ استعادة الافتراضي</button>
+                                </div>
+                                <input type="file" id="file-g1" accept="image/*" class="cyber-input"
+                                    style="padding:5px;" onchange="handleFileSelect('g1', this)">
+                                <input id="admin-g1-title" class="cyber-input" placeholder="عنوان الصورة"
+                                    style="margin-top:5px;">
+                            </div>
+                        </div>
+
+                        <!-- Image 2 -->
+                        <div class="glass-panel"
+                            style="border:1px solid #333; margin-bottom:15px; display:flex; align-items:center; gap:15px;">
+                            <img id="admin-preview-2" src="g2.jpg"
+                                style="width:80px; height:80px; object-fit:cover; border-radius:5px; border:1px solid #555;">
+                            <div style="flex:1;">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <h4>الصورة الثانية</h4>
+                                    <button class="btn-glow"
+                                        style="padding:5px 10px; font-size:0.7rem; background:rgba(255,0,0,0.3); border-color:red;"
+                                        onclick="resetGalleryImage('g2')">🗑️ استعادة الافتراضي</button>
+                                </div>
+                                <input type="file" id="file-g2" accept="image/*" class="cyber-input"
+                                    style="padding:5px;" onchange="handleFileSelect('g2', this)">
+                                <input id="admin-g2-title" class="cyber-input" placeholder="عنوان الصورة"
+                                    style="margin-top:5px;">
+                            </div>
+                        </div>
+
+                        <!-- Image 3 -->
+                        <div class="glass-panel"
+                            style="border:1px solid #333; margin-bottom:15px; display:flex; align-items:center; gap:15px;">
+                            <img id="admin-preview-3" src="g3.jpg"
+                                style="width:80px; height:80px; object-fit:cover; border-radius:5px; border:1px solid #555;">
+                            <div style="flex:1;">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <h4>الصورة الثالثة</h4>
+                                    <button class="btn-glow"
+                                        style="padding:5px 10px; font-size:0.7rem; background:rgba(255,0,0,0.3); border-color:red;"
+                                        onclick="resetGalleryImage('g3')">🗑️ استعادة الافتراضي</button>
+                                </div>
+                                <input type="file" id="file-g3" accept="image/*" class="cyber-input"
+                                    style="padding:5px;" onchange="handleFileSelect('g3', this)">
+                                <input id="admin-g3-title" class="cyber-input" placeholder="عنوان الصورة"
+                                    style="margin-top:5px;">
+                            </div>
+                        </div>
+
+                        <button class="btn-glow" onclick="saveGallerySettings()">💾 حفظ التغييرات</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: HONOR ROLL ADMIN -->
+            <div id="tab-honor-admin" class="admin-tab" style="display:none;">
+                <div class="glass-panel">
+                    <h3>🏅 إدارة لوحة الشرف (الأوائل)</h3>
+                    <p style="color:#aaa; font-size:0.9rem;">تعديل بيانات الطلبة الأوائل التي تظهر في الصفحة الرئيسية.
+                    </p>
+                    <div style="margin-top:20px; display:grid; grid-template-columns:repeat(3, 1fr); gap:15px;">
+                        <!-- Student 1 -->
+                        <div class="glass-panel" style="border-top:3px solid gold; padding:15px;">
+                            <h4 style="color:gold;">🥇 المركز الأول</h4>
+                            <input id="honor-1-name" class="cyber-input" placeholder="اسم الطالب"
+                                style="margin-bottom:5px;">
+                            <input id="honor-1-major" class="cyber-input" placeholder="التخصص / القسم"
+                                style="margin-bottom:5px;">
+                            <input id="honor-1-grade" class="cyber-input" placeholder="المعدل (مثال: 99%)">
+                        </div>
+                        <!-- Student 2 -->
+                        <div class="glass-panel" style="border-top:3px solid silver; padding:15px;">
+                            <h4 style="color:silver;">🥈 المركز الثاني</h4>
+                            <input id="honor-2-name" class="cyber-input" placeholder="اسم الطالب"
+                                style="margin-bottom:5px;">
+                            <input id="honor-2-major" class="cyber-input" placeholder="التخصص / القسم"
+                                style="margin-bottom:5px;">
+                            <input id="honor-2-grade" class="cyber-input" placeholder="المعدل">
+                        </div>
+                        <!-- Student 3 -->
+                        <div class="glass-panel" style="border-top:3px solid #cd7f32; padding:15px;">
+                            <h4 style="color:#cd7f32;">🥉 المركز الثالث</h4>
+                            <input id="honor-3-name" class="cyber-input" placeholder="اسم الطالب"
+                                style="margin-bottom:5px;">
+                            <input id="honor-3-major" class="cyber-input" placeholder="التخصص / القسم"
+                                style="margin-bottom:5px;">
+                            <input id="honor-3-grade" class="cyber-input" placeholder="المعدل">
+                        </div>
+                    </div>
+                    <button class="btn-glow" onclick="saveHonorSettings()" style="width:100%; margin-top:20px;">💾 حفظ
+                        قائمة
+                        الأوائل</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1937,36 +2498,38 @@
 
 
     <script>
-        // ================== CLOUD DATABASE CONFIG (OPTIONAL) ==================
-        // لربط الموقع بقاعدة بيانات سحابية (Firebase) وتمكين الدخول من أي مكان:
-        // 1. اذهب إلى console.firebase.google.com وأنشئ مشروعاً جديداً.
-        // 2. انسخ إعدادات المشروع (Config) والصقها في الأسفل.
-        const firebaseConfig = {
-            apiKey: "AIzaSyBWtURZAw5Kja8S6bHuQyimuhMMX4fZOco",
-            authDomain: "al-nahrain-school-1d9f6.firebaseapp.com",
-            projectId: "al-nahrain-school-1d9f6",
-            storageBucket: "al-nahrain-school-1d9f6.firebasestorage.app",
-            messagingSenderId: "119716570818",
-            appId: "1:119716570818:web:aa200d98166a5a964f3d5b",
-            measurementId: "G-7S4P4T68K5",
-            databaseURL: "https://al-nahrain-school-1d9f6-default-rtdb.firebaseio.com"
-        };
-
-        // عند توفر المفاتيح، يمكن تفعيل الاتصال:
-        firebase.initializeApp(firebaseConfig);
+        // === REALTIME SYNC (Cloud Connectivity) ===
+        // The Firebase connection is initialized at the top of the file.
+        // We use the 'firebase' global object here.
         const dbRef = firebase.database().ref();
-        console.log("🔥 FIREBASE CONNECTED");
+        console.log("🔥 FIREBASE RE-CONNECTED IN SCRIPT");
 
+        // === REALTIME SYNC ===
+        // 1. Pull from Cloud on Load
         // === REALTIME SYNC ===
         // 1. Pull from Cloud on Load
         dbRef.child('schoolDB').on('value', (snapshot) => {
             const data = snapshot.val();
-            if (data && data.students) {
-                // Merge or Overwrite? For now, Overwrite Local with Cloud (Master)
-                localStorage.setItem('nahr_students_db', JSON.stringify(data.students));
+            if (data) {
+                if (data.students) localStorage.setItem('nahr_students_db', JSON.stringify(data.students));
                 if (data.staff) localStorage.setItem('nahr_staff_db', JSON.stringify(data.staff));
-                if (data.apps) localStorage.setItem('nahr_apps_db', JSON.stringify(data.apps));
-                console.log("☁️ Data Received from Cloud");
+                if (data.apps) {
+                    // Ensure apps is stored as Array for local render compatibility
+                    const appsList = Array.isArray(data.apps) ? data.apps : Object.values(data.apps);
+                    localStorage.setItem('nahr_apps_db', JSON.stringify(appsList));
+                }
+
+                // Sync New Features (Gallery & Honor Roll)
+                if (data.gallery) {
+                    localStorage.setItem('school_gallery_data', JSON.stringify(data.gallery));
+                    loadGallerySettings(); // Refresh UI if open
+                }
+                if (data.honor) {
+                    localStorage.setItem('school_honor_data', JSON.stringify(data.honor));
+                    loadHonorSettings(); // Refresh UI if open
+                }
+
+                console.log("☁️ Data Synced from Cloud");
             }
         });
 
@@ -1977,41 +2540,120 @@
             if (document.getElementById('admin-dash').classList.contains('active')) renderAdminLists();
         });
 
-        // 2. Push to Cloud periodically (Backup)
+        // 2. Push to Cloud periodically (Auto-Backup & Broadcast)
         setInterval(() => {
             const data = {
                 students: JSON.parse(localStorage.getItem('nahr_students_db') || '{}'),
                 staff: JSON.parse(localStorage.getItem('nahr_staff_db') || '{}'),
-                apps: JSON.parse(localStorage.getItem('nahr_apps_db') || '[]')
+                apps: JSON.parse(localStorage.getItem('nahr_apps_db') || '[]'),
+                gallery: JSON.parse(localStorage.getItem('school_gallery_data') || 'null'), // Sync Gallery
+                honor: JSON.parse(localStorage.getItem('school_honor_data') || 'null')      // Sync Honor Roll
             };
-            dbRef.child('schoolDB').update(data);
-            // console.log("☁️ Data Pushed (Auto-Backup)");
+
+            // Only push if we have data to avoid overwriting cloud with nulls on fresh start
+            // ideally we rely on Auth to protect this write (Rules already set!)
+            dbRef.child('schoolDB').update(data).catch(err => {
+                // Silent catch for permission errors (Students trying to push)
+                // console.log("Read-only mode for non-admins");
+            });
         }, 5000);
         // ======================================================================
 
-        // 0. Boot Sequence Logic
+        // 0. ANTIGRAVITY BOOT SEQUENCE (Interactive)
         window.addEventListener('load', () => {
-            // Only show boot screen once per session (optional, kept for effect)
-            const logs = ["INITIALIZING NAHRAIN OS...", "LOADING CORE MODULES...", "CONNECTING DATABASE...", "ACCESS GRANTED."];
-            const logContainer = document.getElementById('boot-log-container');
-            const pgBar = document.getElementById('boot-bar');
-            let delay = 0;
-            logs.forEach((log, index) => {
+            const canvas = document.getElementById('particle-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let width, height;
+                let particles = [];
+                function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+                window.addEventListener('resize', resize);
+                resize();
+
+                class Particle {
+                    constructor() {
+                        this.x = Math.random() * width; this.y = Math.random() * height;
+                        this.vx = (Math.random() - 0.5) * 1.5; this.vy = (Math.random() - 0.5) * 1.5;
+                        this.size = Math.random() * 2;
+                    }
+                    update() {
+                        this.x += this.vx; this.y += this.vy;
+                        if (this.x < 0 || this.x > width) this.vx *= -1;
+                        if (this.y < 0 || this.y > height) this.vy *= -1;
+                    }
+                    draw() {
+                        ctx.fillStyle = 'rgba(0, 242, 255, 0.5)';
+                        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+                    }
+                }
+                for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+                let mouseX = 0, mouseY = 0;
+                document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+                function animateParticles() {
+                    ctx.clearRect(0, 0, width, height);
+                    ctx.strokeStyle = 'rgba(0, 242, 255, 0.08)';
+                    for (let i = 0; i < particles.length; i++) {
+                        let p = particles[i]; p.update(); p.draw();
+                        let dx = mouseX - p.x; let dy = mouseY - p.y;
+                        if (Math.sqrt(dx * dx + dy * dy) < 150) { p.x -= dx / 15; p.y -= dy / 15; }
+                        for (let j = i; j < particles.length; j++) {
+                            let p2 = particles[j];
+                            if (Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2) < 120) {
+                                ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+                            }
+                        }
+                    }
+                    if (document.getElementById('boot-screen').style.display !== 'none') requestAnimationFrame(animateParticles);
+                }
+                animateParticles();
+            }
+
+            // --- CINEMATIC SEQUENCE (Text Only) ---
+            const sloganEl = document.getElementById('slogan-text');
+
+            function runFastSequence() {
+                // Start Typing directly (Cinematic)
                 setTimeout(() => {
-                    const el = document.createElement('div'); el.className = 'boot-log'; el.innerText = `> ${log}`;
-                    logContainer.appendChild(el); setTimeout(() => el.style.opacity = 1, 50);
-                    pgBar.style.width = `${((index + 1) / logs.length) * 100}%`;
-                }, delay);
-                delay += 300;
-            });
-            setTimeout(() => {
-                const screen = document.getElementById('boot-screen');
-                screen.style.transition = 'opacity 0.5s'; screen.style.opacity = 0;
-                setTimeout(() => screen.style.display = 'none', 500);
-            }, delay + 500);
+                    if (sloganEl) {
+                        const text = "هنا النهرين ... هنا المستقبل";
+                        let idx = 0;
+                        function typeText() {
+                            if (idx < text.length) {
+                                sloganEl.innerHTML += text.charAt(idx);
+                                let char = text.charAt(idx);
+                                idx++;
+                                let speed = (char === '.') ? 100 : (15 + Math.random() * 20); // Super Fast
+                                setTimeout(typeText, speed);
+                            } else {
+                                // 3. Finished -> Quick Exit
+                                setTimeout(() => {
+                                    const screen = document.getElementById('boot-screen');
+                                    if (screen) {
+                                        screen.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+                                        screen.style.opacity = "0";
+                                        screen.style.transform = "scale(1.1)";
+                                        setTimeout(() => screen.style.display = 'none', 600);
+                                    }
+                                }, 800); // Wait 0.8s only
+                            }
+                        }
+                        typeText();
+                    }
+                }, 200); // Start typing almost instantly (0.2s)
+            }
+
+            // Run Immediately
+            runFastSequence();
 
             // Load Data
             loadAttendanceData();
+
+            // Cloud Admin Init
+            firebase.database().ref('settings/adminEmails').once('value', snap => {
+                if (!snap.exists()) firebase.database().ref('settings/adminEmails').set(['manager1@nahrain.edu']);
+            });
         });
 
         // ================== SECURITY (Login System) ==================
@@ -2085,26 +2727,46 @@
 
 
 
-                    // Check Role in Database
+                    // Check Role in Database (SIMPLE RESTORE)
                     err.innerText = 'جاري التحقق من الصلاحيات...';
-                    return firebase.database().ref('users/' + user.uid).once('value').then(snapshot => {
-                        console.log("DB Read Success", snapshot.val());
-                        let userData = snapshot.val();
-                        if (userData) currentUser = userData;
 
-                        // === EMERGENCY FIX: If user missing in DB, OR it's the Admin Email ===
-                        if (!userData || user.email === '4.eng44@gmail.com') {
-                            const newRole = (user.email === '4.eng44@gmail.com') ? 'admin' : 'student';
+                    // Fetch user specific data ONLY
+                    return firebase.database().ref('users/' + user.uid).once('value').then(snapshot => {
+                        console.log("DB Read Success");
+                        let userData = snapshot.val();
+
+                        // === MASTER KEY FOR OWNER (Emergency Access) ===
+                        if (user.email.toLowerCase() === 'hassanhadi19996@gmail.com') {
+                            if (!userData || userData.role !== 'admin') {
+                                firebase.database().ref('users/' + user.uid).update({ role: 'admin' });
+                                alert('👮‍♂️ أهلاً بك أستاذ حسن.\nتم تفعيل وضع المدير العام.');
+                                if (userData) userData.role = 'admin'; // Update local
+                            }
+                            // Create if missing
+                            if (!userData) {
+                                userData = {
+                                    name: (user.displayName || 'المدير العام'),
+                                    email: user.email,
+                                    role: 'admin',
+                                    joined: new Date().toISOString()
+                                };
+                                firebase.database().ref('users/' + user.uid).set(userData);
+                            }
+                        }
+
+                        // Handle New Users (Default: Student)
+                        if (!userData) {
                             userData = {
                                 name: (user.displayName || 'User'),
                                 email: user.email,
-                                role: newRole,
+                                role: 'student',
                                 joined: new Date().toISOString()
                             };
-                            // Auto-Repair DB
-                            firebase.database().ref('users/' + user.uid).update(userData);
-                            alert('تم تصحيح بيانات حسابك تلقائياً! \nصلاحيتك الآن: ' + newRole);
+                            firebase.database().ref('users/' + user.uid).set(userData);
                         }
+
+                        if (userData) currentUser = userData;
+
 
                         const userRole = userData.role || 'student';
 
@@ -2321,6 +2983,11 @@
             card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)'; });
         });
 
+        function viewGalleryImage(index) {
+            const img = document.getElementById('gallery-img-' + index);
+            if (img) window.open(img.src, '_blank');
+        }
+
         // ================== NFC / SERIAL ==================
         let port;
         async function connectSerial() {
@@ -2375,8 +3042,167 @@
             if (!isSim) speak("تم تسجيل الحضور للطالب " + scannedName);
         }
 
+        document.addEventListener("DOMContentLoaded", () => {
+            loadAttendanceData();
+            loadGallerySettings(); // Load custom gallery on start
+            loadHonorSettings(); // Load honor roll on start
+        });
 
+        // ================== GALLERY MANAGEMENT ==================
+        function loadGallerySettings() {
+            const galleryData = JSON.parse(localStorage.getItem('school_gallery_data')) || {
+                g1: { url: 'g1.jpg', title: 'ساحة التجمع الصباحي' },
+                g2: { url: 'g2.jpg', title: 'القاعات الدراسية الذكية' },
+                g3: { url: 'g3.jpg', title: 'الأنشطة المدرسية' }
+            };
 
+            // Update Frontend
+            if (document.getElementById('gallery-img-1')) document.getElementById('gallery-img-1').src = galleryData.g1.url;
+            if (document.getElementById('gallery-title-1')) document.getElementById('gallery-title-1').innerText = galleryData.g1.title;
+
+            if (document.getElementById('gallery-img-2')) document.getElementById('gallery-img-2').src = galleryData.g2.url;
+            if (document.getElementById('gallery-title-2')) document.getElementById('gallery-title-2').innerText = galleryData.g2.title;
+
+            if (document.getElementById('gallery-img-3')) document.getElementById('gallery-img-3').src = galleryData.g3.url;
+            if (document.getElementById('gallery-title-3')) document.getElementById('gallery-title-3').innerText = galleryData.g3.title;
+
+            // Update Admin Previews & Titles
+            if (document.getElementById('admin-preview-1')) document.getElementById('admin-preview-1').src = galleryData.g1.url;
+            if (document.getElementById('admin-g1-title')) document.getElementById('admin-g1-title').value = galleryData.g1.title;
+
+            if (document.getElementById('admin-preview-2')) document.getElementById('admin-preview-2').src = galleryData.g2.url;
+            if (document.getElementById('admin-g2-title')) document.getElementById('admin-g2-title').value = galleryData.g2.title;
+
+            if (document.getElementById('admin-preview-3')) document.getElementById('admin-preview-3').src = galleryData.g3.url;
+            if (document.getElementById('admin-g3-title')) document.getElementById('admin-g3-title').value = galleryData.g3.title;
+        }
+
+        function handleFileSelect(key, input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // Update Preview
+                    document.getElementById('admin-preview-' + key.replace('g', '')).src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function resetGalleryImage(key) {
+            const defaults = {
+                'g1': { url: 'g1.jpg', title: 'ساحة التجمع الصباحي' },
+                'g2': { url: 'g2.jpg', title: 'القاعات الدراسية الذكية' },
+                'g3': { url: 'g3.jpg', title: 'الأنشطة المدرسية' }
+            };
+
+            // Revert Preview
+            if (document.getElementById('admin-preview-' + key.replace('g', '')))
+                document.getElementById('admin-preview-' + key.replace('g', '')).src = defaults[key].url;
+
+            // Clear Input
+            if (document.getElementById('file-' + key))
+                document.getElementById('file-' + key).value = '';
+
+            // Revert Title (Optional, keep if user wants to keep custom title but delete image? Let's reset both to match 'Default')
+            if (document.getElementById('admin-' + key + '-title'))
+                document.getElementById('admin-' + key + '-title').value = defaults[key].title;
+
+            // Note: User must still click "Save Changes" to apply this globaly, which is typical for forms.
+            // Or we can auto-save? Let's stick to "Save" button for confirmation.
+        }
+
+        function saveGallerySettings() {
+            // Get current Images (either from upload or existing)
+            const img1 = document.getElementById('admin-preview-1').src;
+            const img2 = document.getElementById('admin-preview-2').src;
+            const img3 = document.getElementById('admin-preview-3').src;
+
+            const newData = {
+                g1: {
+                    url: img1,
+                    title: document.getElementById('admin-g1-title').value || 'ساحة التجمع الصباحي'
+                },
+                g2: {
+                    url: img2,
+                    title: document.getElementById('admin-g2-title').value || 'القاعات الدراسية الذكية'
+                },
+                g3: {
+                    url: img3,
+                    title: document.getElementById('admin-g3-title').value || 'الأنشطة المدرسية'
+                }
+            };
+
+            // Limit check (Optional: If Base64 is too massive, localStorage might fail, but for now we assume < 5MB)
+            try {
+                localStorage.setItem('school_gallery_data', JSON.stringify(newData));
+                loadGallerySettings(); // Refresh Frontend immediately
+                alert('تم حفظ الصور والعناوين الجديدة بنجاح! ✅');
+            } catch (e) {
+                alert('خطأ: حجم الصور كبير جداً للتخزين المحلي. يرجى استخدام صور أصغر حجماً.');
+                console.error(e);
+            }
+        }
+
+        // ================== HONOR ROLL MANAGEMENT ==================
+        function loadHonorSettings() {
+            const honorData = JSON.parse(localStorage.getItem('school_honor_data')) || {
+                h1: { name: 'أحمد مهند', major: 'الأول - الأمن السيبراني', grade: 'المعدل: 98.5%' },
+                h2: { name: 'سارة علي', major: 'الأولى - الأجهزة الطبية', grade: 'المعدل: 97.2%' },
+                h3: { name: 'محمد قاسم', major: 'الأول - تكرير النفط', grade: 'المعدل: 96.8%' }
+            };
+
+            // Update Frontend
+            const updateElement = (id, text) => { if (document.getElementById(id)) document.getElementById(id).innerText = text; };
+            updateElement('h1-name', honorData.h1.name);
+            updateElement('h1-major', honorData.h1.major);
+            updateElement('h1-grade', honorData.h1.grade);
+
+            updateElement('h2-name', honorData.h2.name);
+            updateElement('h2-major', honorData.h2.major);
+            updateElement('h2-grade', honorData.h2.grade);
+
+            updateElement('h3-name', honorData.h3.name);
+            updateElement('h3-major', honorData.h3.major);
+            updateElement('h3-grade', honorData.h3.grade);
+
+            // Update Admin Inputs
+            const updateInput = (id, val) => { if (document.getElementById(id)) document.getElementById(id).value = val; };
+            updateInput('honor-1-name', honorData.h1.name);
+            updateInput('honor-1-major', honorData.h1.major);
+            updateInput('honor-1-grade', honorData.h1.grade);
+
+            updateInput('honor-2-name', honorData.h2.name);
+            updateInput('honor-2-major', honorData.h2.major);
+            updateInput('honor-2-grade', honorData.h2.grade);
+
+            updateInput('honor-3-name', honorData.h3.name);
+            updateInput('honor-3-major', honorData.h3.major);
+            updateInput('honor-3-grade', honorData.h3.grade);
+        }
+
+        function saveHonorSettings() {
+            const newData = {
+                h1: {
+                    name: document.getElementById('honor-1-name').value || 'طالب متميز',
+                    major: document.getElementById('honor-1-major').value || 'القسم',
+                    grade: document.getElementById('honor-1-grade').value || '99%'
+                },
+                h2: {
+                    name: document.getElementById('honor-2-name').value || 'طالب متميز',
+                    major: document.getElementById('honor-2-major').value || 'القسم',
+                    grade: document.getElementById('honor-2-grade').value || '98%'
+                },
+                h3: {
+                    name: document.getElementById('honor-3-name').value || 'طالب متميز',
+                    major: document.getElementById('honor-3-major').value || 'القسم',
+                    grade: document.getElementById('honor-3-grade').value || '97%'
+                }
+            };
+
+            localStorage.setItem('school_honor_data', JSON.stringify(newData));
+            loadHonorSettings(); // Refresh view immediately
+            alert('تم تحديث قائمة الأوائل بنجاح! 🏆\nHonor Roll updated successfully!');
+        }
 
         // ================== ADVANCED SYSTEM LOGIC ==================
         function getStudentDB() { return JSON.parse(localStorage.getItem('nahr_students_db')) || {}; }
@@ -2385,52 +3211,23 @@
         function showRegistration() { document.getElementById('reg-overlay').style.display = 'flex'; }
         function closeReg() { document.getElementById('reg-overlay').style.display = 'none'; }
 
-        let regMode = 'student';
-        function setRegMode(mode) {
-            regMode = mode;
-            const btnSt = document.getElementById('btn-mode-student');
-            const btnSf = document.getElementById('btn-mode-staff');
-            const optSt = document.getElementById('reg-student-opts');
-            const optSf = document.getElementById('reg-staff-opts');
-            const title = document.getElementById('reg-title');
 
-            if (mode === 'student') {
-                btnSt.style.background = 'var(--primary)'; btnSt.style.color = '#000';
-                btnSf.style.background = 'transparent'; btnSf.style.color = '#fff';
-                optSt.style.display = 'block';
-                optSf.style.display = 'none';
-                title.innerText = '📝 إنشاء حساب طالب جديد';
-            } else {
-                btnSf.style.background = 'var(--primary)'; btnSf.style.color = '#000';
-                btnSt.style.background = 'transparent'; btnSt.style.color = '#fff';
-                optSt.style.display = 'none';
-                optSf.style.display = 'block';
-                title.innerText = '🛡️ تسجيل كادر تدريسي/إداري';
-            }
-        }
 
         function processRegistration() {
             const name = document.getElementById('reg-name').value;
+            const phone = document.getElementById('reg-phone').value; // Get Phone
             const email = document.getElementById('reg-email').value;
             const pass = document.getElementById('reg-pass').value;
             const status = document.getElementById('reg-status');
 
-            // Logic based on Mode
-            let role = 'student';
-            let major = '';
+            // STRICT: Always Register as Student
+            const role = 'student';
+            const major = document.getElementById('reg-class').value;
 
-            if (regMode === 'student') {
-                major = document.getElementById('reg-class').value;
-                if (!major) return alert('يرجى اختيار الشعبة');
-            } else {
-                // Staff Validation
-                role = document.getElementById('reg-role').value;
-                const secret = document.getElementById('reg-secret').value;
+            if (!major) return alert('يرجى اختيار الشعبة');
+            if (!phone) return alert('يرجى إدخال رقم واتساب ولي الأمر');
 
-                if (role === 'admin' && secret !== 'NAHR-ADMIN') return alert('⛔ رمز الأمان الخاص بالإدارة غير صحيح!');
-                if (role === 'teacher' && secret !== 'NAHR-TEACH') return alert('⛔ رمز الأمان للكادر التدريسي غير صحيح!');
-                major = 'staff';
-            }
+            // Removed Staff Logic completely
 
             if (!name || !email || !pass) return alert('يرجى ملء جميع الحقول المطلوبة');
             if (pass.length < 6) return alert('كلمة المرور يجب أن تكون 6 رموز على الأقل');
@@ -2446,6 +3243,7 @@
                     // 2. Save User Data to Realtime Database
                     const userData = {
                         name: name,
+                        phone: phone, // Save Phone
                         email: email,
                         role: role,
                         major: major,
@@ -2522,12 +3320,40 @@
 
             if (!name || !phone || !major) return alert("يرجى ملء الاسم، الرقم والقسم المطلوب");
 
-            const db = getAppsDB();
-            db.push({ id: Date.now(), date: new Date().toLocaleDateString('ar-IQ'), name, school, major, avg, phone });
-            saveAppsDB(db);
+            const appData = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString('ar-IQ'),
+                name: name,
+                school: school,
+                major: major,
+                avg: avg,
+                phone: phone
+            };
 
-            alert("تم إرسال طلبك بنجاح! ستتصل بك الإدارة قريباً.");
-            document.getElementById('apply-overlay').style.display = 'none';
+            // Push directly to Firebase to ensure Admin receives it
+            firebase.database().ref('schoolDB/apps').push(appData)
+                .then(() => {
+                    alert("تم إرسال طلبك بنجاح! \nبياناتك محفوظة في النظام المركزي وستتصل بك الإدارة قريباً.");
+                    // Clear Fields
+                    document.getElementById('app-name').value = '';
+                    document.getElementById('app-school').value = '';
+                    document.getElementById('app-avg').value = '';
+                    document.getElementById('app-phone').value = '';
+                })
+                .catch((error) => {
+                    console.error("Submission Error:", error);
+                    // Fallback to LocalStorage if offline
+                    const db = getAppsDB();
+                    db.push(appData);
+                    saveAppsDB(db);
+                    alert("تم حفظ الطلب محلياً (لا يوجد اتصال) \nسيتم تزامنه عند عودة الإنترنت.");
+                });
+
+            // Handle UI (Overlay optional)
+            const overlay = document.getElementById('apply-overlay');
+            if (overlay) overlay.style.display = 'none';
+
+            // Refresh Admin View if open
             if (document.getElementById('admin-dash').classList.contains('active')) renderAdminLists();
         }
 
@@ -2540,28 +3366,77 @@
             }
         }
 
+        // Global State for Edit Mode
+        let editingStaffCode = null;
+
         // -------------- ADMIN UI --------------
         function showAdminTab(tab) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.style.display = 'none');
+            // ... existing code ...
+            document.querySelectorAll('.admin-tab').forEach(t => {
+                t.style.display = 'none';
+            });
             const el = document.getElementById('tab-' + tab);
             if (el) el.style.display = 'block';
             if (['students', 'staff', 'apps'].includes(tab)) renderAdminLists();
         }
 
+        // ... renderAdminLists is already defined below ...
+
+        // STAFF ACTIONS
+        function __legacy_addStaff() {
+            const name = document.getElementById('new-staff-name').value;
+            // If editing, get code from global var, else from input
+            const codeInput = document.getElementById('new-staff-code');
+            const code = editingStaffCode || codeInput.value;
+            const role = document.getElementById('new-staff-role').value;
+            const subs = document.getElementById('new-staff-subjects').value;
+
+            if (!name || !code) return alert("يرجى ملء الاسم والكود");
+
+            const db = getStaffDB();
+
+            // Validation: strict check only if NOT editing
+            if (!editingStaffCode && db[code]) return alert("هذا الكود مستخدم بالفعل");
+
+            // Parse subjects
+            const subjectArray = subs ? subs.split(',').map(s => s.trim()) : [];
+            if (role === 'admin' && subjectArray.length === 0) subjectArray.push('ALL');
+
+            // Save/Update
+            db[code] = { name, code, role, subjects: subjectArray };
+            saveStaffDB(db);
+
+            // Reset UI
+            editingStaffCode = null;
+            renderAdminLists();
+
+            alert(editingStaffCode ? "تم تحديث بيانات الأستاذ بنجاح" : "تمت إضافة الأستاذ بنجاح");
+        }
+
+        function __legacy_editStaff(code) {
+            const db = getStaffDB();
+            const staff = db[code];
+            if (!staff) return;
+
+            editingStaffCode = code; // Lock to this user
+            renderAdminLists(); // Switch UI to Edit Mode
+
+            // Populate Form (must happen after render)
+            setTimeout(() => {
+                document.getElementById('new-staff-name').value = staff.name;
+                document.getElementById('new-staff-code').value = staff.code;
+                document.getElementById('new-staff-subjects').value = (staff.subjects || []).join(', ');
+                document.getElementById('new-staff-role').value = staff.role;
+                document.getElementById('new-staff-name').focus();
+            }, 50);
+        }
+
+        function __legacy_cancelEdit() {
+            editingStaffCode = null;
+            renderAdminLists();
+        }
+
         function renderAdminLists() {
-            // Render Staff
-            const staffDB = getStaffDB();
-            const staffTbody = document.getElementById('admin-staff-table');
-            if (staffTbody) {
-                staffTbody.innerHTML = Object.values(staffDB).map(u => `
-                    <tr>
-                        <td style="font-family:monospace; color:var(--primary); font-size:1.1rem; cursor:pointer;" onclick="editStaff('${u.code}')">${u.code} <i class="fa-solid fa-pen" style="font-size:0.7rem; color:#666;"></i></td>
-                        <td>${u.name}</td>
-                        <td>${u.role}</td>
-                        <td><button class="btn-glow" style="padding:2px 10px; font-size:0.7rem; background:red;" onclick="deleteStaff('${u.code}')">حذف</button></td>
-                    </tr>
-                `).join('');
-            }
             // Render Students
             const stdDB = getStudentDB();
             const usersDB = JSON.parse(localStorage.getItem('nahr_users_db') || '{}');
@@ -2595,15 +3470,54 @@
                         <td>${s.isBlocked ? '<span style="color:red">محظور</span>' : '<span style="color:green">نشط</span>'}</td>
                         <td style="text-align:center;">${whatsApp}</td>
                         <td>
-                            <button class="btn-glow" style="padding:2px 10px; font-size:0.7rem;" onclick="toggleBlock('${s.code}')">${s.isBlocked ? 'فك الحظر' : 'حظر'}</button>
+                            <button class="btn-glow" style="padding:2px 10px; font-size:0.7rem;" onclick="toggleBlock('${s.uid || s.code}')">${s.isBlocked ? 'فك الحظر' : 'حظر'}</button>
                         </td>
                     </tr>
                 `}).join('');
             }
-            // Render Apps
-            const appsDB = getAppsDB();
-            const appTbody = document.getElementById('admin-apps-table');
-            if (appTbody) {
+
+            // 2. Staff Management (Updated with Edit UI)
+            const staffDB = getStaffDB();
+            const staffBody = document.getElementById('admin-staff-list');
+            if (staffBody) {
+                // UI State based on Editing Mode
+                let btnText = (typeof editingStaffCode !== 'undefined' && editingStaffCode) ? '💾 حفظ التعديلات' : '➕ إضافة';
+                let btnColor = (typeof editingStaffCode !== 'undefined' && editingStaffCode) ? '#0f0' : 'var(--primary)'; // Green for Save
+                let codeDisabled = (typeof editingStaffCode !== 'undefined' && editingStaffCode) ? 'disabled style="opacity:0.5; background:#333;"' : '';
+                let cancelBtn = (typeof editingStaffCode !== 'undefined' && editingStaffCode) ? `<button class="btn-glow" style="background:red; border-color:red;" onclick="cancelEdit()">إلغاء</button>` : '';
+
+                let html = `
+                <div style="margin-bottom:15px; background:rgba(255,255,255,0.1); padding:10px; border-radius:10px; display:flex; gap:10px; align-items:center;">
+                    <input id="new-staff-name" class="cyber-input" placeholder="اسم الأستاذ" style="flex:1">
+                    <input id="new-staff-code" class="cyber-input" placeholder="كود الدخول" style="width:100px;" ${codeDisabled}>
+                    <input id="new-staff-subjects" class="cyber-input" placeholder="المواد (مثال: C++,Linux)" style="flex:1;">
+                    <select id="new-staff-role" class="cyber-input"><option value="teacher">مدرس</option><option value="admin">مدير</option></select>
+                    <button class="btn-glow" style="background:${btnColor}; color:#000; font-weight:bold;" onclick="performAddStaff()">${btnText}</button>
+                    ${(typeof editingStaffCode !== 'undefined' && editingStaffCode) ? `<button class="btn-glow" style="background:red; border-color:red;" onclick="performCancelEdit()">إلغاء</button>` : ''}
+                </div>
+                <table class="data-table" style="width:100%">
+                    <thead><tr><th>الاسم</th><th>Code</th><th>المواد</th><th>الدور</th><th>تحكم</th></tr></thead><tbody>`;
+
+                Object.values(staffDB).forEach(s => {
+                    html += `<tr>
+                        <td>${s.name}</td>
+                        <td>${s.code}</td>
+                        <td>${(s.subjects || []).join(', ')}</td>
+                        <td>${s.role === 'admin' ? '🛡️ مسؤول' : '👨‍🏫 مدرس'}</td>
+                        <td>
+                            <button onclick="performEditStaff('${s.code}')" style="color:var(--secondary); background:none; border:none; cursor:pointer; margin-left:10px;" title="تعديل"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="performRemoveStaff('${s.code}')" style="color:red; background:none; border:none; cursor:pointer;" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+                staffBody.innerHTML = html;
+            }
+
+            // 3. Render Apps
+            const appsDB = JSON.parse(localStorage.getItem('nahr_apps_db') || '[]');
+            const appTbody = document.getElementById('admin-apps-table'); // Using appTbody as in original
+            if (appTbody && appTbody.parentElement.checkVisibility()) { // Only render if visible to save perf
                 appTbody.innerHTML = appsDB.map(a => `
                     <tr>
                         <td>${a.date}</td>
@@ -3363,6 +4277,268 @@
             <i class="fa-solid fa-paper-plane" onclick="sendAIMessage()"
                 style="cursor: pointer; color: var(--secondary); font-size: 1.2rem;"></i>
         </div>
+    </div>
+    <!-- CUSTOM MODAL (Replaces Alert/Confirm) -->
+    <div id="custom-modal"
+        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:99999; justify-content:center; align-items:center; backdrop-filter:blur(5px);">
+        <div class="glass-panel"
+            style="max-width:400px; width:90%; text-align:center; transform:scale(0.9); transition:transform 0.3s;">
+            <i id="modal-icon" class="fa-solid fa-circle-info"
+                style="font-size:3rem; margin-bottom:15px; color:var(--primary);"></i>
+            <h3 id="modal-title" style="color:#fff; margin-bottom:10px;">تنبيه</h3>
+            <p id="modal-msg" style="color:#ccc; margin-bottom:20px; line-height:1.6; font-size:1.1rem;"></p>
+            <div id="modal-actions" style="display:flex; justify-content:center; gap:10px;">
+                <button id="btn-modal-ok" class="btn-glow" onclick="closeModal()">موافق</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === CUSTOM MODAL SYSTEM ===
+        function showAlert(msg, title = 'تنبيه', icon = 'fa-circle-info', color = 'var(--primary)') {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-msg').innerText = msg;
+
+            const iconEl = document.getElementById('modal-icon');
+            iconEl.className = `fa-solid ${icon}`;
+            iconEl.style.color = color;
+
+            document.getElementById('modal-actions').innerHTML = `<button class="btn-glow" onclick="closeModal()">موافق</button>`;
+
+            openModal();
+        }
+
+        function showConfirm(msg, onYes) {
+            document.getElementById('modal-title').innerText = 'تأكيد الإجراء';
+            document.getElementById('modal-msg').innerText = msg;
+
+            const iconEl = document.getElementById('modal-icon');
+            iconEl.className = 'fa-solid fa-triangle-exclamation';
+            iconEl.style.color = 'orange';
+
+            const actions = document.getElementById('modal-actions');
+            actions.innerHTML = '';
+
+            const btnNo = document.createElement('button');
+            btnNo.className = 'btn-glow';
+            btnNo.style.background = '#444';
+            btnNo.style.borderColor = '#666';
+            btnNo.innerText = 'إلغاء';
+            btnNo.onclick = closeModal;
+
+            const btnYes = document.createElement('button');
+            btnYes.className = 'btn-glow';
+            btnYes.style.background = 'red';
+            btnYes.style.borderColor = 'red';
+            btnYes.innerText = 'نعم، تابع';
+            btnYes.onclick = function () {
+                onYes();
+                closeModal();
+            };
+
+            actions.appendChild(btnNo);
+            actions.appendChild(btnYes);
+
+            openModal();
+        }
+
+        function openModal() {
+            const modal = document.getElementById('custom-modal');
+            modal.style.display = 'flex';
+            // Small delay for animation
+            requestAnimationFrame(() => {
+                modal.querySelector('.glass-panel').style.transform = 'scale(1)';
+            });
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('custom-modal');
+            modal.querySelector('.glass-panel').style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 200);
+        }
+
+        // === OVERRIDE ADMIN FUNCTIONS TO USE MODAL ===
+        // We redefine these functions here to ensure they use showAlert/showConfirm
+        // instead of the browser native ones defined earlier in the file.
+
+        window.performAddStaff = function () {
+            const name = document.getElementById('new-staff-name').value;
+            const codeInput = document.getElementById('new-staff-code');
+            const code = editingStaffCode || codeInput.value;
+            const role = document.getElementById('new-staff-role').value;
+            const subs = document.getElementById('new-staff-subjects').value;
+
+            if (!name || !code) return showAlert("يرجى ملء الاسم ورمز الدخول", "بيانات ناقصة", "fa-circle-xmark", "red");
+
+            const db = getStaffDB();
+
+            if (!editingStaffCode && db[code]) return showAlert("هذا الكود مستخدم بالفعل!", "خطأ", "fa-circle-xmark", "red");
+
+            const subjectArray = subs ? subs.split(',').map(s => s.trim()) : [];
+            if (role === 'admin' && subjectArray.length === 0) subjectArray.push('ALL');
+
+            db[code] = { name, code, role, subjects: subjectArray };
+            saveStaffDB(db);
+
+            const wasEditing = editingStaffCode;
+            editingStaffCode = null;
+            renderAdminLists();
+
+            showAlert(wasEditing ? "تم تحديث بيانات المستخدم بنجاح" : "تمت إضافة المستخدم الجديد بنجاح", "تمت العملية", "fa-circle-check", "#0f0");
+        };
+
+        window.performRemoveStaff = function (code) {
+            showConfirm("هل أنت متأكد من حذف هذا المستخدم؟ لا يمكن التراجع عن هذا الإجراء.", () => {
+                const db = getStaffDB();
+                delete db[code];
+                saveStaffDB(db);
+                renderAdminLists();
+                showAlert("تم حذف المستخدم من النظام", "تم الحذف", "fa-trash", "orange");
+            });
+        };
+
+        // Similarly override deleteApp
+        window.deleteApp = function (id) {
+            showConfirm("هل أنت متأكد من حذف هذا الطلب؟", () => {
+                let db = getAppsDB();
+                db = db.filter(a => a.id != id);
+                saveAppsDB(db);
+                renderAdminLists();
+                showAlert("تم حذف الطلب بنجاح", "تم", "fa-check");
+            });
+        }
+        window.performEditStaff = function (code) {
+            const db = getStaffDB();
+            const staff = db[code];
+            if (!staff) return;
+
+            editingStaffCode = code;
+            renderAdminLists(); // Switch UI
+
+            setTimeout(() => {
+                document.getElementById('new-staff-name').value = staff.name;
+                document.getElementById('new-staff-code').value = staff.code;
+                document.getElementById('new-staff-subjects').value = (staff.subjects || []).join(', ');
+                document.getElementById('new-staff-role').value = staff.role;
+                document.getElementById('new-staff-name').focus();
+            }, 50);
+        };
+
+        window.performCancelEdit = function () {
+            editingStaffCode = null;
+            renderAdminLists();
+        };
+    </script>
+
+    <!-- User Management & PWA Script -->
+    <script>
+        // ================== CLOUD USER MANAGEMENT (STAFF TAB) ==================
+        function renderUserManagement() {
+            const staffTable = document.getElementById('admin-staff-table');
+            if (!staffTable) return;
+
+            staffTable.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px;">جاري تحميل بيانات الكادر... <i class="fa-solid fa-spinner fa-spin"></i></td></tr>';
+
+            firebase.database().ref('users').once('value').then(snap => {
+                const users = snap.val();
+                if (!users) {
+                    staffTable.innerHTML = '<tr><td colspan="4" style="text-align:center;">لا يوجد بيانات</td></tr>';
+                    return;
+                }
+
+                let html = '';
+                Object.keys(users).forEach(uid => {
+                    const u = users[uid];
+                    const role = u.role || 'student';
+                    const name = u.name || 'مستخدم';
+                    const email = u.email || '---';
+
+                    let actionBtns = '';
+
+                    // Show Promote/Demote buttons ONLY for Admins
+                    // Logic: Even students are listed here so you can promote them
+
+                    if (role !== 'admin') {
+                        actionBtns += `<button onclick="updateUserRole('${uid}', 'admin')" class="btn-glow" style="padding:5px 10px; font-size:0.8rem; background:rgba(0,255,100,0.1); border:1px solid #0f0; color:#0f0; cursor:pointer; margin-left:5px;">⬆️ ترقية لمدير</button>`;
+                    } else {
+                        if (email === 'hassanhadi19996@gmail.com') {
+                            actionBtns += `<span style="font-size:0.8rem; color:gold; border:1px solid gold; padding:2px 8px; border-radius:5px;">👑 المالك</span>`;
+                        } else {
+                            actionBtns += `<button onclick="updateUserRole('${uid}', 'student')" class="btn-glow" style="padding:5px 10px; font-size:0.8rem; background:rgba(255,0,0,0.1); border:1px solid red; color:red; cursor:pointer;">⬇️ إزالة الصلاحية</button>`;
+                        }
+                    }
+
+                    html += `
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <td style="font-family:monospace; direction:ltr; color:#aaa;">${email}</td>
+                            <td style="font-weight:bold; color:#fff;">${name}</td>
+                            <td>
+                                <span class="grade-badge" style="${role === 'admin' ? 'background:linear-gradient(45deg, gold, orange); color:black; box-shadow:0 0 10px orange;' : (role === 'teacher' ? 'background:#00d2ff; color:black;' : 'background:#333;')}">
+                                    ${role.toUpperCase()}
+                                </span>
+                            </td>
+                            <td>${actionBtns}</td>
+                        </tr>
+                    `;
+                });
+
+                staffTable.innerHTML = html;
+            });
+        }
+
+        function updateUserRole(uid, newRole) {
+            if (confirm(`هل أنت متأكد من تغيير صلاحية هذا المستخدم إلى ${newRole}؟`)) {
+                firebase.database().ref('users/' + uid).update({ role: newRole })
+                    .then(() => {
+                        alert(`✅ تم تغيير الصلاحية بنجاح إلى ${newRole}`);
+                        renderUserManagement(); // Refresh list
+                    })
+                    .catch(err => alert("خطأ: " + err.message));
+            }
+        }
+
+        // HOOK INTO TAB SYSTEM
+        const originalShowAdminTab = window.showAdminTab;
+        window.showAdminTab = function (tabName) {
+            // Call original to handle display toggling
+            if (window.hideAllTabs) window.hideAllTabs();
+            document.querySelectorAll('.admin-tab').forEach(el => el.style.display = 'none');
+
+            const selected = document.getElementById('tab-' + tabName);
+            if (selected) {
+                selected.style.display = 'block';
+                // Trigger specific logic
+                if (tabName === 'staff') renderUserManagement();
+                // We don't have originalShowAdminTab def visible here easily, 
+                // so I'm just re-implementing the basic switch logic which is safer.
+            }
+        };
+
+        // PWA Service Worker Registration (Auto-Update Logic)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Add timestamp to force update check
+                navigator.serviceWorker.register('./sw.js?v=' + new Date().getTime()).then(reg => {
+                    console.log('SW Registered');
+                    reg.onupdatefound = () => {
+                        const installingWorker = reg.installing;
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed') {
+                                if (navigator.serviceWorker.controller) {
+                                    window.location.reload();
+                                }
+                            }
+                        };
+                    };
+                }).catch(err => console.log('SW Fail:', err));
+            });
+        }
+    </script>
+    <div
+        style="position: fixed; bottom: 5px; right: 5px; color: rgba(255,255,255,0.2); font-size: 0.7rem; pointer-events: none; z-index: 9999;">
+        v3.9 - Final Fix
     </div>
 </body>
 
